@@ -47,7 +47,7 @@ export const forgetPasswordService = async (req: any, res: Response) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user)
-      return res.status(400).send("Email does not exist");
+      return res.status(401).send("Email does not exist");
 
     let token = await PasswordReset.findOne({ userId: user._id });
     if (!token) {
@@ -70,14 +70,14 @@ export const forgetPasswordService = async (req: any, res: Response) => {
 export const checkResetPasswordService = async (req: any, res: Response) => {
   try {
     const user = await User.findById(req.params.userId);
-    if (!user) return res.status(400).send("Invalid link or expired");
+    if (!user) return res.status(401).send("Invalid link or expired");
 
     const token = await PasswordReset.findOne({
       email:user.email,
       token: req.params.token,
       createdAt: { $gte: moment().subtract(1, 'hours').utc() }
     });
-    if (!token) return res.status(400).send("Invalid link or expired");
+    if (!token) return res.status(401).send("Invalid link or expired");
     user.password = await bcrypt.hash(req.body.password, 12);
     //user.password = req.body.password;
     await user.save();
@@ -93,12 +93,12 @@ export const checkResetPasswordService = async (req: any, res: Response) => {
 export const resetPasswordService = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.userId);
-    if (!user) return res.status(400).send("User Id does not exist");
+    if (!user) return res.status(401).send("User Id does not exist");
 
     const passwordReset = await PasswordReset.findOne({
       token: req.params.token
     });
-    if (!passwordReset) return res.status(400).send("Invalid link or expired");
+    if (!passwordReset) return res.status(401).send("Invalid link or expired");
     console.log(req.body.password);
     user.password = await bcrypt.hash(req.body.password, 12);
     await user.save();

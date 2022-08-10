@@ -58,7 +58,7 @@ const forgetPasswordService = (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         const user = yield user_model_1.default.findOne({ email: req.body.email });
         if (!user)
-            return res.status(400).send("Email does not exist");
+            return res.status(401).send("Email does not exist");
         let token = yield password_reset_1.default.findOne({ userId: user._id });
         if (!token) {
             token = yield new password_reset_1.default({
@@ -81,14 +81,14 @@ const checkResetPasswordService = (req, res) => __awaiter(void 0, void 0, void 0
     try {
         const user = yield user_model_1.default.findById(req.params.userId);
         if (!user)
-            return res.status(400).send("Invalid link or expired");
+            return res.status(401).send("Invalid link or expired");
         const token = yield password_reset_1.default.findOne({
             email: user.email,
             token: req.params.token,
             createdAt: { $gte: (0, moment_1.default)().subtract(1, 'hours').utc() }
         });
         if (!token)
-            return res.status(400).send("Invalid link or expired");
+            return res.status(401).send("Invalid link or expired");
         user.password = yield bcrypt_2.default.hash(req.body.password, 12);
         //user.password = req.body.password;
         yield user.save();
@@ -105,12 +105,12 @@ const resetPasswordService = (req, res) => __awaiter(void 0, void 0, void 0, fun
     try {
         const user = yield user_model_1.default.findById(req.params.userId);
         if (!user)
-            return res.status(400).send("User Id does not exist");
+            return res.status(401).send("User Id does not exist");
         const passwordReset = yield password_reset_1.default.findOne({
             token: req.params.token
         });
         if (!passwordReset)
-            return res.status(400).send("Invalid link or expired");
+            return res.status(401).send("Invalid link or expired");
         console.log(req.body.password);
         user.password = yield bcrypt_2.default.hash(req.body.password, 12);
         yield user.save();

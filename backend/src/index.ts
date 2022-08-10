@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import  movieRoute  from "./routes/movie.route";
 import  userRoute  from "./routes/user.route";
-import  authRoute from "./routes/auth.route";
+import authRoute from "./routes/auth.route";
+import seatRoute from "./routes/seat.route";
 import cors from 'cors';
 import multer, { FileFilterCallback } from "multer";
 import { v4 } from "uuid";
@@ -49,7 +50,7 @@ app.use("/apiuploads", express.static(path.join(rootDir, "apiuploads")));
 app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());
-//app.use(passport.session());
+app.use(passport.session());
 
 const port = process.env.PORT;
 
@@ -67,6 +68,7 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
 
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);
+app.use('/api/seats', passport.authenticate('jwt', { session: false }),seatRoute);
 app.use("/api", authRoute);
 
 app.get('/', (req: Request, res: Response) => {

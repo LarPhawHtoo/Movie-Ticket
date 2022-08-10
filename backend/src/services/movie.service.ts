@@ -3,7 +3,7 @@ import Movie from '../models/movie.model';
 import { validationResult } from 'express-validator';
 
 /**
- * get post service.
+ * get movie service.
  * @param _req 
  * @param res 
  * @param next 
@@ -43,7 +43,7 @@ export const createMovieService = async (req: Request, res: Response, next: Next
     if (!errors.isEmpty()) {
       const error: any = new Error("Validation failed!");
       error.data = errors.array();
-      error.statusCode = 422;
+      error.statusCode = 401;
       throw error;
     }
     const movieList = req.body; 
@@ -65,7 +65,7 @@ export const findMovieService = async (
     const movie = await Movie.findById(req.params.id);
     if (!movie) {
       const error: any = Error("Not Found!");
-      error.statusCode = 404;
+      error.statusCode = 401;
       throw error;
     }
     res.json({ data: movie, status: 1 });
@@ -84,13 +84,13 @@ export const updateMovieService = async (
     if (!errors.isEmpty()) {
       const error: any = new Error("Validation failed!");
       error.data = errors.array();
-      error.statusCode = 422;
+      error.statusCode = 401;
       throw error;
     }
     const movie: any = await Movie.findById(req.params.id);
     if (!movie) {
       const error: any = new Error("Not Found!");
-      error.statusCode = 404;
+      error.statusCode = 401;
       throw error;
     }
     movie.code = req.body.code;
@@ -112,10 +112,10 @@ export const deleteMovieService = async (
   next: NextFunction
 ) => {
   try {
-    const movie: any = await Movie.findById(req.params.id);
+    const movie: any = await Movie.findByIdAndRemove(req.params.id);
     if (!movie) {
       const error: any = new Error("Not Found!");
-      error.statusCode = 404;
+      error.statusCode = 401;
       throw error;
     }
     movie.deleted_at = new Date();
