@@ -16,7 +16,7 @@ exports.findByIdService = exports.deleteMovieService = exports.updateMovieServic
 const movie_model_1 = __importDefault(require("../models/movie.model"));
 const express_validator_1 = require("express-validator");
 /**
- * get post service.
+ * get movie service.
  * @param _req
  * @param res
  * @param next
@@ -52,7 +52,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         if (!errors.isEmpty()) {
             const error = new Error("Validation failed!");
             error.data = errors.array();
-            error.statusCode = 422;
+            error.statusCode = 401;
             throw error;
         }
         const movieList = req.body;
@@ -71,7 +71,7 @@ const findMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         const movie = yield movie_model_1.default.findById(req.params.id);
         if (!movie) {
             const error = Error("Not Found!");
-            error.statusCode = 404;
+            error.statusCode = 401;
             throw error;
         }
         res.json({ data: movie, status: 1 });
@@ -87,13 +87,13 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         if (!errors.isEmpty()) {
             const error = new Error("Validation failed!");
             error.data = errors.array();
-            error.statusCode = 422;
+            error.statusCode = 401;
             throw error;
         }
         const movie = yield movie_model_1.default.findById(req.params.id);
         if (!movie) {
             const error = new Error("Not Found!");
-            error.statusCode = 404;
+            error.statusCode = 401;
             throw error;
         }
         movie.code = req.body.code;
@@ -112,10 +112,10 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
 exports.updateMovieService = updateMovieService;
 const deleteMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const movie = yield movie_model_1.default.findById(req.params.id);
+        const movie = yield movie_model_1.default.findByIdAndRemove(req.params.id);
         if (!movie) {
             const error = new Error("Not Found!");
-            error.statusCode = 404;
+            error.statusCode = 401;
             throw error;
         }
         movie.deleted_at = new Date();
