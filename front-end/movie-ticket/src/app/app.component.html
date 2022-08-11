@@ -1,31 +1,24 @@
-<div class="collapse navbar-collapse" id="navbarResponsive">
-  <ul class="navbar-nav ml-auto">
-     <li class="nav-item active">
-        <a class="nav-link" href="#">Home
-           <span class="sr-only" routerLink="/">(current)</span>
-
-        </a>
-     </li>
-     <li class="nav-item">
-        <a class="nav-link" routerLink="/expenses">Report</a>
-     </li>
-     <li class="nav-item">
-        <a class="nav-link" href="#">Add Expense</a>
-     </li>
-     <li class="nav-item">
-
-        <a class="nav-link" href="#">About</a>
-     </li>
-     <li class="nav-item">
-                 <div *ngIf="isUserLoggedIn; else isLogOut">
-                       <a class="nav-link" routerLink="/logout">Logout</a>
-                 </div>
-
-                 <ng-template #isLogOut>
-                             <a class="nav-link" routerLink="/login">Login</a>
-                 </ng-template>
-     </li>
-  </ul>
-</div>
-
-<router-outlet></router-outlet>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <mat-toolbar>
+      <span>Happy Cinema</span>
+      <span class="example-spacer"></span>
+      <button mat-button color="primary" *ngIf="isUserLoggedIn; else isLogOut" class="nav-link" routerLink="/logout">
+         Log Out
+      </button>
+      <ng-template mat-button color="primary" #isLogOut>
+         <button mat-button color="primary" class="nav-link" routerLink="/login">Log In</button>
+      </ng-template>
+      <button mat-button color="accent">Sign Up</button>
+   </mat-toolbar>
+   
+   <router-outlet></router-outlet>
+</body>
+</html>

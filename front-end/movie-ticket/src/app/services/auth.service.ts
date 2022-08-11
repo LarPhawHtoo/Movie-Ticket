@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, retry, catchError, throwError } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 
 @Injectable({
@@ -8,24 +9,37 @@ import { delay, tap } from 'rxjs/operators';
 })
 export class AuthService {
 
+  constructor(private http: HttpClient) { }
+  
+  loginUrl = "http://localhost:8081/api/login";
+
   isUserLoggedIn: boolean = false;
 
-  login(username: string, password: string) {
-    this.isUserLoggedIn = username == "admin" && password == "admin";
-    localStorage.setItem("isUserLoggedIn", this.isUserLoggedIn ? "true" : "false");
+  login(email: string, password: string) {
+    const data = {
+      "email": email,
+      "password": password
+    }
 
-    return of(this.isUserLoggedIn).pipe(
-      delay(1000),
-      tap(val => {
-        console.log("Is User Authentication is successful: " + val);
-      })
-    )
+    return this.http.post(this.loginUrl, data)
+      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+  }
+
+  private httpErrorHandler(error: HttpErrorResponse) {
+    
+    if (error.error instanceof HttpErrorResponse) {
+      console.error("A client side error occured. The error message is " + error.message);
+    } else {
+      alert("Username, password wrong.");
+      console.error("A server side error occured. The error message is " + error.message);
+    }
+    return throwError("Error occured.");
   }
 
   logout() {
     this.isUserLoggedIn = false;
     localStorage.removeItem('isUserLoggedIn');
+    localStorage.removeItem('token');
+    localStorage.removeItem('loginUser');
   }
-
-  constructor() { }
 }
