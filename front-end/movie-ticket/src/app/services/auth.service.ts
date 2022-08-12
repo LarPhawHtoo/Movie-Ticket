@@ -12,6 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
   
   loginUrl = "http://localhost:8081/api/login";
+  signupUrl = "http://localhost:8081/api/signup";
 
   isUserLoggedIn: boolean = false;
 
@@ -22,6 +23,17 @@ export class AuthService {
     }
 
     return this.http.post(this.loginUrl, data)
+      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+  }
+
+  signup(fullName: string, email: string, password: string) {
+    const body = {
+      "fullName": fullName,
+      "email": email,
+      "password": password
+    }
+
+    return this.http.post(this.signupUrl, body)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 

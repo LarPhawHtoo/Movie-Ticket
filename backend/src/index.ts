@@ -4,11 +4,11 @@ import dotenv from "dotenv";
 import  movieRoute  from "./routes/movie.route";
 import  userRoute  from "./routes/user.route";
 import authRoute from "./routes/auth.route";
-<<<<<<< HEAD
+
 import cinemaRoute from "./routes/cinema_route";
-=======
+
 import seatRoute from "./routes/seat.route";
->>>>>>> 6e2db6715d0931e3cdaaf323a2e46793e713ea55
+
 import cors from 'cors';
 import multer, { FileFilterCallback } from "multer";
 import { v4 } from "uuid";
@@ -69,7 +69,7 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
           console.log('Error in connection ' + err);
       }
   });
-  app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinema_route);
+  app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinemaRoute);
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);
 app.use('/api/seats', passport.authenticate('jwt', { session: false }),seatRoute);

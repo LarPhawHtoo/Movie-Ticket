@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Cinema } from 'src/app/interfaces/cinema.model';
-
-const cinemas: Cinema[] = [
-  { name: 'Cinema 1', date: '15/08/2022', time: '12:00 PM' },
-  { name: 'Cinema 2', date: '15/08/2022', time: '12:00 PM' },
-  { name: 'Cinema 3', date: '15/08/2022', time: '12:00 PM' },
-  { name: 'Cinema 4', date: '15/08/2022', time: '12:00 PM' },
-];
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +9,20 @@ const cinemas: Cinema[] = [
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  cinemas: Cinema[] = [];
 
-  displayedColumns: string[] = ['name', 'date', 'time'];
-  dataSource = cinemas;
+  constructor(private activatedRoute: ActivatedRoute) { }
+
+  displayedColumns: string[] = ['code', 'name', 'location','time', 'date'];
+  dataSource = this.cinemas;
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe((response: any) => {
+      this.cinemas = response.cinemas.data;
+      console.log(this.cinemas)
+      this.dataSource = this.cinemas;
+      console.log(this.dataSource)
+    })
   }
 
 }
