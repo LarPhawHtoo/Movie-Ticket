@@ -9,6 +9,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const movie_route_1 = __importDefault(require("./routes/movie.route"));
 const user_route_1 = __importDefault(require("./routes/user.route"));
 const auth_route_1 = __importDefault(require("./routes/auth.route"));
+const cinema_route_1 = __importDefault(require("./routes/cinema_route"));
 const seat_route_1 = __importDefault(require("./routes/seat.route"));
 const ticket_route_1 = __importDefault(require("./routes/ticket.route"));
 const cors_1 = __importDefault(require("cors"));
@@ -60,6 +61,7 @@ mongoose_1.default.connect(`${process.env.MONGO_URL}`, {
         console.log('Error in connection ' + err);
     }
 });
+app.use('/api/cinemas', passport_1.default.authenticate('jwt', { session: false }), cinema_route_1.default);
 app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
 app.use('/api/movies', passport_1.default.authenticate('jwt', { session: false }), movie_route_1.default);
 app.use('/api/seats', passport_1.default.authenticate('jwt', { session: false }), seat_route_1.default);

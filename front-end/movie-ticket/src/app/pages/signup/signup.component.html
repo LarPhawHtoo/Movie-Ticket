@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Sign Up</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form action="post" [formGroup]="formData" (ngSubmit)="onClickSignup(formData.value)">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput class="form-control" formControlName="fullName">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input type="text" matInput class="form-control" formControlName="email">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Password</mat-label>
+        <input type="text" matInput formControlName="password">
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="full-width">Sign Up</button>
+    </form>
+  </mat-card-content>
+</mat-card>
