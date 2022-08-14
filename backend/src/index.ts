@@ -8,11 +8,7 @@ import authRoute from "./routes/auth.route";
 import cinemaRoute from "./routes/cinema_route";
 
 import seatRoute from "./routes/seat.route";
-<<<<<<< HEAD
 import ticketRoute from "./routes/ticket.route";
-=======
-
->>>>>>> c51ce4c676d5fc158402db37b460115bcab6ee82
 import cors from 'cors';
 import multer, { FileFilterCallback } from "multer";
 import { v4 } from "uuid";
