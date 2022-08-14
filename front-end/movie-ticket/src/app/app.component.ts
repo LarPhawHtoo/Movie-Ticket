@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import { Router, NavigationEnd, Event } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -7,17 +9,21 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'movie-ticket';
+  title = 'Happy Cinema';
   isUserLoggedIn = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
   
   ngOnInit() {
-    let storeData = localStorage.getItem('isUserLoggedIn');
-    if (storeData != null && storeData == 'true') {
-      this.isUserLoggedIn = true;
-    } else {
-      this.isUserLoggedIn = false;
-    }
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        let storeData = localStorage.getItem('isUserLoggedIn');
+        if (storeData == 'true') {
+          this.isUserLoggedIn = true;
+        } else {
+          this.isUserLoggedIn = false;
+        }
+      }
+    });
   }
 }

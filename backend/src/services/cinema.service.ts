@@ -1,21 +1,21 @@
-import { Request, Response, NextFunction } from 'express';
-import Movie from '../models/movie.model';
-import { validationResult } from 'express-validator';
+import { Request, Response, NextFunction } from "express";
+import Cinema from '../models/cinema.model';
+import { validationResult } from "express-validator";
 
 /**
- * get movie service.
+ * get post service.
  * @param _req 
  * @param res 
  * @param next 
  */
-export const getMovieService = async (
+export const getCinemaService = async (
   _req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const page: any = _req.query.page || 0;
-    const moviesPerPage: any = _req.query.pageSize || 6;
+    const cinemasPerPage: any = _req.query.pageSize || 5;
 
     const userType = _req.headers['userType'];
     const userId = _req.headers['userId'];
@@ -24,8 +24,8 @@ export const getMovieService = async (
       condition.created_user_id = userId;
       condition.updated_user_id = userId;
     }
-    const movies = await Movie.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-    res.json({ data: movies, status: 1 });
+    const cinemas = await Cinema.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+    res.json({ data: cinemas, status: 1 });
   } catch (err) {
     next(err);
   }
@@ -37,7 +37,7 @@ export const getMovieService = async (
  * @param res 
  * @param next 
  */
-export const createMovieService = async (req: Request, res: Response, next: NextFunction) => {
+ export const createCinemaService = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
@@ -46,8 +46,8 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       error.statusCode = 401;
       throw error;
     }
-    const movieList = req.body; 
-    const result: any = await Movie.insertMany(movieList);
+    const cinemaList = req.body; 
+    const result: any = await Cinema.insertMany(cinemaList);
     res
       .status(201)
       .json({ message: "Created Successfully!", data: result, status: 1 });
@@ -56,25 +56,25 @@ export const createMovieService = async (req: Request, res: Response, next: Next
   }
 };
 
-export const findMovieService = async (
+export const findCinemaService = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const movie = await Movie.findById(req.params.id);
-    if (!movie) {
+    const cinema = await Cinema.findById(req.params.id);
+    if (!cinema) {
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
     }
-    res.json({ data: movie, status: 1 });
+    res.json({ data: cinema, status: 1 });
   } catch (err) {
     next(err);
   }
 }
 
-export const updateMovieService = async (
+export const updateCinemaService = async (
   req: any,
   res: Response,
   next: NextFunction
@@ -87,39 +87,40 @@ export const updateMovieService = async (
       error.statusCode = 401;
       throw error;
     }
-    const movie: any = await Movie.findById(req.params.id);
-    if (!movie) {
+    const cinema: any = await Cinema.findById(req.params.id);
+    if (!cinema) {
       const error: any = new Error("Not Found!");
-      error.statusCode = 401;
+      error.statusCode = 404;
       throw error;
     }
-    movie.code = req.body.code;
-    movie.name = req.body.name;
-    movie.year = req.body.year;
-    movie.rating = req.body.rating;
-    movie.created_user_id = req.body.created_user_id;
-    movie.updated_user_id = req.body.updated_user_id;
-    const result = await movie.save();
+    cinema.code = req.body.code;
+    cinema.name = req.body.name;
+    cinema.location = req.body.location;
+    cinema.date = req.body.date;
+    cinema.time = req.body.time;
+    cinema.created_user_id = req.body.created_user_id;
+    cinema.updated_user_id = req.body.updated_user_id;
+    const result = await cinema.save();
     res.json({ message: "Updated Successfully!", data: result, status: 1 });
   } catch (err) {
     next(err);
   }
 };
 
-export const deleteMovieService = async (
+export const deleteCinemaService = async (
   req: any,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const movie: any = await Movie.findByIdAndRemove(req.params.id);
-    if (!movie) {
+    const cinema: any = await Cinema.findByIdAndRemove(req.params.id);
+    if (!cinema) {
       const error: any = new Error("Not Found!");
-      error.statusCode = 401;
+      error.statusCode = 404;
       throw error;
     }
-    movie.deleted_at = new Date();
-    await movie.save();
+    cinema.deleted_at = new Date();
+    await cinema.save();
     res.sendStatus(204)
   } catch (err) {
     next(err);
@@ -133,7 +134,7 @@ export const findByIdService = async (
 ) => {
   try {
     const page: any = req.query.page || 0;
-    const moviesPerPage: any = req.query.ppp || 5;
+    const cinemasPerPage: any = req.query.ppp || 5;
 
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
@@ -141,8 +142,8 @@ export const findByIdService = async (
     if (userType === "User") {
       condition.created_user_id = userId;
     }
-    const movies = await Movie.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-    res.json({ data: movies, status: 1 });
+    const cinemas = await Cinema.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+    res.json({ data: cinemas, status: 1 });
   } catch (err) {
     next(err);
   }

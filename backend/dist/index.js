@@ -9,6 +9,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const movie_route_1 = __importDefault(require("./routes/movie.route"));
 const user_route_1 = __importDefault(require("./routes/user.route"));
 const auth_route_1 = __importDefault(require("./routes/auth.route"));
+const cinema_route_1 = __importDefault(require("./routes/cinema_route"));
+const seat_route_1 = __importDefault(require("./routes/seat.route"));
 const cors_1 = __importDefault(require("cors"));
 const multer_1 = __importDefault(require("multer"));
 const uuid_1 = require("uuid");
@@ -45,7 +47,7 @@ app.use("/apiuploads", express_1.default.static(path_1.default.join(utils_1.root
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
-//app.use(passport.session());
+app.use(passport_1.default.session());
 const port = process.env.PORT;
 mongoose_1.default.connect(`${process.env.MONGO_URL}`, {
 //useNewUrlParser: true,
@@ -58,8 +60,10 @@ mongoose_1.default.connect(`${process.env.MONGO_URL}`, {
         console.log('Error in connection ' + err);
     }
 });
+app.use('/api/cinemas', passport_1.default.authenticate('jwt', { session: false }), cinema_route_1.default);
 app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
 app.use('/api/movies', passport_1.default.authenticate('jwt', { session: false }), movie_route_1.default);
+app.use('/api/seats', passport_1.default.authenticate('jwt', { session: false }), seat_route_1.default);
 app.use("/api", auth_route_1.default);
 app.get('/', (req, res) => {
     res.send('Hello World');

@@ -34,7 +34,13 @@ const getUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             const index = users.findIndex((dist) => users[i]._id.equals(dist._id));
             let username = "";
             index !== -1 ? username = users[index].fullName : "";
-            let obj = Object.assign(Object.assign({}, users[i]._doc), { created_username: username });
+            let obj = {
+                //...users[i]._doc,
+                fullName: users[i].fullName,
+                _id: users[i].id,
+                email: users[i].email,
+                created_username: username
+            };
             result.push(obj);
         }
         res.json({
@@ -57,7 +63,7 @@ const createUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         if (!errors.isEmpty()) {
             const error = new Error("Validation failed!");
             error.data = errors.array();
-            error.statusCode = 422;
+            error.statusCode = 401;
             throw error;
         }
         let profile = req.body.profile;
@@ -91,7 +97,7 @@ const findUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         const user = yield user_model_1.default.findById(req.params.id);
         if (!user) {
             const error = Error("Not Found!");
-            error.statusCode = 404;
+            error.statusCode = 401;
             throw error;
         }
         res.json({ data: user, status: 1 });
@@ -113,7 +119,7 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         const user = yield user_model_1.default.findById(req.params.id);
         if (!user) {
             const error = new Error("Not Found!");
-            error.statusCode = 404;
+            error.statusCode = 401;
             throw error;
         }
         let profile = req.body.profile;
@@ -144,10 +150,10 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
 exports.updateUserService = updateUserService;
 const deleteUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield user_model_1.default.findById(req.params.id);
+        const user = yield user_model_1.default.findByIdAndRemove(req.params.id);
         if (!user) {
             const error = new Error("Not Found!");
-            error.statusCode = 404;
+            error.statusCode = 401;
             throw error;
         }
         user.deleted_at = new Date();

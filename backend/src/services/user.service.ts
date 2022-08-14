@@ -29,7 +29,10 @@ export const getUserService = async (
       let username = "";
       index !== -1 ? username = users[index].fullName : "";
       let obj: any = {
-        ...users[i]._doc,
+        //...users[i]._doc,
+        fullName: users[i].fullName,
+        _id: users[i].id,
+        email:users[i].email,
         created_username: username
       };
       result.push(obj);
@@ -57,7 +60,7 @@ export const createUserService = async (
     if (!errors.isEmpty()) {
       const error: any = new Error("Validation failed!");
       error.data = errors.array();
-      error.statusCode = 422;
+      error.statusCode = 401;
       throw error;
     }
     let profile: string = req.body.profile;
@@ -79,7 +82,7 @@ export const createUserService = async (
     const result = await user.save();
     res
       .status(201)
-      .json({ message: "Created User Successfully!", data: result, status: 1 });
+      .json({ message: "Created User Successfully!", data:result, status: 1 });
   } catch (err) {
     next(err);
   }
@@ -94,7 +97,7 @@ export const findUserService = async (
     const user = await User.findById(req.params.id);
     if (!user) {
       const error: any = Error("Not Found!");
-      error.statusCode = 404;
+      error.statusCode = 401;
       throw error;
     }
     res.json({ data: user, status: 1 });
@@ -119,7 +122,7 @@ export const updateUserService = async (
     const user: any = await User.findById(req.params.id);
     if (!user) {
       const error: any = new Error("Not Found!");
-      error.statusCode = 404;
+      error.statusCode = 401;
       throw error;
     }
     let profile: string = req.body.profile;
@@ -153,10 +156,10 @@ export const deleteUserService = async (
   next: NextFunction
 ) => {
   try {
-    const user: any = await User.findById(req.params.id);
+    const user: any = await User.findByIdAndRemove(req.params.id);
     if (!user) {
       const error: any = new Error("Not Found!");
-      error.statusCode = 404;
+      error.statusCode = 401;
       throw error;
     }
     user.deleted_at = new Date();

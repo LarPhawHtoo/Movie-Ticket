@@ -12,19 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findByIdService = exports.deleteMovieService = exports.updateMovieService = exports.findMovieService = exports.createMovieService = exports.getMovieService = void 0;
-const movie_model_1 = __importDefault(require("../models/movie.model"));
+exports.findByIdService = exports.deleteCinemaService = exports.updateCinemaService = exports.findCinemaService = exports.createCinemaService = exports.getCinemaService = void 0;
+const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const express_validator_1 = require("express-validator");
 /**
- * get movie service.
+ * get post service.
  * @param _req
  * @param res
  * @param next
  */
-const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getCinemaService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const page = _req.query.page || 0;
-        const moviesPerPage = _req.query.pageSize || 6;
+        const cinemasPerPage = _req.query.pageSize || 5;
         const userType = _req.headers['userType'];
         const userId = _req.headers['userId'];
         let condition = { deleted_at: null };
@@ -32,21 +32,21 @@ const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, f
             condition.created_user_id = userId;
             condition.updated_user_id = userId;
         }
-        const movies = yield movie_model_1.default.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-        res.json({ data: movies, status: 1 });
+        const cinemas = yield cinema_model_1.default.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+        res.json({ data: cinemas, status: 1 });
     }
     catch (err) {
         next(err);
     }
 });
-exports.getMovieService = getMovieService;
+exports.getCinemaService = getCinemaService;
 /**
  * create post service
  * @param req
  * @param res
  * @param next
  */
-const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const errors = (0, express_validator_1.validationResult)(req.body);
         if (!errors.isEmpty()) {
@@ -55,8 +55,8 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.statusCode = 401;
             throw error;
         }
-        const movieList = req.body;
-        const result = yield movie_model_1.default.insertMany(movieList);
+        const cinemaList = req.body;
+        const result = yield cinema_model_1.default.insertMany(cinemaList);
         res
             .status(201)
             .json({ message: "Created Successfully!", data: result, status: 1 });
@@ -65,23 +65,23 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         next(err);
     }
 });
-exports.createMovieService = createMovieService;
-const findMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createCinemaService = createCinemaService;
+const findCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const movie = yield movie_model_1.default.findById(req.params.id);
-        if (!movie) {
+        const cinema = yield cinema_model_1.default.findById(req.params.id);
+        if (!cinema) {
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
         }
-        res.json({ data: movie, status: 1 });
+        res.json({ data: cinema, status: 1 });
     }
     catch (err) {
         next(err);
     }
 });
-exports.findMovieService = findMovieService;
-const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.findCinemaService = findCinemaService;
+const updateCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const errors = (0, express_validator_1.validationResult)(req.body);
         if (!errors.isEmpty()) {
@@ -90,55 +90,56 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.statusCode = 401;
             throw error;
         }
-        const movie = yield movie_model_1.default.findById(req.params.id);
-        if (!movie) {
+        const cinema = yield cinema_model_1.default.findById(req.params.id);
+        if (!cinema) {
             const error = new Error("Not Found!");
-            error.statusCode = 401;
+            error.statusCode = 404;
             throw error;
         }
-        movie.code = req.body.code;
-        movie.name = req.body.name;
-        movie.year = req.body.year;
-        movie.rating = req.body.rating;
-        movie.created_user_id = req.body.created_user_id;
-        movie.updated_user_id = req.body.updated_user_id;
-        const result = yield movie.save();
+        cinema.code = req.body.code;
+        cinema.name = req.body.name;
+        cinema.location = req.body.location;
+        cinema.date = req.body.date;
+        cinema.time = req.body.time;
+        cinema.created_user_id = req.body.created_user_id;
+        cinema.updated_user_id = req.body.updated_user_id;
+        const result = yield cinema.save();
         res.json({ message: "Updated Successfully!", data: result, status: 1 });
     }
     catch (err) {
         next(err);
     }
 });
-exports.updateMovieService = updateMovieService;
-const deleteMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateCinemaService = updateCinemaService;
+const deleteCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const movie = yield movie_model_1.default.findByIdAndRemove(req.params.id);
-        if (!movie) {
+        const cinema = yield cinema_model_1.default.findByIdAndRemove(req.params.id);
+        if (!cinema) {
             const error = new Error("Not Found!");
-            error.statusCode = 401;
+            error.statusCode = 404;
             throw error;
         }
-        movie.deleted_at = new Date();
-        yield movie.save();
+        cinema.deleted_at = new Date();
+        yield cinema.save();
         res.sendStatus(204);
     }
     catch (err) {
         next(err);
     }
 });
-exports.deleteMovieService = deleteMovieService;
+exports.deleteCinemaService = deleteCinemaService;
 const findByIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const page = req.query.page || 0;
-        const moviesPerPage = req.query.ppp || 5;
+        const cinemasPerPage = req.query.ppp || 5;
         const userType = req.headers['userType'];
         const userId = req.headers['userId'];
         let condition = { userId: { '$regex': req.params.userId, '$options': 'i' }, deleted_at: null };
         if (userType === "User") {
             condition.created_user_id = userId;
         }
-        const movies = yield movie_model_1.default.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-        res.json({ data: movies, status: 1 });
+        const cinemas = yield cinema_model_1.default.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+        res.json({ data: cinemas, status: 1 });
     }
     catch (err) {
         next(err);
