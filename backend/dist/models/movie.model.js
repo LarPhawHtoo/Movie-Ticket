@@ -18,6 +18,18 @@ const movieSchema = new mongoose_1.Schema({
         type: Number,
         required: true
     },
+    profile: {
+        type: String,
+        default: ""
+    },
+    cinema_id: {
+        type: String,
+        required: true
+    },
+    time: {
+        type: [String],
+        required: true
+    },
     created_user_id: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "User",

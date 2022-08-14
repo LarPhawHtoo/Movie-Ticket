@@ -29,11 +29,11 @@ export const getUserService = async (
       let username = "";
       index !== -1 ? username = users[index].fullName : "";
       let obj: any = {
-        //...users[i]._doc,
-        fullName: users[i].fullName,
-        _id: users[i].id,
-        email:users[i].email,
-        created_username: username
+        ...users[i]._doc,
+        //fullName: users[i].fullName,
+        //_id: users[i].id,
+        //email:users[i].email,
+        //created_username: username
       };
       result.push(obj);
     }
@@ -168,47 +168,4 @@ export const deleteUserService = async (
   } catch (err) {
     next(err);
   }
-};
-
-//export const findByNameService = async (
-//  req: any,
-//  res: Response,
-//  next: NextFunction
-//) => {
-//  try {
-//    const page: any = req.query.page || 0;
-//    const usersPerPage: any = req.query.upp || 5;
-//
-//    const userType = req.headers['userType'];
-//    const userId = req.headers['userId'];
-//    let condition: any = { deleted_at: null };
-//    if (userType === "User") {
-//      condition.created_user_id = userId;
-//    }
-//    let fromDate = req.body?.fromDate ? new Date(req.body.fromDate) : null;
-//    let toDate = req.body?.toDate ? new Date(req.body.toDate) : null;
-//    req.body?.username ? condition.fullName = { '$regex': req.body.username, '$options': 'i' } : '';
-//    req.body?.email ? condition.email = { '$regex': req.body.email, '$options': 'i' } : '';
-//    req.body?.fromDate && req.body?.toDate ? condition.createdAt = { $gte: fromDate, $lte: toDate } : '';
-//    req.body?.fromDate && !req.body?.toDate ? condition.createdAt = { $gte: fromDate, $lte: new Date() } : '';
-//    req.body?.toDate && !req.body?.fromDate ? condition.createdAt = { $lte: toDate } : '';
-//    req.body?.fromDate && req.body?.toDate && req.body?.fromDate === req.body?.toDate ?
-//    condition.createdAt = { $gte: moment(fromDate), $lte: moment(toDate).add(1, 'days') } : '';
-//
-//    const users: any = await User.find(condition).skip(page * usersPerPage).limit(usersPerPage);;
-//    const result: any = [];
-//    for (let i = 0; i < users.length; i++) {
-//      const index = users.findIndex((dist:any) => users[i]._id.equals(dist._id));
-//      let username = "";
-//      index !== -1 ? username = users[index].fullName : "";
-//      let obj: any = {
-//        ...users[i]._doc,
-//        created_username: username
-//      };
-//      result.push(obj);
-//    }
-//    res.json({ data: result, status: 1 });
-//  } catch (err) {
-//    next(err);
-//  }
-//}
+}

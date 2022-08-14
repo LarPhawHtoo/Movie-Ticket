@@ -1,4 +1,6 @@
 export interface SeatCreate{
-  date: Date;
-  seatNumber: number;
+  seatNumber: [String];
+  status: String;
+  cinema_id: String;
+  price:Number;
 }

@@ -1,8 +1,12 @@
-import { Schema, model } from 'mongoose';
+import mongoose,{ Schema, model } from 'mongoose';
 
 const movieSchema = new Schema({
-  code: {
-    type: Number,
+  //code: {
+  //  type: Number,
+  //  required:true
+  //},
+  movie_id: {
+    type: String,
     required:true
   },
   name: {
@@ -15,6 +19,18 @@ const movieSchema = new Schema({
   },
   rating: {
     type: Number,
+    required:true
+  },
+  profile: {
+    type: String,
+    default:""
+  },
+  cinema_id: {
+    type: String,
+    required:true
+  },
+  time: {
+    type: [String],
     required:true
   },
   created_user_id: {
@@ -41,4 +57,6 @@ const movieSchema = new Schema({
 );
 
 movieSchema.plugin(require('mongoose-autopopulate'));
-export default model("Movie", movieSchema)
+export default model("Movie", movieSchema);
+//export default mongoose.models['Movie'] || mongoose.model('Movie', movieSchema);
+//module.exports = mongoose.models['Movie'] || mongoose.model('Movie', movieSchema)

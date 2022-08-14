@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findByIdService = exports.deleteMovieService = exports.updateMovieService = exports.findMovieService = exports.createMovieService = exports.getMovieService = void 0;
 const movie_model_1 = __importDefault(require("../models/movie.model"));
 const express_validator_1 = require("express-validator");
+const utils_1 = require("../utils/utils");
 /**
  * get movie service.
  * @param _req
@@ -55,11 +56,25 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.statusCode = 401;
             throw error;
         }
-        const movieList = req.body;
-        const result = yield movie_model_1.default.insertMany(movieList);
+        let profile = req.body.profile;
+        if (req.file) {
+            profile = req.file.path.replace("\\", "/");
+        }
+        const movieTdo = {
+            code: req.body.code,
+            name: req.body.name,
+            year: req.body.year,
+            rating: req.body.rating,
+            cinema_id: req.body.cinema_id,
+            time: req.body.time,
+            profile: profile,
+            created_user_id: req.body.created_user_id,
+        };
+        const movie = new movie_model_1.default(movieTdo);
+        const result = yield movie.save();
         res
             .status(201)
-            .json({ message: "Created Successfully!", data: result, status: 1 });
+            .json({ message: "Created Movie Successfully!", data: result, status: 1 });
     }
     catch (err) {
         next(err);
@@ -95,6 +110,16 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             const error = new Error("Not Found!");
             error.statusCode = 401;
             throw error;
+        }
+        let profile = req.body.profile;
+        if (req.file) {
+            profile = req.file.path.replace("\\", "/");
+            if (movie.profile && movie.profile != profile) {
+                (0, utils_1.deleteFile)(movie.profile);
+            }
+            if (profile) {
+                movie.profile = profile;
+            }
         }
         movie.code = req.body.code;
         movie.name = req.body.name;

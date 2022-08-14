@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import Movie from '../models/movie.model';
 import { validationResult } from 'express-validator';
+import { deleteFile } from '../utils/utils';
+import { MovieCreate } from '../interfaces/movie';
 
 /**
  * get movie service.
@@ -46,11 +48,25 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       error.statusCode = 401;
       throw error;
     }
-    const movieList = req.body; 
-    const result: any = await Movie.insertMany(movieList);
+    let profile: string = req.body.profile;
+    if (req.file) {
+      profile = req.file.path.replace("\\", "/");
+    }
+    const movieTdo: MovieCreate = {
+      movie_id: req.body.movie_id,
+      name: req.body.name,
+      year: req.body.year,
+      rating: req.body.rating,
+      cinema_id: req.body.cinema_id,
+      time: req.body.time,
+      profile: profile,
+      created_user_id: req.body.created_user_id,
+    }
+    const movie = new Movie(movieTdo);
+    const result = await movie.save();
     res
       .status(201)
-      .json({ message: "Created Successfully!", data: result, status: 1 });
+      .json({ message: "Created Movie Successfully!", data:result, status: 1 });
   } catch (err) {
     next(err);
   }
@@ -92,6 +108,16 @@ export const updateMovieService = async (
       const error: any = new Error("Not Found!");
       error.statusCode = 401;
       throw error;
+    }
+    let profile: string = req.body.profile;
+    if (req.file) {
+      profile = req.file.path.replace("\\", "/");
+      if (movie.profile && movie.profile != profile) {
+        deleteFile(movie.profile);
+      }
+      if (profile) {
+        movie.profile = profile;
+      }
     }
     movie.code = req.body.code;
     movie.name = req.body.name;

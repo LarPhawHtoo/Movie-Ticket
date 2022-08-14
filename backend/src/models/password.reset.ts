@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose,{ Schema, model } from 'mongoose';
 
 const passwordResetSchema = new Schema({
   email: {
@@ -16,3 +16,5 @@ const passwordResetSchema = new Schema({
 );
 
 export default model("PasswordReset", passwordResetSchema)
+//export default mongoose.models['PasswordReset'] || mongoose.model('PasswordReset', passwordResetSchema);
+//module.exports = mongoose.models['PasswordReset'] || mongoose.model('PasswordReset', passwordResetSchema)

@@ -5,6 +5,7 @@ import  movieRoute  from "./routes/movie.route";
 import  userRoute  from "./routes/user.route";
 import authRoute from "./routes/auth.route";
 import seatRoute from "./routes/seat.route";
+import ticketRoute from "./routes/ticket.route";
 import cors from 'cors';
 import multer, { FileFilterCallback } from "multer";
 import { v4 } from "uuid";
@@ -20,6 +21,7 @@ import cookieParser from "cookie-parser";
 
 
 dotenv.config();
+
 
 const fileStorage = multer.diskStorage({
   destination: (_req, _file, cb) => {
@@ -55,7 +57,7 @@ app.use(passport.session());
 const port = process.env.PORT;
 
 mongoose.connect(`${process.env.MONGO_URL}`, {
-  //useNewUrlParser: true,
+  //useNewUrlParser: true
   //useUnifiedTopology: true
 },
   err => {
@@ -68,7 +70,8 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
 
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);
-app.use('/api/seats', passport.authenticate('jwt', { session: false }),seatRoute);
+app.use('/api/seats', passport.authenticate('jwt', { session: false }), seatRoute);
+app.use('/api', passport.authenticate('jwt', { session: false }), ticketRoute);
 app.use("/api", authRoute);
 
 app.get('/', (req: Request, res: Response) => {
