@@ -61,7 +61,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             profile = req.file.path.replace("\\", "/");
         }
         const movieTdo = {
-            code: req.body.code,
+            movie_id: req.body.movie_id,
             name: req.body.name,
             year: req.body.year,
             rating: req.body.rating,
