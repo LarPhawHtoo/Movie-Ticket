@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-
-import { User } from 'src/app/interfaces/user.model';
 
 @Component({
   selector: 'app-login',
@@ -13,37 +10,32 @@ import { User } from 'src/app/interfaces/user.model';
 })
 export class LoginComponent implements OnInit {
 
-  userName!: string;
+  email!: string;
   password!: string;
   formData!: FormGroup;
 
-  users: User[] = [];
-
   constructor(
-    private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe((response: any) => {
-      console.log(response.users);
-      this.users = response.users;
-    });
-
     this.formData = new FormGroup({
-      userName: new FormControl("admin"),
-      password: new FormControl("admin"),
+      email: new FormControl(""),
+      password: new FormControl(""),
     });
   }
 
   onClickLogin(data: any) {
-    this.userName = data.userName;
+    this.email = data.email;
     this.password = data.password;
 
-    this.authService.login(this.userName, this.password)
-      .subscribe(data => {
-        if (data) this.router.navigate(['/home']);
+    this.authService.login(this.email, this.password)
+      .subscribe((data: any) => {
+        localStorage.setItem("isUserLoggedIn", "true");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("loginUser", data.users);
+        this.router.navigate(['/home']);
       })
   }
 
