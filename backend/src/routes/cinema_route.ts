@@ -1,5 +1,5 @@
 import express from 'express';
-import { getCinema, createCinema, findCinema, updateCinema, deleteCinema} from '../controllers/cinemaController';
+import { getCinema, createCinema, findCinema, updateCinema, deleteCinema} from '../controllers/CinemaController';
 import {body} from 'express-validator';
 import { findByIdService } from '../services/cinema.service';
 

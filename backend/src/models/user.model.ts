@@ -12,11 +12,8 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-<<<<<<< HEAD
     required: true
-=======
     //select:false
->>>>>>> c51ce4c676d5fc158402db37b460115bcab6ee82
   },
   type: {
     type: String,

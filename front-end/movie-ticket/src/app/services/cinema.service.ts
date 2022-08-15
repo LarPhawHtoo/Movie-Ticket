@@ -11,20 +11,18 @@ export class CinemaService {
 
   url = 'http://localhost:8081/api/cinemas';
 
-  createCinema(data: any) {
+  createCinema(
+    name: string
+  ) {
     const token = localStorage.getItem("token") || '';
     const headerOptions = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    const body =   {
-      'code': `${data.code}`,
-      'name': `${data.name}`,
-      'location': `${data.location}`,
-      'time': `${data.time}`,
-      'date': `${data.date}`
+    const body = {
+      "name": name
     };
 
-    this.http.post(this.url, body, options)
+    return this.http.post(this.url, body, options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   };
 
