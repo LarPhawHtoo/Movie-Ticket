@@ -1,0 +1,35 @@
+mat-card {
+  width: 400px;
+  margin: 30px auto;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: 16px;
+  color: rgb(39, 39, 39);
+}
+
+mat-form-field {
+  //background-color: rgb(46, 46, 46);
+  margin: 10px 0 20px;
+}
+
+mat-label {
+  color: rgb(39, 39, 39);
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card-content, mat-card-header {
+  padding-bottom: 30px;
+}
+
+mat-card-header {
+  padding-top: 30px;
+}
+
+mat-card-title {
+  font-size: 30px !important;
+  font-weight: 900;
+}

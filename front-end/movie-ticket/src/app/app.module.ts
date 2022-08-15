@@ -12,6 +12,9 @@ import { MaterialModule } from './material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SignupSuccessSnackBarComponent } from './components/signup-success-snack-bar/signup-success-snack-bar.component';
+import { CreateCinemaBottomSheetComponent } from './components/create-cinema-bottom-sheet/create-cinema-bottom-sheet.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
 
 @NgModule({
   declarations: [
@@ -21,6 +24,7 @@ import { SignupSuccessSnackBarComponent } from './components/signup-success-snac
     HomeComponent,
     SignupComponent,
     SignupSuccessSnackBarComponent,
+    CreateCinemaBottomSheetComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,11 +12,7 @@ router
     .route("/")
     .get(CinemaController_1.getCinema)
     .post([
-    (0, express_validator_1.body)("code").notEmpty().withMessage("code must not be empty"),
     (0, express_validator_1.body)("name").notEmpty().withMessage("Cinema Name must not be empty"),
-    (0, express_validator_1.body)("location").notEmpty().withMessage("Location must not be empty"),
-    (0, express_validator_1.body)("date").notEmpty().withMessage("Date must not be empty"),
-    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
 ], CinemaController_1.createCinema);
 router
     .route("/search")
@@ -25,11 +21,7 @@ router
     .route("/:id")
     .get(CinemaController_1.findCinema)
     .put([
-    (0, express_validator_1.body)("code").notEmpty().withMessage("Code must not be empty"),
     (0, express_validator_1.body)("name").notEmpty().withMessage("Cinema Name must not be empty"),
-    (0, express_validator_1.body)("location").notEmpty().withMessage("Location must not be empty"),
-    (0, express_validator_1.body)("date").notEmpty().withMessage("Date must not be empty"),
-    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
 ], CinemaController_1.updateCinema)
     .delete(CinemaController_1.deleteCinema);
 exports.default = router;

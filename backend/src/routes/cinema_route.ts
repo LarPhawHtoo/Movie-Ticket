@@ -10,11 +10,7 @@ router
   .get(getCinema)
   .post(
       [
-        body("code").notEmpty().withMessage("code must not be empty"),
         body("name").notEmpty().withMessage("Cinema Name must not be empty"),
-        body("location").notEmpty().withMessage("Location must not be empty"),
-        body("date").notEmpty().withMessage("Date must not be empty"),
-        body("time").notEmpty().withMessage("Time must not be empty")
     ],
   createCinema);
 
@@ -27,11 +23,7 @@ router
   .get(findCinema)
   .put(
     [
-      body("code").notEmpty().withMessage("Code must not be empty"),
       body("name").notEmpty().withMessage("Cinema Name must not be empty"),
-      body("location").notEmpty().withMessage("Location must not be empty"),
-      body("date").notEmpty().withMessage("Date must not be empty"),
-      body("time").notEmpty().withMessage("Time must not be empty")
     ],
     updateCinema)
     .delete(deleteCinema)
