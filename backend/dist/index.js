@@ -61,12 +61,12 @@ mongoose_1.default.connect(`${process.env.MONGO_URL}`, {
         console.log('Error in connection ' + err);
     }
 });
+app.use("/api", auth_route_1.default);
 app.use('/api/cinemas', passport_1.default.authenticate('jwt', { session: false }), cinema_route_1.default);
 app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
 app.use('/api/movies', passport_1.default.authenticate('jwt', { session: false }), movie_route_1.default);
 app.use('/api/seats', passport_1.default.authenticate('jwt', { session: false }), seat_route_1.default);
 app.use('/api', passport_1.default.authenticate('jwt', { session: false }), ticket_route_1.default);
-app.use("/api", auth_route_1.default);
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
