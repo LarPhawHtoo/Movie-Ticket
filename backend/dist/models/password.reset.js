@@ -14,5 +14,3 @@ const passwordResetSchema = new mongoose_1.Schema({
     timestamps: true
 });
 exports.default = (0, mongoose_1.model)("PasswordReset", passwordResetSchema);
-//export default mongoose.models['PasswordReset'] || mongoose.model('PasswordReset', passwordResetSchema);
-//module.exports = mongoose.models['PasswordReset'] || mongoose.model('PasswordReset', passwordResetSchema)

@@ -12,11 +12,7 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-<<<<<<< HEAD
     required: true
-=======
-    //select:false
->>>>>>> c51ce4c676d5fc158402db37b460115bcab6ee82
   },
   type: {
     type: String,
@@ -59,9 +55,4 @@ const userSchema = new Schema({
     timestamps: true
   }
 );
-
-//export default mongoose.models['User'] || mongoose.model('User', userSchema);
-//module.exports = mongoose.models['User'] || mongoose.model('User', userSchema);
-//module.exports = mongoose.models.User || mongoose.model('User', userSchema);
 export default model("User", userSchema);
-//const User = module.exports = model("User", userSchema);

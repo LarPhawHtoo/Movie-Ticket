@@ -29,11 +29,11 @@ export const getUserService = async (
       let username = "";
       index !== -1 ? username = users[index].fullName : "";
       let obj: any = {
-        ...users[i]._doc,
-        //fullName: users[i].fullName,
-        //_id: users[i].id,
-        //email:users[i].email,
-        //created_username: username
+        //...users[i]._doc,
+        fullName: users[i].fullName,
+        _id: users[i].id,
+        email:users[i].email,
+        created_username: username
       };
       result.push(obj);
     }

@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import Seat from "../models/seat.model";
+import Cinema from "../models/cinema.model";
 import { SeatCreate } from "../interfaces/seat";
 import { validationResult } from "express-validator";
 import { deleteFile } from "../utils/utils";
+
 
 /**
  * get seat service
@@ -10,16 +12,17 @@ import { deleteFile } from "../utils/utils";
  * @param res
  * @param next
  */
+
 export const getSeatService = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  Seat.find(req.body.seats, (err, seats) => {
-    if (err) {
+  const seats = await Seat.find();
+    if (!seats) {
       res.json({
         success: false,
-        message: "An error occured while fetching seats: " + err,
+        message: "An error occured while fetching seats: " ,
       });
     } else {
       var sortedSeat = seats.sort((a, b) => (a.seatNumber < b.seatNumber ? -1 : 1));
@@ -30,15 +33,15 @@ export const getSeatService = async (
         status: 1,
       });
     }
-  });
-};
+  }
+
 /**
  * create seat service
  * @param _req
  * @param res
  * @param next
  */
-export const createSeatService = async (
+ export const createSeatService = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -157,3 +160,31 @@ export const deleteSeatService = async (
     next(err);
   }
 };
+
+/**
+ * Get Seat Number by Cinema Id
+ * @
+*/
+
+export const getSeatByCinemaIdService = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const cinemas = await Cinema.findById(req.params.cinema_id);
+    //console.log(cinemas);
+    const seats = await Seat.find({ cinema_id:req.params.cinema_id});
+    //console.log(seats);
+    if (!seats) {
+      const error: any = Error("Not Found!");
+      error.statusCode = 401;
+      throw error;
+    }
+    var sortedSeat = seats.sort((a, b) => (a.seatNumber < b.seatNumber ? -1 : 1));
+    res.json({ data: sortedSeat, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+};
+

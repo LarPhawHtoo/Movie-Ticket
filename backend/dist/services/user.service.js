@@ -34,7 +34,13 @@ const getUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             const index = users.findIndex((dist) => users[i]._id.equals(dist._id));
             let username = "";
             index !== -1 ? username = users[index].fullName : "";
-            let obj = Object.assign({}, users[i]._doc);
+            let obj = {
+                //...users[i]._doc,
+                fullName: users[i].fullName,
+                _id: users[i].id,
+                email: users[i].email,
+                created_username: username
+            };
             result.push(obj);
         }
         res.json({

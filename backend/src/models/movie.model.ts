@@ -58,5 +58,3 @@ const movieSchema = new Schema({
 
 movieSchema.plugin(require('mongoose-autopopulate'));
 export default model("Movie", movieSchema);
-//export default mongoose.models['Movie'] || mongoose.model('Movie', movieSchema);
-//module.exports = mongoose.models['Movie'] || mongoose.model('Movie', movieSchema)

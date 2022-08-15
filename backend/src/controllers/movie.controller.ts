@@ -55,4 +55,5 @@ export const findById = async (
   next: NextFunction
 ) => {
   findByIdService(req, res, next);
-}
+};
+
