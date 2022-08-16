@@ -173,7 +173,7 @@ export const getSeatByCinemaIdService = async (
 ) => {
   try {
     const cinemas = await Cinema.findById(req.params.cinema_id);
-    //console.log(cinemas);
+    console.log(cinemas);
     const seats = await Seat.find({ cinema_id:req.params.cinema_id});
     //console.log(seats);
     if (!seats) {

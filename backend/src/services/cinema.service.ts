@@ -14,11 +14,8 @@ export const getCinemaService = async (
   next: NextFunction
 ) => {
   try {
-    const page: any = _req.query.page || 0;
-    const cinemasPerPage: any = _req.query.pageSize || 5;
-
     let condition: any = { deleted_at: null };
-    const cinemas = await Cinema.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+    const cinemas = await Cinema.find(condition);
     res.json({ data: cinemas, status: 1 });
   } catch (err) {
     next(err);

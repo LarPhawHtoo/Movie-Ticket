@@ -163,7 +163,7 @@ exports.deleteSeatService = deleteSeatService;
 const getSeatByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinemas = yield cinema_model_1.default.findById(req.params.cinema_id);
-        //console.log(cinemas);
+        console.log(cinemas);
         const seats = yield seat_model_1.default.find({ cinema_id: req.params.cinema_id });
         //console.log(seats);
         if (!seats) {

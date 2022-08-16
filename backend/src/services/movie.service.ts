@@ -19,9 +19,6 @@ export const getMovieService = async (
   next: NextFunction
 ) => {
   try {
-    const page: any = _req.query.page || 0;
-    const moviesPerPage: any = _req.query.pageSize || 6;
-
     const userType = _req.headers['userType'];
     const userId = _req.headers['userId'];
     let condition: any = { deleted_at: null };
@@ -29,7 +26,7 @@ export const getMovieService = async (
       condition.created_user_id = userId;
       condition.updated_user_id = userId;
     }
-    const movies = await Movie.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
+    const movies = await Movie.find(condition);
     res.json({ data: movies, status: 1 });
   } catch (err) {
     next(err);

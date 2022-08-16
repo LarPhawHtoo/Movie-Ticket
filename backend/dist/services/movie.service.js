@@ -24,8 +24,6 @@ const utils_1 = require("../utils/utils");
  */
 const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const page = _req.query.page || 0;
-        const moviesPerPage = _req.query.pageSize || 6;
         const userType = _req.headers['userType'];
         const userId = _req.headers['userId'];
         let condition = { deleted_at: null };
@@ -33,7 +31,7 @@ const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, f
             condition.created_user_id = userId;
             condition.updated_user_id = userId;
         }
-        const movies = yield movie_model_1.default.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
+        const movies = yield movie_model_1.default.find(condition);
         res.json({ data: movies, status: 1 });
     }
     catch (err) {

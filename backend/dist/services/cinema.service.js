@@ -23,10 +23,8 @@ const express_validator_1 = require("express-validator");
  */
 const getCinemaService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const page = _req.query.page || 0;
-        const cinemasPerPage = _req.query.pageSize || 5;
         let condition = { deleted_at: null };
-        const cinemas = yield cinema_model_1.default.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+        const cinemas = yield cinema_model_1.default.find(condition);
         res.json({ data: cinemas, status: 1 });
     }
     catch (err) {

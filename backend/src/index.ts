@@ -4,9 +4,7 @@ import dotenv from "dotenv";
 import  movieRoute  from "./routes/movie.route";
 import  userRoute  from "./routes/user.route";
 import authRoute from "./routes/auth.route";
-
 import cinemaRoute from "./routes/cinema_route";
-
 import seatRoute from "./routes/seat.route";
 import ticketRoute from "./routes/ticket.route";
 import cors from 'cors';
