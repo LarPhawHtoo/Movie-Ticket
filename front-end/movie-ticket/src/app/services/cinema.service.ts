@@ -9,11 +9,11 @@ import { Cinema } from '../interfaces/cinema.model';
 })
 export class CinemaService {
 
+  constructor(private http: HttpClient) { }
+
   url = 'http://localhost:8081/api/cinemas';
 
-  createCinema(
-    name: string
-  ) {
+  createCinema(name: string) {
     const token = localStorage.getItem("token") || '';
     const headerOptions = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`);
@@ -44,6 +44,4 @@ export class CinemaService {
     }
     return throwError("Error occured.");
   }
-
-  constructor(private http: HttpClient) { }
 }

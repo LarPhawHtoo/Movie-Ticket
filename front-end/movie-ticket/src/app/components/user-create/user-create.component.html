@@ -1,0 +1,52 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>New User</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form action="post" [formGroup]="formData" (ngSubmit)="onClickAddUser()">
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput class="form-control" formControlName="fullName" required>
+        <mat-error *ngIf="fullName.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>User Type</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let userType of userTypes" [value]="userType">
+            {{ userType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Phone</mat-label>
+        <input type="text" matInput class="form-control" formControlName="phone" required>
+        <mat-error *ngIf="phone.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input type="text" matInput class="form-control" formControlName="email" required>
+        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Date of birth</mat-label>
+        <input type="text" matInput class="form-control" formControlName="dob">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Address</mat-label>
+        <input type="text" matInput class="form-control" formControlName="address">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Password</mat-label>
+        <input type="text" matInput class="form-control" formControlName="password" required>
+        <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <!--<mat-form-field appearance="fill" class="full-width" *ngIf="confirmView==false">
+        <mat-label>Profile</mat-label>
+        <input #file type="file" (change)="imageUpload($event)" accept="image/*" class="form-control" formControlName="profile" required maxFileSize=2000000>
+        <mat-error *ngIf="profile.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>-->
+      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Add User</button>
+    </form>
+  </mat-card-content>
+</mat-card>
