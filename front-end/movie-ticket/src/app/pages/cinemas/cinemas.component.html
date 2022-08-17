@@ -20,8 +20,11 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let element">
-      <button mat-icon-button color="accent" (click)="openActionsDialog()">
-        <mat-icon class="mat-18">settings</mat-icon>
+      <button mat-icon-button color="accent" (click)="openUpdateDialog()">
+        <mat-icon class="mat-18">edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="openDeleteDialog()">
+        <mat-icon class="mat-18">delete</mat-icon>
       </button>
     </td>
   </ng-container>

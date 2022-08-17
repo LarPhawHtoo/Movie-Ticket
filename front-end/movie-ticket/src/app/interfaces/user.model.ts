@@ -4,5 +4,6 @@ export interface User {
   type: string,
   phone: number,
   email: string,
+  dob: string,
   address: string
 }

@@ -18,9 +18,10 @@ import { UsersComponent } from './pages/users/users.component';
 import { UserCreateComponent } from './components/user-create/user-create.component';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
 import { UserActionsComponent } from './components/user-actions/user-actions.component';
-import { CinemaActionsComponent } from './components/cinema-actions/cinema-actions.component';
 import { CinemasComponent } from './pages/cinemas/cinemas.component';
-
+import { DeleteConfirmComponent } from './components/delete-confirm/delete-confirm.component';
+import { CinemaUpdateComponent } from './components/cinema-update/cinema-update.component';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 @NgModule({
   declarations: [
@@ -35,8 +36,9 @@ import { CinemasComponent } from './pages/cinemas/cinemas.component';
     UserCreateComponent,
     LogoutConfirmComponent,
     UserActionsComponent,
-    CinemaActionsComponent,
     CinemasComponent,
+    DeleteConfirmComponent,
+    CinemaUpdateComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,7 @@ import { CinemasComponent } from './pages/cinemas/cinemas.component';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxMatFileInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

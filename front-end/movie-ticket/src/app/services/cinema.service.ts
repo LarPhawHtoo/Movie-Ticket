@@ -12,27 +12,29 @@ export class CinemaService {
   constructor(private http: HttpClient) { }
 
   url = 'http://localhost:8081/api/cinemas';
+  token = localStorage.getItem("token") || '';
+  headerOptions = new HttpHeaders()
+    .set('Authorization', `Bearer ${this.token}`);
+  options = { headers: this.headerOptions };
 
   createCinema(name: string) {
-    const token = localStorage.getItem("token") || '';
-    const headerOptions = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`);
-    const options = { headers: headerOptions };
-    const body = {
-      "name": name
-    };
-
-    return this.http.post(this.url, body, options)
+    const body = { "name": name };
+    return this.http.post(this.url, body, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   };
 
   getCinemas(): Observable<Cinema[]> {
-    const token = localStorage.getItem("token") || '';
-    const headerOptions = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`);
-    const options = { headers: headerOptions };
+    return this.http.get<Cinema[]>(this.url, this.options)
+      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+  }
 
-    return this.http.get<Cinema[]>(this.url, options)
+  updateCinema(cinemaId: any, payload: any) {
+    return this.http.put(`${this.url}/` + cinemaId, payload, this.options)
+      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+  }
+
+  deleteCinema(cinemaId: any) {
+    return this.http.delete(`${this.url}/` + cinemaId, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 

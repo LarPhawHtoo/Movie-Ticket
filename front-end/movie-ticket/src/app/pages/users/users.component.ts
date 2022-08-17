@@ -43,6 +43,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   getUser() {
     this.activatedRoute.data.subscribe((response: any) => {
       this.dataSource.data = response.users.data as User[];
+      console.log(this.dataSource.data)
     })
   }
 

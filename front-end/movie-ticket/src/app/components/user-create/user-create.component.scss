@@ -1,6 +1,6 @@
 mat-card {
   width: 600px;
-  margin: 30px auto;
+  margin: 0 auto;
   border: 1px solid rgba(0, 0, 0, 0.3);
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(5px);
@@ -18,7 +18,7 @@ mat-label {
 }
 
 mat-card-content, mat-card-header {
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 }
 
 mat-card-content {
@@ -26,10 +26,14 @@ mat-card-content {
 }
 
 mat-card-header {
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 mat-card-title {
   font-size: 30px !important;
   font-weight: 900;
+}
+
+button {
+  width: 300px;
 }
