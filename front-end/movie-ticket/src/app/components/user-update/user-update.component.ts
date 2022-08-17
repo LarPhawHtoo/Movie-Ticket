@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user-create',
-  templateUrl: './user-create.component.html',
-  styleUrls: ['./user-create.component.scss']
+  selector: 'app-user-update',
+  templateUrl: './user-update.component.html',
+  styleUrls: ['./user-update.component.scss']
 })
-export class UserCreateComponent implements OnInit {
+export class UserUpdateComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<UserCreateComponent>,
+    private dialogRef: MatDialogRef<UserUpdateComponent>,
     private userService: UserService,
     private router: Router
   ) { }
@@ -49,7 +49,9 @@ export class UserCreateComponent implements OnInit {
     });
   }
 
-  onClickAddUser() {
+  onClickUpdateUser() {
+    const id = '123';
+
     const formData = new FormData();
     formData.append('profile', this.imgFile);
     formData.append('fullName', this.formData.controls['fullName'].value);
@@ -60,15 +62,11 @@ export class UserCreateComponent implements OnInit {
     formData.append('address', this.formData.controls['address'].value);
     formData.append('password', this.formData.controls['password'].value);
 
-    this.userService.addUser(formData)
+    this.userService.updateUser(id, formData)
       .subscribe(res => {
         this.dialogRef.close('create');
         this.router.navigate(['/users']);
       });
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 
   imageUpload(event: any) {
@@ -88,6 +86,10 @@ export class UserCreateComponent implements OnInit {
     }
 
     return this.email.hasError('email') ? 'Not a valid email' : '';
+  }
+
+  onCancelClick(): void {
+    this.dialogRef.close();
   }
 
 }

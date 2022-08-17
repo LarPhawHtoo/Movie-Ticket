@@ -27,14 +27,8 @@ export class UserService {
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 
-  updateUser(id: string, fullName: string, email: string, password: string) {
-    const body = {
-      "fullName": fullName,
-      "email": email,
-      "password": password
-    }
-
-    this.http.put(`${this.url}/${id}`, body, this.options)
+  updateUser(id: string, payload: any) {
+    return this.http.put(`${this.url}/${id}`, payload, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 

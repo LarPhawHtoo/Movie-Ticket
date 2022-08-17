@@ -8,7 +8,7 @@ import { CreateCinemaBottomSheetComponent } from 'src/app/components/create-cine
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { CinemaUpdateComponent } from 'src/app/components/cinema-update/cinema-update.component';
-import { DeleteConfirmComponent } from 'src/app/components/delete-confirm/delete-confirm.component';
+import { CinemaDeleteConfirmDialogComponent } from 'src/app/components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
 
 @Component({
   selector: 'app-cinemas',
@@ -56,7 +56,7 @@ export class CinemasComponent implements OnInit, AfterViewInit {
     })
   }
   openDeleteDialog() {
-    const dialogRef = this.dialog.open(DeleteConfirmComponent);
+    const dialogRef = this.dialog.open(CinemaDeleteConfirmDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     })

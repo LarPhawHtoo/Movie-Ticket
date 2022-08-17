@@ -1,6 +1,6 @@
 mat-card {
-  width: 400px;
-  margin: 30px auto;
+  width: 600px;
+  margin: 0 auto;
   border: 1px solid rgba(0, 0, 0, 0.3);
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(5px);
@@ -9,26 +9,31 @@ mat-card {
 }
 
 mat-form-field {
-  margin: 10px 0 20px;
+  width: 200px;
+  margin: 20px 20px;
 }
 
 mat-label {
   color: rgb(39, 39, 39);
 }
 
-.full-width {
-  width: 100%;
+mat-card-content, mat-card-header {
+  padding-bottom: 10px;
 }
 
-mat-card-content, mat-card-header {
-  padding-bottom: 30px;
+mat-card-content {
+  text-align: center;
 }
 
 mat-card-header {
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 mat-card-title {
   font-size: 30px !important;
   font-weight: 900;
+}
+
+button {
+  width: 300px;
 }

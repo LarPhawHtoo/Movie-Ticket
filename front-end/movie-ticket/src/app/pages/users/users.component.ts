@@ -7,7 +7,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { UserCreateComponent } from 'src/app/components/user-create/user-create.component';
-import { UserActionsComponent } from 'src/app/components/user-actions/user-actions.component';
+import { UserUpdateComponent } from 'src/app/components/user-update/user-update.component';
+import { UserDeleteConfirmDialogComponent } from 'src/app/components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
 
 
 @Component({
@@ -58,10 +59,14 @@ export class UsersComponent implements OnInit, AfterViewInit {
     
   }
 
-  openActionsDialog() {
-    const dialogRef = this.dialog.open(UserActionsComponent);
+  openUpdateDialog() {
+    const dialogRef = this.dialog.open(UserUpdateComponent, {data: this.dataSource.data});
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+    })
+  }
+  openDeleteDialog() {
+    const dialogRef = this.dialog.open(UserDeleteConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
     })
   }
 

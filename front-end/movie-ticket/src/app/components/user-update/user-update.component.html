@@ -1,9 +1,9 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>New User</mat-card-title>
+    <mat-card-title>Edit User</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form action="post" [formGroup]="formData" (ngSubmit)="onClickAddUser()">
+    <form action="post" [formGroup]="formData" (ngSubmit)="onClickUpdateUser()">
       <mat-form-field appearance="fill">
         <ngx-mat-file-input matInput type="file" (change)="imageUpload($event)" accept="image/*" class="form-control" formControlName="profile"></ngx-mat-file-input>
       </mat-form-field>
@@ -43,7 +43,8 @@
         <input type="text" matInput class="form-control" formControlName="password" required>
         <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Add User</button>
+      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Save</button>
     </form>
   </mat-card-content>
 </mat-card>
+
