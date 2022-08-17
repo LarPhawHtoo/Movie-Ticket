@@ -1,13 +1,23 @@
 import mongoose,{ Schema, model } from 'mongoose';
 
 const ticketSchema = new Schema({
+  customer_name: {
+    type: String,
+    required: true
+  },
+  cinema_id: {
+    type: Schema.Types.ObjectId,
+    ref: "Cinema",
+    autopopulate: true
+  },
+  movie_id: {
+    type: Schema.Types.ObjectId,
+    ref: "Movie",
+    autopopulate: true
+  },
   seatNumber: {
     type: [String],
     required:true
-  },
-  cinema_id: {
-    type: String,
-    required: true
   },
   price: {
     type: Number,
@@ -18,8 +28,5 @@ const ticketSchema = new Schema({
     required:true
   }
 });
-export default mongoose.models['Ticket'] || mongoose.model('Ticket', ticketSchema);
-//module.exports = mongoose.models['Ticket'] || mongoose.model('Ticket', ticketSchema)
-//export default model("Ticket", ticketSchema);
-//module.exports = mongoose.models.Ticket || mongoose.model('Ticket', ticketSchema);
-//const Ticket = module.exports = model("Ticket", ticketSchema)
+export default model("Ticket", ticketSchema);
+

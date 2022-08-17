@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSeatService = exports.updateSeatService = exports.findSeatService = exports.createSeatService = exports.getSeatService = void 0;
+exports.getSeatByCinemaIdService = exports.deleteSeatService = exports.updateSeatService = exports.findSeatService = exports.createSeatService = exports.getSeatService = void 0;
 const seat_model_1 = __importDefault(require("../models/seat.model"));
 const express_validator_1 = require("express-validator");
 /**
@@ -156,3 +156,24 @@ const deleteSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.deleteSeatService = deleteSeatService;
+/**
+ * get Seat by Cinema Id service
+ * @param req
+ * @param res
+ * @param next
+ */
+const getSeatByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const seat = yield seat_model_1.default.findById(req.params.cinema_id);
+        if (!seat) {
+            const error = Error("Not Found!");
+            error.statusCode = 401;
+            throw error;
+        }
+        res.json({ seats: seat, status: 1 });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getSeatByCinemaIdService = getSeatByCinemaIdService;

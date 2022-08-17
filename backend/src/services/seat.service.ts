@@ -157,3 +157,27 @@ export const deleteSeatService = async (
     next(err);
   }
 };
+
+/**
+ * get Seat by Cinema Id service
+ * @param req
+ * @param res
+ * @param next
+ */
+ export const getSeatByCinemaIdService = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const seat = await Seat.findById(req.params.cinema_id);
+    if (!seat) {
+      const error: any = Error("Not Found!");
+      error.statusCode = 401;
+      throw error;
+    }
+    res.json({ seats: seat, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+};

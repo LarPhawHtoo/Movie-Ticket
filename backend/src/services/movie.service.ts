@@ -16,9 +16,6 @@ export const getMovieService = async (
   next: NextFunction
 ) => {
   try {
-    const page: any = _req.query.page || 0;
-    const moviesPerPage: any = _req.query.pageSize || 6;
-
     const userType = _req.headers['userType'];
     const userId = _req.headers['userId'];
     let condition: any = { deleted_at: null };
@@ -26,8 +23,8 @@ export const getMovieService = async (
       condition.created_user_id = userId;
       condition.updated_user_id = userId;
     }
-    const movies = await Movie.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-    res.json({ data: movies, status: 1 });
+    const movies = await Movie.find(condition);
+    res.json({ movies: movies, status: 1 });
   } catch (err) {
     next(err);
   }
@@ -53,7 +50,7 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       profile = req.file.path.replace("\\", "/");
     }
     const movieTdo: MovieCreate = {
-      movie_id: req.body.movie_id,
+     code: req.body.code,
       name: req.body.name,
       year: req.body.year,
       rating: req.body.rating,
@@ -66,7 +63,7 @@ export const createMovieService = async (req: Request, res: Response, next: Next
     const result = await movie.save();
     res
       .status(201)
-      .json({ message: "Created Movie Successfully!", data:result, status: 1 });
+      .json({ message: "Created Movie Successfully!", movies:result, status: 1 });
   } catch (err) {
     next(err);
   }
@@ -84,7 +81,7 @@ export const findMovieService = async (
       error.statusCode = 401;
       throw error;
     }
-    res.json({ data: movie, status: 1 });
+    res.json({ movies: movie, status: 1 });
   } catch (err) {
     next(err);
   }
@@ -126,7 +123,7 @@ export const updateMovieService = async (
     movie.created_user_id = req.body.created_user_id;
     movie.updated_user_id = req.body.updated_user_id;
     const result = await movie.save();
-    res.json({ message: "Updated Successfully!", data: result, status: 1 });
+    res.json({ message: "Updated Successfully!", movies: result, status: 1 });
   } catch (err) {
     next(err);
   }
@@ -158,17 +155,8 @@ export const findByIdService = async (
   next: NextFunction
 ) => {
   try {
-    const page: any = req.query.page || 0;
-    const moviesPerPage: any = req.query.ppp || 5;
-
-    const userType = req.headers['userType'];
-    const userId = req.headers['userId'];
-    let condition: any = { userId: { '$regex': req.params.userId, '$options': 'i' }, deleted_at: null };
-    if (userType === "User") {
-      condition.created_user_id = userId;
-    }
-    const movies = await Movie.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-    res.json({ data: movies, status: 1 });
+    const movies = await Movie.findById(req.params.id);
+    res.json({ movies: movies, status: 1 });
   } catch (err) {
     next(err);
   }

@@ -8,11 +8,7 @@ import authRoute from "./routes/auth.route";
 import cinemaRoute from "./routes/cinema_route";
 
 import seatRoute from "./routes/seat.route";
-<<<<<<< HEAD
 import ticketRoute from "./routes/ticket.route";
-=======
-
->>>>>>> c51ce4c676d5fc158402db37b460115bcab6ee82
 import cors from 'cors';
 import multer, { FileFilterCallback } from "multer";
 import { v4 } from "uuid";
@@ -78,7 +74,7 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);
 app.use('/api/seats', passport.authenticate('jwt', { session: false }), seatRoute);
-app.use('/api', passport.authenticate('jwt', { session: false }), ticketRoute);
+app.use('/api/tickets', passport.authenticate('jwt', { session: false }), ticketRoute);
 app.use("/api", authRoute);
 
 app.get('/', (req: Request, res: Response) => {

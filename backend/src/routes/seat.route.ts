@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { getSeats, createSeat, updateSeat, deleteSeat,findSeat } from '../controllers/seat.controller';
+import { getSeats, createSeat, updateSeat, deleteSeat,findSeat,getSeatByCinemaId } from '../controllers/seat.controller';
 import {body } from 'express-validator';
 
 const router = express.Router();
@@ -24,6 +24,15 @@ router
     ],
     updateSeat)
   .delete(deleteSeat)
+
+router
+  .route('/:cinema_id')
+  .post([
+    body("date").notEmpty().withMessage("date must not be empty"),
+    body("stime").notEmpty().withMessage("time must not be empty")
+  ],
+    createSeat);
+
 export default router;
 
 

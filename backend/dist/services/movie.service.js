@@ -24,8 +24,6 @@ const utils_1 = require("../utils/utils");
  */
 const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const page = _req.query.page || 0;
-        const moviesPerPage = _req.query.pageSize || 6;
         const userType = _req.headers['userType'];
         const userId = _req.headers['userId'];
         let condition = { deleted_at: null };
@@ -33,8 +31,8 @@ const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, f
             condition.created_user_id = userId;
             condition.updated_user_id = userId;
         }
-        const movies = yield movie_model_1.default.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-        res.json({ data: movies, status: 1 });
+        const movies = yield movie_model_1.default.find(condition);
+        res.json({ movies: movies, status: 1 });
     }
     catch (err) {
         next(err);
@@ -74,7 +72,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         const result = yield movie.save();
         res
             .status(201)
-            .json({ message: "Created Movie Successfully!", data: result, status: 1 });
+            .json({ message: "Created Movie Successfully!", movies: result, status: 1 });
     }
     catch (err) {
         next(err);
@@ -89,7 +87,7 @@ const findMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             error.statusCode = 401;
             throw error;
         }
-        res.json({ data: movie, status: 1 });
+        res.json({ movies: movie, status: 1 });
     }
     catch (err) {
         next(err);
@@ -128,7 +126,7 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         movie.created_user_id = req.body.created_user_id;
         movie.updated_user_id = req.body.updated_user_id;
         const result = yield movie.save();
-        res.json({ message: "Updated Successfully!", data: result, status: 1 });
+        res.json({ message: "Updated Successfully!", movies: result, status: 1 });
     }
     catch (err) {
         next(err);
@@ -154,16 +152,8 @@ const deleteMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
 exports.deleteMovieService = deleteMovieService;
 const findByIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const page = req.query.page || 0;
-        const moviesPerPage = req.query.ppp || 5;
-        const userType = req.headers['userType'];
-        const userId = req.headers['userId'];
-        let condition = { userId: { '$regex': req.params.userId, '$options': 'i' }, deleted_at: null };
-        if (userType === "User") {
-            condition.created_user_id = userId;
-        }
-        const movies = yield movie_model_1.default.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-        res.json({ data: movies, status: 1 });
+        const movies = yield movie_model_1.default.findById(req.params.id);
+        res.json({ movies: movies, status: 1 });
     }
     catch (err) {
         next(err);

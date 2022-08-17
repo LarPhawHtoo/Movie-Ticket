@@ -14,17 +14,7 @@ export const getCinemaService = async (
   next: NextFunction
 ) => {
   try {
-    const page: any = _req.query.page || 0;
-    const cinemasPerPage: any = _req.query.pageSize || 5;
-
-    const userType = _req.headers['userType'];
-    const userId = _req.headers['userId'];
-    let condition: any = { deleted_at: null };
-    if (userType === "User") {
-      condition.created_user_id = userId;
-      condition.updated_user_id = userId;
-    }
-    const cinemas = await Cinema.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+    const cinemas = await Cinema.find();
     res.json({ data: cinemas, status: 1 });
   } catch (err) {
     next(err);
@@ -133,16 +123,7 @@ export const findByIdService = async (
   next: NextFunction
 ) => {
   try {
-    const page: any = req.query.page || 0;
-    const cinemasPerPage: any = req.query.ppp || 5;
-
-    const userType = req.headers['userType'];
-    const userId = req.headers['userId'];
-    let condition: any = { userId: { '$regex': req.params.userId, '$options': 'i' }, deleted_at: null };
-    if (userType === "User") {
-      condition.created_user_id = userId;
-    }
-    const cinemas = await Cinema.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+    const cinemas = await Cinema.findById(req.params.id);
     res.json({ data: cinemas, status: 1 });
   } catch (err) {
     next(err);

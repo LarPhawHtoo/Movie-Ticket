@@ -23,8 +23,9 @@ const movieSchema = new mongoose_1.Schema({
         default: ""
     },
     cinema_id: {
-        type: String,
-        required: true
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "Cinema",
+        autopopulate: true
     },
     time: {
         type: [String],

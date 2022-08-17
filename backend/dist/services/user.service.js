@@ -20,21 +20,25 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const const_1 = require("../const/const");
 const getUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const page = req.query.page || 0;
-        const usersPerPage = req.query.upp || 5;
         const userType = req.headers['userType'];
         const userId = req.headers['userId'];
         let condition = { deleted_at: null };
         if (userType === const_1.constData.userType) {
             condition.created_user_id = userId;
         }
-        const users = yield user_model_1.default.find(condition).skip(page * usersPerPage).limit(usersPerPage);
+        const users = yield user_model_1.default.find(condition);
         const result = [];
         for (let i = 0; i < users.length; i++) {
             const index = users.findIndex((dist) => users[i]._id.equals(dist._id));
             let username = "";
             index !== -1 ? username = users[index].fullName : "";
-            let obj = Object.assign({}, users[i]._doc);
+            let obj = {
+                //...users[i]._doc,
+                fullName: users[i].fullName,
+                _id: users[i].id,
+                email: users[i].email,
+                created_username: username
+            };
             result.push(obj);
         }
         res.json({

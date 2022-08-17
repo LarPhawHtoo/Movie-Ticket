@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const seatSchema = new mongoose_1.Schema({
     seatNumber: {
-        type: [String],
+        type: String,
         required: true
     },
     status: {
@@ -11,8 +11,9 @@ const seatSchema = new mongoose_1.Schema({
         required: true
     },
     cinema_id: {
-        type: String,
-        required: true
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "Cinema",
+        autopopulate: true
     },
     price: {
         type: Number,
@@ -20,4 +21,3 @@ const seatSchema = new mongoose_1.Schema({
     }
 });
 exports.default = (0, mongoose_1.model)("Seat", seatSchema);
-const Seat = module.exports = (0, mongoose_1.model)("Seat", seatSchema);

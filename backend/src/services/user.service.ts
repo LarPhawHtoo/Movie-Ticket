@@ -13,27 +13,24 @@ export const getUserService = async (
   next: NextFunction
 ) => {
   try {
-    const page: any = req.query.page || 0;
-    const usersPerPage: any = req.query.upp || 5;
-
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
     let condition: any = { deleted_at: null };
     if (userType === constData.userType) {
       condition.created_user_id = userId;
     }
-    const users: any = await User.find(condition).skip(page * usersPerPage).limit(usersPerPage);
+    const users: any = await User.find(condition);
     const result: any = [];
     for (let i = 0; i < users.length; i++) {
       const index = users.findIndex((dist:any) => users[i]._id.equals(dist._id));
       let username = "";
       index !== -1 ? username = users[index].fullName : "";
       let obj: any = {
-        ...users[i]._doc,
-        //fullName: users[i].fullName,
-        //_id: users[i].id,
-        //email:users[i].email,
-        //created_username: username
+        //...users[i]._doc,
+        fullName: users[i].fullName,
+        _id: users[i].id,
+        email:users[i].email,
+        created_username: username
       };
       result.push(obj);
     }

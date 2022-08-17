@@ -23,16 +23,7 @@ const express_validator_1 = require("express-validator");
  */
 const getCinemaService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const page = _req.query.page || 0;
-        const cinemasPerPage = _req.query.pageSize || 5;
-        const userType = _req.headers['userType'];
-        const userId = _req.headers['userId'];
-        let condition = { deleted_at: null };
-        if (userType === "User") {
-            condition.created_user_id = userId;
-            condition.updated_user_id = userId;
-        }
-        const cinemas = yield cinema_model_1.default.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+        const cinemas = yield cinema_model_1.default.find();
         res.json({ data: cinemas, status: 1 });
     }
     catch (err) {
@@ -130,15 +121,7 @@ const deleteCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
 exports.deleteCinemaService = deleteCinemaService;
 const findByIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const page = req.query.page || 0;
-        const cinemasPerPage = req.query.ppp || 5;
-        const userType = req.headers['userType'];
-        const userId = req.headers['userId'];
-        let condition = { userId: { '$regex': req.params.userId, '$options': 'i' }, deleted_at: null };
-        if (userType === "User") {
-            condition.created_user_id = userId;
-        }
-        const cinemas = yield cinema_model_1.default.find(condition).skip(page * cinemasPerPage).limit(cinemasPerPage);
+        const cinemas = yield cinema_model_1.default.findById(req.params.id);
         res.json({ data: cinemas, status: 1 });
     }
     catch (err) {
