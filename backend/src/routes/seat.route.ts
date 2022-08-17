@@ -14,7 +14,7 @@ router
     createSeat);
 
 router
-  .route("/:id")
+  .route("/:ticket_id")
   .get(findSeat)
   .put(
     [
@@ -24,12 +24,12 @@ router
     updateSeat)
   .delete(deleteSeat);
 
-  //////
   router
   .route("/:cinema_id")
   .post(
     [
-      body("date").notEmpty().withMessage("date must not be empty")
+      body("date").notEmpty().withMessage("date must not be empty"),
+      body("time").notEmpty().withMessage("Time must not be empty")
     ],
     getSeatByCinemaId
   );

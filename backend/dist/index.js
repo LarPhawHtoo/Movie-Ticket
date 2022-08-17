@@ -66,7 +66,7 @@ app.use('/api/cinemas', passport_1.default.authenticate('jwt', { session: false 
 app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
 app.use('/api/movies', passport_1.default.authenticate('jwt', { session: false }), movie_route_1.default);
 app.use('/api/seats', passport_1.default.authenticate('jwt', { session: false }), seat_route_1.default);
-app.use('/api', passport_1.default.authenticate('jwt', { session: false }), ticket_route_1.default);
+app.use('/api/tickets', passport_1.default.authenticate('jwt', { session: false }), ticket_route_1.default);
 app.get('/', (req, res) => {
     res.send('Hello World');
 });

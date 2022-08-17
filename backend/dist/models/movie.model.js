@@ -2,12 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const movieSchema = new mongoose_1.Schema({
-    //code: {
-    //  type: Number,
-    //  required:true
-    //},
-    movie_id: {
-        type: String,
+    code: {
+        type: Number,
         required: true
     },
     name: {
@@ -27,8 +23,9 @@ const movieSchema = new mongoose_1.Schema({
         default: ""
     },
     cinema_id: {
-        type: String,
-        required: true
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "Cinema",
+        autopopulate: true
     },
     time: {
         type: [String],

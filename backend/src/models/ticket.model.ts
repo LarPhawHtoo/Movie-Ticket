@@ -1,22 +1,44 @@
 import mongoose,{ Schema, model } from 'mongoose';
 
 const ticketSchema = new Schema({
-  seatNumber: {
-    type: [String],
-    required:true
-  },
-  cinema_id: {
+  customer_name: {
     type: String,
     required: true
   },
+  seatNumber: {
+    type:[String],
+    required: true
+  },
+  movie_id: {
+    type: Schema.Types.ObjectId,
+    ref: "Movie",
+    autopopulate: true
+  },
+  cinema_id: {
+    type: Schema.Types.ObjectId,
+    autopopulate: true,
+    ref: "Cinema"
+  },
   price: {
     type: Number,
+    required:true
+  },
+  date: {
+    type: String,
+    required:true
+  },
+  time: {
+    type: String,
     required:true
   },
   status: {
     type: String,
     required:true
   }
-});
-export default mongoose.models['Ticket'] || mongoose.model('Ticket', ticketSchema);
+},
+{
+  timestamps: true
+  }
+);
+export default model("Ticket", ticketSchema);
 

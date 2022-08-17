@@ -5,7 +5,8 @@ import {
   findMovieService,
   updateMovieService,
   deleteMovieService,
-  findByIdService
+  findByIdService,
+  getMovieByCinemaIdService
 } from '../services/movie.service';
 
 
@@ -55,5 +56,13 @@ export const findById = async (
   next: NextFunction
 ) => {
   findByIdService(req, res, next);
+};
+
+export const getMovieByCinemaId = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  getMovieByCinemaIdService(req, res, next);
 };
 

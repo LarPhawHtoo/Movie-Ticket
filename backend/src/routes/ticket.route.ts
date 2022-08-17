@@ -1,63 +1,49 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import { getMovies, getCinemas, getCinemaAvailability,updateAvalability } from '../services/ticket.service';
-import { body } from 'express-validator';
-import { MovieCreate } from '../interfaces/movie';
-import { SeatAvailability } from '../interfaces/ticket';
+import express from "express";
+import mongoose from "mongoose";
+import {
+  createTicket,
+  getTickets,
+  updateTicket,
+  deleteTicket,
+  findTicket,
+  getTicketByCinemaId
+} from "../controllers/ticket.controller";
+import { body } from "express-validator";
+import { MovieCreate } from "../interfaces/movie";
+import { SeatAvailability } from "../interfaces/ticket";
 
 const router = express.Router();
 
 router
-  .route('/getMovies')
-  .get(async (req, res) => {
-    try {
-      const moviesResult: Array<MovieCreate> = await getMovies();
-      res.status(200).send(moviesResult);
-    }catch (err) {
-    //throw new Error();
-  }
-  });
+  .route("/")
+  .get(getTickets)
+  .post(
+    [
+      body("customer_name")
+        .notEmpty()
+        .withMessage("Customer mame must not be empty"),
+      body("seat_id").notEmpty().withMessage("Seat of Id must not be empty"),
+      body("cinema_id")
+        .notEmpty()
+        .withMessage("Cinema of Id must not be empty"),
+      body("date").notEmpty().withMessage("Date must not be empty"),
+    ],
+    createTicket
+  );
 
 router
-  .route('/getCinemas')
-  .get(async (req, res) => {
-    try {
-      const cinemasResult: Array<string> = await getCinemas();
-      res.status(200).send(cinemasResult);
-    } catch (err) {
-      //throw new Error();
-    }
-  });
+  .route("/:id")
+  .get(findTicket)
+  .put(updateTicket)
+  .delete(deleteTicket);
 
 router
-  .route('/setAvailability')
-  .put(async (req, res) => {
-    try {
-      const { movieId, cinemaName, seatNumbers, newStatus } = req.body;
-
-      const statusToSet = newStatus in SeatAvailability ? newStatus : SeatAvailability.empty;
-
-      const result = await updateAvalability(cinemaName, movieId, seatNumbers, statusToSet);
-
-      res.status(200).send({ message: result });
-    } catch (err) {
-      //throw new Error();
-    }
-  });
-
-router
-  .route('/getAvailability/:movieId/:cinemaName')
-  .get(async (req, res) => {
-    try {
-      const { movieId, cinemaName } = req.params;
-      const result = await getCinemaAvailability(cinemaName, movieId);
-      res.status(200).send(result);
-
-    } catch (err) {
-      //throw new Error();
-    }
-  })
-  
+  .route("/:cinema_id")
+  .post(
+    [
+      body("date").notEmpty().withMessage("date must not be empty"),
+      body("time").notEmpty().withMessage("Time must not be empty")
+    ],
+    getTicketByCinemaId
+  );
 export default router;
-
-

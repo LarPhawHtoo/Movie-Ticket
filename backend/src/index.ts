@@ -68,12 +68,12 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
           console.log('Error in connection ' + err);
       }
   });
-  app.use("/api", authRoute);
-  app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinemaRoute);
+app.use("/api", authRoute);
+app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinemaRoute);
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);
 app.use('/api/seats', passport.authenticate('jwt', { session: false }), seatRoute);
-app.use('/api', passport.authenticate('jwt', { session: false }), ticketRoute);
+app.use('/api/tickets', passport.authenticate('jwt', { session: false }), ticketRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World');

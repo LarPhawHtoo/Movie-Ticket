@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findById = exports.deleteMovie = exports.updateMovie = exports.findMovie = exports.createMovie = exports.getMovies = void 0;
+exports.getMovieByCinemaId = exports.findById = exports.deleteMovie = exports.updateMovie = exports.findMovie = exports.createMovie = exports.getMovies = void 0;
 const movie_service_1 = require("../services/movie.service");
 const getMovies = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     (0, movie_service_1.getMovieService)(req, res, next);
@@ -35,3 +35,7 @@ const findById = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     (0, movie_service_1.findByIdService)(req, res, next);
 });
 exports.findById = findById;
+const getMovieByCinemaId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    (0, movie_service_1.getMovieByCinemaIdService)(req, res, next);
+});
+exports.getMovieByCinemaId = getMovieByCinemaId;

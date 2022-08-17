@@ -1,5 +1,5 @@
 import express from 'express';
-import { getMovies, createMovie, findMovie, updateMovie, deleteMovie} from '../controllers/movie.controller';
+import { getMovies, createMovie, findMovie, updateMovie, deleteMovie,getMovieByCinemaId} from '../controllers/movie.controller';
 import { body } from 'express-validator';
 import { findByIdService } from '../services/movie.service';
 
@@ -33,5 +33,16 @@ router
     ],
     updateMovie)
   .delete(deleteMovie)
+
+  router
+  .route("/:cinema_id")
+  .post(
+    [
+      body("date").notEmpty().withMessage("date must not be empty"),
+      body("time").notEmpty().withMessage("Time must not be empty")
+    ],
+    getMovieByCinemaId
+  );
+
 
 export default router;

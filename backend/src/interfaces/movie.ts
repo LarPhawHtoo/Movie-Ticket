@@ -1,6 +1,5 @@
 export interface MovieCreate {
-  //code: Number;
-  movie_id: string;
+  code: Number;
   name: string;
   year: Number;
   rating: Number;

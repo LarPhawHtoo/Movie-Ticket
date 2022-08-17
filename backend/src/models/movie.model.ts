@@ -1,12 +1,8 @@
 import mongoose,{ Schema, model } from 'mongoose';
 
 const movieSchema = new Schema({
-  //code: {
-  //  type: Number,
-  //  required:true
-  //},
-  movie_id: {
-    type: String,
+  code: {
+    type: Number,
     required:true
   },
   name: {
@@ -26,8 +22,9 @@ const movieSchema = new Schema({
     default:""
   },
   cinema_id: {
-    type: String,
-    required:true
+    type: Schema.Types.ObjectId,
+    ref: "Cinema",
+    autopopulate: true
   },
   time: {
     type: [String],

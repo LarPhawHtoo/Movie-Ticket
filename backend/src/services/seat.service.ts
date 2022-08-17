@@ -182,7 +182,7 @@ export const getSeatByCinemaIdService = async (
       throw error;
     }
     var sortedSeat = seats.sort((a, b) => (a.seatNumber < b.seatNumber ? -1 : 1));
-    res.json({ data: sortedSeat, status: 1 });
+    res.json({ seats: sortedSeat, status: 1 });
   } catch (err) {
     next(err);
   }

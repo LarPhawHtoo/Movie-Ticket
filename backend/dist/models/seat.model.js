@@ -20,5 +20,7 @@ const seatSchema = new mongoose_1.Schema({
         type: Number,
         required: true
     }
+}, {
+    timestamps: true
 });
 exports.default = (0, mongoose_1.model)("Seat", seatSchema);

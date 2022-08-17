@@ -30,4 +30,10 @@ router
     (0, express_validator_1.body)("rating").notEmpty().withMessage("Rating must not be empty")
 ], movie_controller_1.updateMovie)
     .delete(movie_controller_1.deleteMovie);
+router
+    .route("/:cinema_id")
+    .post([
+    (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
+    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
+], movie_controller_1.getMovieByCinemaId);
 exports.default = router;

@@ -19,5 +19,10 @@ const seatSchema = new Schema({
     type: Number,
     required:true
   }
-});
+  
+},
+{
+  timestamps: true
+  }
+);
 export default model("Seat", seatSchema);

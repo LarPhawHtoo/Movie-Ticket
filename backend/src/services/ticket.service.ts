@@ -1,64 +1,187 @@
 import { Request, Response, NextFunction } from 'express';
 import Ticket from '../models/ticket.model';
 import Movie from '../models/movie.model';
+import Cinema from '../models/cinema.model';
+import Seat from '../models/seat.model';
 import { MovieCreate } from '../interfaces/movie';
-import { BookingsInterface,SeatAvailability,SeatInterface,CinemasInterface } from '../interfaces/ticket';
+import { validationResult } from 'express-validator';
+import {TicketCreate,SeatAvailability} from '../interfaces/ticket';
 
-export const getMovies = async () => {
-  const movies:any = Movie.find();
-  const moviesArray: Array<MovieCreate> = await movies.toArray();
-  return moviesArray;
-}
-
-export const getCinemas = async ()=> {
-  const bookings:any = Ticket.find();
-  const cinemasArray: Array<CinemasInterface> = await bookings.toArray();
-  const resultArray: Array<string> = [];
-  cinemasArray.forEach((item) => resultArray.push(item.cinema_name));
-  return resultArray;
-}
-
-//get seat availabilities at a cinema for a movie
-export const getCinemaAvailability = async (cinemaName: string, movieId: string) => {
-  const cinemaAvailability: CinemasInterface | any = await Ticket.findOne({cinema_name: cinemaName});
-
-  if(cinemaAvailability){
-      const cinemaAndMovieSelection: Array<BookingsInterface> = cinemaAvailability.bookings.filter((item: BookingsInterface) => item.movie_id == movieId);
-      return cinemaAndMovieSelection[0].seats;
-  }
-}
-
-//update seat availability for a movie at a cinema
-
-export const updateAvalability = async (
-  cinemaName: string, 
-  movieId: string, 
-  seatNumbers: Array<string>, 
-  newStatus: SeatAvailability
+export const getTicketService = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
-  const cinemaAvailability: CinemasInterface | any = await Ticket.findOne({cinema_name:cinemaName});
-
-  if(cinemaAvailability){
-      cinemaAvailability.bookings.forEach((item) => {
-          if(item.movie_id == movieId){
-              seatNumbers.forEach((seatNumber) => {
-                  item.seats.forEach((seats) => {
-                      if(seatNumber == seats.seat_number){
-                          seats.status = SeatAvailability[newStatus];
-                      }
-                  })
-              })
-          }
+   const ticket = await Ticket.find();
+  
+    if (!ticket) {
+      res.json({
+        success: false,
+        message: "An error occured while fetching seats: " ,
       });
-
-      const updateResult = await Ticket.updateOne({cinema_name: cinemaName}, {
-          $set: {
-          bookings: cinemaAvailability.bookings
-        }
+    } else {
+      res.json({
+        success: true,
+        message: "Tickets fetched",
+        tickets: ticket,
+        status: 1,
       });
-      
-      if(updateResult){
-          return "Booking updated successfully";
-      }
+    }
   }
-}
+
+/**
+ * create seat sold service
+ * @param req
+ * @param res
+ * @param next
+ */
+ export const createTicketService = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const errors = validationResult(req.body);
+    if (!errors.isEmpty()) {
+      const error: any = new Error("Validation failed!");
+      error.data = errors.array();
+      error.statusCode = 401;
+      throw error;
+    }
+    const ticketTdo: TicketCreate = {
+      customer_name: req.body.customer_name,
+      seatNumber: req.body.seatNumber,
+      status: req.body.status,
+      cinema_id: req.body.cinema_id,
+      movie_id: req.body.movie_id,
+      price: req.body.price,
+      date: req.body.date,
+      time: req.body.time
+    };
+    const ticket = new Ticket(ticketTdo);
+    const result = await ticket.save();
+    res.status(201).json({
+      message: "Created Ticket successfully!",
+      data: result,
+      status: 1,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+/**
+ * find seat service
+ * @param req
+ * @param res
+ * @param next
+ */
+ export const findTicketService = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    console.log('req-params-id', req.params.id);
+    if (!ticket) {
+      const error: any = Error("Not Found!");
+      error.statusCode = 401;
+      throw error;
+    }
+    res.json({ data: ticket, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//Update ticket service
+export const updateTicketService = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const errors = validationResult(req.body);
+    if (!errors.isEmpty()) {
+      const error: any = new Error("Validation failed!");
+      error.data = errors.array();
+      error.statusCode = 401;
+      throw error;
+    }
+    const ticket: any = await Ticket.findById(req.params.id);
+    if (!ticket) {
+      const error: any = new Error("Not Found!");
+      error.statusCode = 401;
+      throw error;
+    }
+    ticket.customer_name = req.body.customer_name;
+    ticket.seatNumber = req.body.seat_number;
+    ticket.status = req.body.status;
+    ticket.cinema_id = req.body.cinema_id;
+    ticket.movie_id = req.body.movie_id;
+    ticket.price = req.body.price;
+    ticket.date = req.body.date;
+    ticket.time = req.body.time;
+    const result = await ticket.save();
+    res.json({
+      message: "Updated Ticket Successfully!",
+      data: result,
+      status: 1,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * delete seat service
+ * @param req
+ * @param res
+ * @param next
+ */
+export const deleteTicketService = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const ticket: any = await Ticket.findByIdAndRemove(req.params.id);
+    if (!ticket) {
+      const error: any = new Error("Not Found!");
+      error.statusCode = 401;
+      throw error;
+    }
+    ticket.deleted_at = new Date();
+    const result = await ticket.save();
+    res.json({ message: "Delete Ticket Successfully!", data: result, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * Get Seat Number by Cinema Id
+ * @
+*/
+
+export const getTicketByCinemaIdService = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const cinemas = await Cinema.findById(req.params.cinema_id);
+    console.log(cinemas);
+    const tickets = await Ticket.findById({ cinema_id:req.params.cinema_id});
+    console.log(tickets);
+    if (!tickets) {
+      const error: any = Error("Not Found!");
+      error.statusCode = 401;
+      throw error;
+    }
+    //var sortedSeat = tickets.sort((a, b) => (a.seatNumber < b.seatNumber ? -1 : 1));
+    res.json({ tickets: tickets, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+};

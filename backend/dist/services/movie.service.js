@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findByIdService = exports.deleteMovieService = exports.updateMovieService = exports.findMovieService = exports.createMovieService = exports.getMovieService = void 0;
+exports.getMovieByCinemaIdService = exports.findByIdService = exports.deleteMovieService = exports.updateMovieService = exports.findMovieService = exports.createMovieService = exports.getMovieService = void 0;
 const movie_model_1 = __importDefault(require("../models/movie.model"));
+const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const express_validator_1 = require("express-validator");
 const utils_1 = require("../utils/utils");
 /**
@@ -32,7 +33,7 @@ const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, f
             condition.updated_user_id = userId;
         }
         const movies = yield movie_model_1.default.find(condition);
-        res.json({ data: movies, status: 1 });
+        res.json({ movies: movies, status: 1 });
     }
     catch (err) {
         next(err);
@@ -59,7 +60,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             profile = req.file.path.replace("\\", "/");
         }
         const movieTdo = {
-            movie_id: req.body.movie_id,
+            code: req.body.code,
             name: req.body.name,
             year: req.body.year,
             rating: req.body.rating,
@@ -72,7 +73,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         const result = yield movie.save();
         res
             .status(201)
-            .json({ message: "Created Movie Successfully!", data: result, status: 1 });
+            .json({ message: "Created Movie Successfully!", movies: result, status: 1 });
     }
     catch (err) {
         next(err);
@@ -87,7 +88,7 @@ const findMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             error.statusCode = 401;
             throw error;
         }
-        res.json({ data: movie, status: 1 });
+        res.json({ movies: movie, status: 1 });
     }
     catch (err) {
         next(err);
@@ -126,7 +127,7 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         movie.created_user_id = req.body.created_user_id;
         movie.updated_user_id = req.body.updated_user_id;
         const result = yield movie.save();
-        res.json({ message: "Updated Successfully!", data: result, status: 1 });
+        res.json({ message: "Updated Successfully!", movies: result, status: 1 });
     }
     catch (err) {
         next(err);
@@ -161,10 +162,33 @@ const findByIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             condition.created_user_id = userId;
         }
         const movies = yield movie_model_1.default.find(condition).skip(page * moviesPerPage).limit(moviesPerPage);
-        res.json({ data: movies, status: 1 });
+        res.json({ movies: movies, status: 1 });
     }
     catch (err) {
         next(err);
     }
 });
 exports.findByIdService = findByIdService;
+/**
+ * Get Movie by Cinema Id
+ * @
+*/
+const getMovieByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const cinemas = yield cinema_model_1.default.findById(req.params.cinema_id);
+        console.log(cinemas);
+        const movies = yield movie_model_1.default.find({ cinema_id: req.params.cinema_id });
+        //console.log(seats);
+        if (!movies) {
+            const error = Error("Not Found!");
+            error.statusCode = 401;
+            throw error;
+        }
+        //var sortedSeat = seats.sort((a, b) => (a.seatNumber < b.seatNumber ? -1 : 1));
+        res.json({ movies: movies, status: 1 });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getMovieByCinemaIdService = getMovieByCinemaIdService;
