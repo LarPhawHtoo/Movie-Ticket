@@ -6,9 +6,10 @@
     <form action="post" [formGroup]="formData" (ngSubmit)="onClickCreateCinema(formData.value)">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Name</mat-label>
-        <input type="text" matInput class="form-control" formControlName="name">
+        <input type="text" matInput class="form-control" formControlName="name" required>
+        <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="full-width">Create</button>
+      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Create</button>
     </form>
   </mat-card-content>
 </mat-card>

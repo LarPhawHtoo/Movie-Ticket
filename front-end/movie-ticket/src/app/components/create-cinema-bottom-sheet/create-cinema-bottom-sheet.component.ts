@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { CinemaService } from 'src/app/services/cinema.service';
 
@@ -15,27 +15,33 @@ export class CreateCinemaBottomSheetComponent implements OnInit {
     private cinemaService: CinemaService,
   ) { }
 
-  name!: string;
+  name = new FormControl('', Validators.required);
   formData!: FormGroup;
 
   ngOnInit(): void {
     this.formData = new FormGroup({
-      name: new FormControl("")
+      name: new FormControl('', Validators.required)
     });
   }
 
   onClickCreateCinema(data: any) {
-    this.name = data.name;
-
-    this.cinemaService.createCinema(this.name).subscribe((data) => {
+    this.cinemaService.createCinema(data.name).subscribe( res => {
       this.bottomSheetRef.dismiss("create");
-      console.log(data);
+      console.log(res);
     });
   }
 
   openLink(event: MouseEvent) {
     this.bottomSheetRef.dismiss();
     event.preventDefault()
+  }
+
+  getErrorMessage() {
+    if (this.name.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return this.name.hasError('email') ? 'Not a valid email' : '';
   }
 
 }

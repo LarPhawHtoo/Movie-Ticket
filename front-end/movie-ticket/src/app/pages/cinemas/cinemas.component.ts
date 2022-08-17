@@ -10,11 +10,11 @@ import { CinemaActionsComponent } from 'src/app/components/cinema-actions/cinema
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-cinemas',
+  templateUrl: './cinemas.component.html',
+  styleUrls: ['./cinemas.component.scss']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class CinemasComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
