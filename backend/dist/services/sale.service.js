@@ -12,37 +12,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findByIdService = exports.deleteSaleService = exports.updateSaleService = exports.findSaleService = exports.createSaleService = exports.getSaleService = void 0;
+exports.deleteSeatService = exports.updateSaleService = exports.findSaleService = exports.createSaleService = exports.getSaleService = void 0;
 const sale_model_1 = __importDefault(require("../models/sale.model"));
 const express_validator_1 = require("express-validator");
 /**
- * get post service.
+ * get seat service
  * @param _req
  * @param res
  * @param next
  */
-const getSaleService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const page = _req.query.page || 0;
-        const salesPerPage = _req.query.pageSize || 5;
-        const userType = _req.headers['userType'];
-        const userId = _req.headers['userId'];
-        let condition = { deleted_at: null };
-        if (userType === "User") {
-            condition.created_user_id = userId;
-            condition.updated_user_id = userId;
+const getSaleService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    sale_model_1.default.find(req.body.sales, (err, sales) => {
+        if (err) {
+            res.json({
+                success: false,
+                message: "An error occured while fetching sales: " + err,
+            });
         }
-        const sales = yield sale_model_1.default.find(condition).skip(page * salesPerPage).limit(salesPerPage);
-        res.json({ data: sales, status: 1 });
-    }
-    catch (err) {
-        next(err);
-    }
+        else {
+            res.json({
+                success: true,
+                message: "Seats fetched",
+                sales: sales,
+                status: 1,
+            });
+        }
+    });
 });
 exports.getSaleService = getSaleService;
 /**
- * create post service
- * @param req
+ * create sale service
+ * @param _req
  * @param res
  * @param next
  */
@@ -55,17 +55,35 @@ const createSaleService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             error.statusCode = 401;
             throw error;
         }
-        const saleList = req.body;
-        const result = yield sale_model_1.default.insertMany(saleList);
-        res
-            .status(201)
-            .json({ message: "Created Successfully!", data: result, status: 1 });
+        ;
+        const saleTdo = {
+            customer_name: req.body.customer_name,
+            time: req.body.time,
+            date: req.body.date,
+            status: req.body.status,
+            cinema_id: req.body.cinema_id,
+            seat_id: req.body.seat_id,
+            created_user_id: req.body.created_user_id,
+        };
+        const sale = new sale_model_1.default(saleTdo);
+        const result = yield sale.save();
+        res.status(201).json({
+            message: "Created Seat successfully!",
+            data: result,
+            status: 1,
+        });
     }
     catch (err) {
         next(err);
     }
 });
 exports.createSaleService = createSaleService;
+/**
+ * find seat service
+ * @param req
+ * @param res
+ * @param next
+ */
 const findSaleService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sale = yield sale_model_1.default.findById(req.params.id);
@@ -81,6 +99,12 @@ const findSaleService = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.findSaleService = findSaleService;
+/**
+ * Update seat service
+ * @param req
+ * @param res
+ * @param next
+ */
 const updateSaleService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const errors = (0, express_validator_1.validationResult)(req.body);
@@ -93,56 +117,44 @@ const updateSaleService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         const sale = yield sale_model_1.default.findById(req.params.id);
         if (!sale) {
             const error = new Error("Not Found!");
-            error.statusCode = 404;
+            error.statusCode = 401;
             throw error;
         }
-        sale.customer_name = req.body.customer_name;
-        sale.date = req.body.date;
-        sale.time = req.body.time;
-        sale.seat_id = req.body.seat_id;
+        sale.seatNumber = req.body.seatNumber;
+        sale.status = req.body.status;
         sale.cinema_id = req.body.cinema_id;
-        sale.created_user_id = req.body.created_user_id;
-        sale.updated_user_id = req.body.updated_user_id;
         const result = yield sale.save();
-        res.json({ message: "Updated Successfully!", data: result, status: 1 });
+        res.json({
+            message: "Updated Seat Successfully!",
+            data: result,
+            status: 1,
+        });
     }
     catch (err) {
         next(err);
     }
 });
 exports.updateSaleService = updateSaleService;
-const deleteSaleService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+/**
+ * delete seat service
+ * @param req
+ * @param res
+ * @param next
+ */
+const deleteSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sale = yield sale_model_1.default.findByIdAndRemove(req.params.id);
         if (!sale) {
             const error = new Error("Not Found!");
-            error.statusCode = 404;
+            error.statusCode = 401;
             throw error;
         }
         sale.deleted_at = new Date();
-        yield sale.save();
-        res.sendStatus(204);
+        const result = yield sale.save();
+        res.json({ message: "Delete Seat Successfully!", data: result, status: 1 });
     }
     catch (err) {
         next(err);
     }
 });
-exports.deleteSaleService = deleteSaleService;
-const findByIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const page = req.query.page || 0;
-        const salesPerPage = req.query.ppp || 5;
-        const userType = req.headers['userType'];
-        const userId = req.headers['userId'];
-        let condition = { userId: { '$regex': req.params.userId, '$options': 'i' }, deleted_at: null };
-        if (userType === "User") {
-            condition.created_user_id = userId;
-        }
-        const sales = yield sale_model_1.default.find(condition).skip(page * salesPerPage).limit(salesPerPage);
-        res.json({ data: sales, status: 1 });
-    }
-    catch (err) {
-        next(err);
-    }
-});
-exports.findByIdService = findByIdService;
+exports.deleteSeatService = deleteSeatService;
