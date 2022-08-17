@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Seat from "../models/seat.model";
+import Cinema from "../models/cinema.model";
 import { SeatCreate } from "../interfaces/seat";
 import { validationResult } from "express-validator";
 import { deleteFile } from "../utils/utils";
@@ -169,8 +170,9 @@ export const deleteSeatService = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const seat = await Seat.findById(req.params.cinema_id);
+   try {
+     const seat = await Seat.findById(req.params.cinema_id);
+     console.log('seat of cinema id',req.params.cinema_id);
     if (!seat) {
       const error: any = Error("Not Found!");
       error.statusCode = 401;

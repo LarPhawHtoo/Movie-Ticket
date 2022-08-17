@@ -165,6 +165,7 @@ exports.deleteSeatService = deleteSeatService;
 const getSeatByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const seat = yield seat_model_1.default.findById(req.params.cinema_id);
+        console.log('seat of cinema id', req.params.cinema_id);
         if (!seat) {
             const error = Error("Not Found!");
             error.statusCode = 401;

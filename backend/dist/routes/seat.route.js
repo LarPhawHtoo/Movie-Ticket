@@ -26,6 +26,6 @@ router
     .route('/:cinema_id')
     .post([
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
-    (0, express_validator_1.body)("stime").notEmpty().withMessage("time must not be empty")
-], seat_controller_1.createSeat);
+    (0, express_validator_1.body)("time").notEmpty().withMessage("time must not be empty")
+], seat_controller_1.getSeatByCinemaId);
 exports.default = router;

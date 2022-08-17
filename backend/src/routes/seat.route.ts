@@ -29,9 +29,9 @@ router
   .route('/:cinema_id')
   .post([
     body("date").notEmpty().withMessage("date must not be empty"),
-    body("stime").notEmpty().withMessage("time must not be empty")
+    body("time").notEmpty().withMessage("time must not be empty")
   ],
-    createSeat);
+    getSeatByCinemaId);
 
 export default router;
 
