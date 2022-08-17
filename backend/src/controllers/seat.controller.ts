@@ -28,6 +28,11 @@ export const deleteSeat = async (
   req: Request, res: Response, next: NextFunction) => {
   deleteSeatService(req, res, next);
 }
+////
+export const getSeatByCinemaId = async (
+  req: Request, res: Response, next: NextFunction) => {
+  getSeatByCinemaIdService(req, res, next);
+}
 
 export const getSeatByCinemaId = async (
   req: Request, res: Response, next: NextFunction) => {

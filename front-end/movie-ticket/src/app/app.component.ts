@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { Router, NavigationEnd, Event } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
 
 
 @Component({
@@ -11,10 +13,17 @@ import { Router, NavigationEnd, Event } from '@angular/router';
 export class AppComponent {
   title = 'Happy Cinema';
   isUserLoggedIn = false;
+  loggedInUser: any;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private dialog: MatDialog
+  ) { }
   
   ngOnInit() {
+    this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
+
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         let storeData = localStorage.getItem('isUserLoggedIn');
@@ -25,5 +34,13 @@ export class AppComponent {
         }
       }
     });
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(LogoutConfirmComponent, { width: '400px' });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    })
   }
 }

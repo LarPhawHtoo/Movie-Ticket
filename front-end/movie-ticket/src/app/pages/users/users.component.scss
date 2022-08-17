@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+}
+
+td.mat-cell  {
+  text-align: left;
+}
+
+clearfix::after{
+  clear: both;
+  content: '';
+  display: table;
+}
+
+mat-card {
+  height: 30px;
+  text-align: center;
+}
+
+.add-user {
+  float: right;
+}

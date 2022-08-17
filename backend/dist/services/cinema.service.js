@@ -47,7 +47,11 @@ const createCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
             throw error;
         }
         const cinemaList = req.body;
-        const result = yield cinema_model_1.default.insertMany(cinemaList);
+        const body = {
+            name: req.body.name
+        };
+        const cinema = new cinema_model_1.default(cinemaList);
+        const result = yield cinema.save();
         res
             .status(201)
             .json({ message: "Created Successfully!", data: result, status: 1 });
@@ -87,9 +91,7 @@ const updateCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
             error.statusCode = 404;
             throw error;
         }
-        cinema.code = req.body.code;
         cinema.name = req.body.name;
-        cinema.location = req.body.location;
         cinema.date = req.body.date;
         cinema.time = req.body.time;
         cinema.created_user_id = req.body.created_user_id;

@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Cinema</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form action="post" [formGroup]="formData" (ngSubmit)="onClickCreateCinema(formData.value)">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput class="form-control" formControlName="name" required>
+        <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Create</button>
+    </form>
+  </mat-card-content>
+</mat-card>

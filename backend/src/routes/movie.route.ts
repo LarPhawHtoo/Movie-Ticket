@@ -33,4 +33,5 @@ router
     ],
     updateMovie)
   .delete(deleteMovie)
+
 export default router;

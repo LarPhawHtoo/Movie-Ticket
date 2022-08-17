@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import Movie from '../models/movie.model';
+import Cinema from "../models/cinema.model";
+import Seat from "../models/seat.model";
+import { SeatCreate } from '../interfaces/seat';
 import { validationResult } from 'express-validator';
 import { deleteFile } from '../utils/utils';
 import { MovieCreate } from '../interfaces/movie';
@@ -160,4 +163,5 @@ export const findByIdService = async (
   } catch (err) {
     next(err);
   }
-}
+};
+
