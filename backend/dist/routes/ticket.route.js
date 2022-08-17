@@ -27,5 +27,5 @@ router
     .post([
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
     (0, express_validator_1.body)("time").notEmpty().withMessage("time must not be empty")
-], ticket_controller_1.createTicket);
+], ticket_controller_1.getTicketByCinemaId);
 exports.default = router;

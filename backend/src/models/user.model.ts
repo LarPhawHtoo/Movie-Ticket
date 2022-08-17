@@ -13,10 +13,6 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
-<<<<<<< HEAD
-=======
-    //select:false
->>>>>>> d31768473659ff1d99df1f9401bccb215018b88d
   },
   type: {
     type: String,
