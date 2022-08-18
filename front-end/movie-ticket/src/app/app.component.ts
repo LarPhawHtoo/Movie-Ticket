@@ -14,6 +14,8 @@ export class AppComponent {
   title = 'Happy Cinema';
   isUserLoggedIn = false;
   loggedInUser: any;
+  isCinemas = false;
+  isUsers = false;
 
   constructor(
     private authService: AuthService,
@@ -32,6 +34,20 @@ export class AppComponent {
         } else {
           this.isUserLoggedIn = false;
         }
+
+        let isCinemas = localStorage.getItem('isCinemas');
+        if (isCinemas == 'true') {
+          this.isCinemas = true;
+        } else {
+          this.isCinemas = false;
+        }
+
+        let isUsers = localStorage.getItem('isUsers');
+        if (isUsers == 'true') {
+          this.isUsers = true;
+        } else {
+          this.isUsers = false;
+        }
       }
     });
   }
@@ -42,5 +58,20 @@ export class AppComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     })
+  }
+
+  onClickHome() {
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isUsers', 'false');
+  }
+
+  onClickUsers() {
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isUsers', 'true');
+  }
+
+  onClickCinemas() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'true');
   }
 }

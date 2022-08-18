@@ -8,8 +8,16 @@
 </head>
 <body>
    <mat-toolbar>
-      <a routerLink="/home">Happy Cinema</a>
+      <a routerLink="/home" (click)="onClickHome()">Happy Cinema</a>
       <span class="example-spacer"></span>
+      <button mat-button color="primary" *ngIf="isCinemas" routerLink="/users" (click)="onClickUsers()">
+         <mat-icon class="mat-18">people_alt</mat-icon>
+         Users
+      </button>
+      <button mat-button color="primary" *ngIf="isUsers" routerLink="/cinemas" (click)="onClickCinemas()">
+         <mat-icon class="mat-18">movie</mat-icon>
+         Cinemas
+      </button>
       <button mat-button color="primary" *ngIf="isUserLoggedIn">
          <mat-icon class="mat-18">account_circle</mat-icon>
          {{ loggedInUser.fullName }}

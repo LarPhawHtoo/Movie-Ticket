@@ -13,14 +13,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SignupSuccessSnackBarComponent } from './components/signup-success-snack-bar/signup-success-snack-bar.component';
 import { CreateCinemaBottomSheetComponent } from './components/create-cinema-bottom-sheet/create-cinema-bottom-sheet.component';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { UsersComponent } from './pages/users/users.component';
 import { UserCreateComponent } from './components/user-create/user-create.component';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
 import { UserActionsComponent } from './components/user-actions/user-actions.component';
-import { CinemaActionsComponent } from './components/cinema-actions/cinema-actions.component';
 import { CinemasComponent } from './pages/cinemas/cinemas.component';
-
+import { CinemaUpdateComponent } from './components/cinema-update/cinema-update.component';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { UserUpdateComponent } from './components/user-update/user-update.component';
+import { UserDeleteConfirmDialogComponent } from './components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
+import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +37,11 @@ import { CinemasComponent } from './pages/cinemas/cinemas.component';
     UserCreateComponent,
     LogoutConfirmComponent,
     UserActionsComponent,
-    CinemaActionsComponent,
     CinemasComponent,
+    CinemaUpdateComponent,
+    UserUpdateComponent,
+    UserDeleteConfirmDialogComponent,
+    CinemaDeleteConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +51,7 @@ import { CinemasComponent } from './pages/cinemas/cinemas.component';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxMatFileInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

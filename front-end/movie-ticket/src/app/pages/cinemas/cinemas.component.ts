@@ -6,8 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CreateCinemaBottomSheetComponent } from 'src/app/components/create-cinema-bottom-sheet/create-cinema-bottom-sheet.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { CinemaActionsComponent } from 'src/app/components/cinema-actions/cinema-actions.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CinemaUpdateComponent } from 'src/app/components/cinema-update/cinema-update.component';
+import { CinemaDeleteConfirmDialogComponent } from 'src/app/components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
 
 @Component({
   selector: 'app-cinemas',
@@ -48,8 +49,14 @@ export class CinemasComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = target.value.trim().toLocaleLowerCase();
   }
 
-  openActionsDialog() {
-    const dialogRef = this.dialog.open(CinemaActionsComponent);
+  openUpdateDialog() {
+    const dialogRef = this.dialog.open(CinemaUpdateComponent, {data: this.dataSource.data});
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    })
+  }
+  openDeleteDialog() {
+    const dialogRef = this.dialog.open(CinemaDeleteConfirmDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     })
