@@ -70,7 +70,7 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
           console.log('Error in connection ' + err);
       }
   });
-  app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinemaRoute);
+app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinemaRoute);
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);
 app.use('/api/seats', passport.authenticate('jwt', { session: false }), seatRoute);

@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { getTickets, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId } from '../controllers/ticket.controller';
+import { getTickets, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId} from '../controllers/ticket.controller';
 import {body } from 'express-validator';
 
 const router = express.Router();
@@ -31,7 +31,8 @@ router
     body("date").notEmpty().withMessage("date must not be empty"),
     body("time").notEmpty().withMessage("time must not be empty")
   ],
-    getTicketByCinemaId);
+    getTicketByCinemaId)
+    
 export default router;
 
 

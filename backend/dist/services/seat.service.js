@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSeatByCinemaIdService = exports.deleteSeatService = exports.updateSeatService = exports.findSeatService = exports.createSeatService = exports.getSeatService = void 0;
 const seat_model_1 = __importDefault(require("../models/seat.model"));
+const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const express_validator_1 = require("express-validator");
 /**
  * get seat service
@@ -30,7 +31,7 @@ const getSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             });
         }
         else {
-            var sortedSeat = seats.sort((a, b) => (a.seatNumber < b.seatNumber ? -1 : 1));
+            var sortedSeat = seats.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
             res.json({
                 success: true,
                 message: "Seats fetched",
@@ -164,14 +165,16 @@ exports.deleteSeatService = deleteSeatService;
  */
 const getSeatByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const seat = yield seat_model_1.default.findById(req.params.cinema_id);
-        console.log('seat of cinema id', req.params.cinema_id);
-        if (!seat) {
+        const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
+        console.log(cinema);
+        const seats = yield seat_model_1.default.find({ 'cinema_id': cinema === null || cinema === void 0 ? void 0 : cinema._id });
+        if (!seats) {
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
         }
-        res.json({ seats: seat, status: 1 });
+        var sortedSeat = seats.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
+        res.json({ seats: sortedSeat, status: 1 });
     }
     catch (err) {
         next(err);

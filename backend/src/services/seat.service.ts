@@ -23,7 +23,9 @@ export const getSeatService = async (
         message: "An error occured while fetching seats: " + err,
       });
     } else {
-      var sortedSeat = seats.sort((a, b) => (a.seatNumber < b.seatNumber ? -1 : 1));
+      var sortedSeat = seats.sort((a, b) =>
+        a.seatNumber < b.seatNumber ? -1 : 1
+      );
       res.json({
         success: true,
         message: "Seats fetched",
@@ -165,20 +167,25 @@ export const deleteSeatService = async (
  * @param res
  * @param next
  */
- export const getSeatByCinemaIdService = async (
+export const getSeatByCinemaIdService = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-   try {
-     const seat = await Seat.findById(req.params.cinema_id);
-     console.log('seat of cinema id',req.params.cinema_id);
-    if (!seat) {
+  try {
+    const cinema = await Cinema.findById(req.params.cinema_id);
+    console.log(cinema);
+    const seats = await Seat.find({ 'cinema_id': cinema?._id });
+    
+    if (!seats) {
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
     }
-    res.json({ seats: seat, status: 1 });
+    var sortedSeat = seats.sort((a, b) =>
+        a.seatNumber < b.seatNumber ? -1 : 1
+      );
+    res.json({ seats: sortedSeat, status: 1 });
   } catch (err) {
     next(err);
   }

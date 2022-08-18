@@ -34,4 +34,5 @@ export const getTicketByCinemaId = async (
  getTicketByCinemaIdService(req, res, next);
 }
 
+
  
