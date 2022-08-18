@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/interfaces/user.model';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { catchError, Observable, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { UserCreateComponent } from 'src/app/components/user-create/user-create.component';
 import { UserUpdateComponent } from 'src/app/components/user-update/user-update.component';
 import { UserDeleteConfirmDialogComponent } from 'src/app/components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -23,17 +24,19 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private bottomSheet: MatBottomSheet,
+    private userService: UserService,
     public dialog: MatDialog,
   ) { }
 
-  displayedColumns: string[] = ['profile', 'name', 'type', 'phone', 'email', 'dob', 'address', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns: string[] = ['profile', 'fullName', 'type', 'phone', 'email', 'dob', 'address', 'createdAt', 'updatedAt', 'actions'];
   dataSource = new MatTableDataSource<User>();
   loggedInUser: any;
   
 
   ngOnInit(): void {
-    this.getUser();
+    this.activatedRoute.data.subscribe((response: any) => {
+      this.dataSource.data = response.users.data as User[];
+    })
   }
 
   ngAfterViewInit(): void {
@@ -42,9 +45,12 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
 
   getUser() {
-    this.activatedRoute.data.subscribe((response: any) => {
-      this.dataSource.data = response.users.data as User[];
-      console.log(this.dataSource.data)
+    this.userService.getUsers().pipe(
+      catchError(error => {
+        return of(error);
+      })
+    ).subscribe((response: any) => {
+      this.dataSource.data = response.data as User[];
     })
   }
 
@@ -52,21 +58,16 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = target.value.trim().toLocaleLowerCase();
   }
 
-  public redirectToUpdate = (id: string) => {
-    
-  }
-  public redirectToDelete = (id: string) => {
-    
-  }
-
-  openUpdateDialog() {
-    const dialogRef = this.dialog.open(UserUpdateComponent, {data: this.dataSource.data});
+  openUpdateDialog(element: any) {
+    const dialogRef = this.dialog.open(UserUpdateComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
+      this.getUser();
     })
   }
-  openDeleteDialog() {
-    const dialogRef = this.dialog.open(UserDeleteConfirmDialogComponent);
+  openDeleteDialog(element: any) {
+    const dialogRef = this.dialog.open(UserDeleteConfirmDialogComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
+      this.getUser();
     })
   }
 
@@ -74,7 +75,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(UserCreateComponent, { width: '700px' });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      this.getUser();
     })
   }
 

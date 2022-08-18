@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, Validator } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-create',
@@ -14,7 +13,6 @@ export class UserCreateComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<UserCreateComponent>,
     private userService: UserService,
-    private router: Router
   ) { }
 
   typeOption = [
@@ -24,15 +22,8 @@ export class UserCreateComponent implements OnInit {
   profileImage: any;
   imgFile: any;
   confirmView: Boolean = false;
-
-  profile = new FormControl('', Validators.required);
-  fullName = new FormControl('', Validators.required);
-  type = new FormControl('', Validators.required);
-  phone = new FormControl('', Validators.required);
-  email = new FormControl('', [Validators.required, Validators.email]);
-  dob = new FormControl('');
-  address = new FormControl('');
-  password = new FormControl('', Validators.required);
+  pickDate: any;
+  today = new Date();
 
   formData!: FormGroup;
 
@@ -45,7 +36,8 @@ export class UserCreateComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       dob: new FormControl(''),
       address: new FormControl(''),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
+      confirmPwd: new FormControl('',Validators.required)
     });
   }
 
@@ -63,7 +55,6 @@ export class UserCreateComponent implements OnInit {
     this.userService.addUser(formData)
       .subscribe(res => {
         this.dialogRef.close('create');
-        this.router.navigate(['/users']);
       });
   }
 
@@ -82,12 +73,16 @@ export class UserCreateComponent implements OnInit {
     }
   }
 
-  getErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
-    }
+  get myForm() {
+    return this.formData.controls;
+  }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+  OnDateChange(event: any) {
+    this.pickDate = event;
+  }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.formData.controls[controlName].hasError(errorName);
   }
 
 }

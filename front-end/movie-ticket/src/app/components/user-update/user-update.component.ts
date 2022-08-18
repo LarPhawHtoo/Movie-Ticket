@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-update',
@@ -14,7 +13,7 @@ export class UserUpdateComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<UserUpdateComponent>,
     private userService: UserService,
-    private router: Router
+    @Inject(MAT_DIALOG_DATA) public data: UserUpdateComponent,
   ) { }
 
   typeOption = [
@@ -24,6 +23,9 @@ export class UserUpdateComponent implements OnInit {
   profileImage: any;
   imgFile: any;
   confirmView: Boolean = false;
+  _id: string = '';
+  pickDate: any;
+  today = new Date();
 
   profile = new FormControl('', Validators.required);
   fullName = new FormControl('', Validators.required);
@@ -32,26 +34,24 @@ export class UserUpdateComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   dob = new FormControl('');
   address = new FormControl('');
-  password = new FormControl('', Validators.required);
 
   formData!: FormGroup;
 
   ngOnInit(): void {
     this.formData = new FormGroup({
-      profile: new FormControl(''),
-      fullName: new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      dob: new FormControl(''),
-      address: new FormControl(''),
-      password: new FormControl('', Validators.required)
+      profile: new FormControl(this.data.profile),
+      fullName: new FormControl(this.data.fullName, Validators.required),
+      type: new FormControl(this.data.type, Validators.required),
+      phone: new FormControl(this.data.phone, Validators.required),
+      email: new FormControl(this.data.email, [Validators.required, Validators.email]),
+      dob: new FormControl(this.data.dob),
+      address: new FormControl(this.data.address)
     });
+
   }
 
   onClickUpdateUser() {
-    const id = '123';
-
+    const id = this.data._id;
     const formData = new FormData();
     formData.append('profile', this.imgFile);
     formData.append('fullName', this.formData.controls['fullName'].value);
@@ -60,12 +60,10 @@ export class UserUpdateComponent implements OnInit {
     formData.append('email', this.formData.controls['email'].value);
     formData.append('dob', this.formData.controls['dob'].value);
     formData.append('address', this.formData.controls['address'].value);
-    formData.append('password', this.formData.controls['password'].value);
 
     this.userService.updateUser(id, formData)
       .subscribe(res => {
         this.dialogRef.close('create');
-        this.router.navigate(['/users']);
       });
   }
 
@@ -86,6 +84,10 @@ export class UserUpdateComponent implements OnInit {
     }
 
     return this.email.hasError('email') ? 'Not a valid email' : '';
+  }
+
+  OnDateChange(event: any) {
+    this.pickDate = event;
   }
 
   onCancelClick(): void {
