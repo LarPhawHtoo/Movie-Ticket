@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTicketByCinemaIdService = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
 const ticket_model_1 = __importDefault(require("../models/ticket.model"));
+const cinema_model_1 = __importDefault(require("../models/cinema.model"));
+const seat_model_1 = __importDefault(require("../models/seat.model"));
 const express_validator_1 = require("express-validator");
 /**
  * get tickets service
@@ -30,7 +32,7 @@ const getTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             });
         }
         else {
-            var sortedTicket = tickets.sort((a, b) => (a.seatNumber < b.seatNumber ? -1 : 1));
+            var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
             res.json({
                 success: true,
                 message: "Tickets fetched",
@@ -153,7 +155,11 @@ const deleteTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
         }
         ticket.deleted_at = new Date();
         const result = yield ticket.save();
-        res.json({ message: "Delete Ticket Successfully!", tickets: result, status: 1 });
+        res.json({
+            message: "Delete Ticket Successfully!",
+            tickets: result,
+            status: 1,
+        });
     }
     catch (err) {
         next(err);
@@ -168,13 +174,59 @@ exports.deleteTicketService = deleteTicketService;
  */
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const ticket = yield ticket_model_1.default.findById(req.params.cinema_id);
-        if (!ticket) {
+        const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
+        console.log(cinema);
+        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
+        const seats = yield seat_model_1.default.find();
+        console.log(seats);
+        let seatingPlan = [];
+        const plan = seats.map((seat, index) => {
+            const filterData = tickets.find((ticket) => {
+                var _a;
+                return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seat.seatNumber)) !== -1;
+            });
+            let data = {};
+            if (filterData) {
+                data = {
+                    seatNumber: seat.seatNumber,
+                    status: filterData.status,
+                };
+            }
+            else {
+                data = {
+                    seatNumber: seat.seatNumber,
+                    status: "available",
+                };
+            }
+            seatingPlan.push(data);
+            if (index === seats.length - 1) {
+                return seatingPlan;
+            }
+        });
+        var sortedSeat = seatingPlan.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
+        console.log(sortedSeat);
+        //
+        //    let firstName = "";
+        //    let result: any= [];
+        //    let firstArrIndex = 0;
+        //sortedSeat.map((seat, index) => {
+        //  if (index === 0) {
+        //    result[firstArrIndex].push(seat);
+        //    firstName = seat.seatNumber[0];
+        //  } else if (seat.seatNumber.indexOf(firstName) === -1) {
+        //    firstArrIndex += 1;
+        //    firstName = seat.seatNumber[0];
+        //    result[firstArrIndex].push(seat);
+        //  } else {
+        //    result[firstArrIndex].push(seat);
+        //  }
+        //});
+        if (!sortedSeat) {
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
         }
-        res.json({ tickets: ticket, status: 1 });
+        res.json({ tickets: sortedSeat, status: 1 });
     }
     catch (err) {
         next(err);
