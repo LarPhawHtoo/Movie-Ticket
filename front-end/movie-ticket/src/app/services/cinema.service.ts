@@ -29,12 +29,12 @@ export class CinemaService {
   }
 
   updateCinema(cinemaId: any, payload: any) {
-    return this.http.put(`${this.url}/` + cinemaId, payload, this.options)
+    return this.http.put(`${this.url}/${cinemaId}`, payload, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 
   deleteCinema(cinemaId: any) {
-    return this.http.delete(`${this.url}/` + cinemaId, this.options)
+    return this.http.delete(`${this.url}/${cinemaId}`, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 

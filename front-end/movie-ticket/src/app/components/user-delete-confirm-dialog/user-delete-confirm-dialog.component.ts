@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -12,7 +12,10 @@ export class UserDeleteConfirmDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<UserDeleteConfirmDialogComponent>,
     private userService: UserService,
+    @Inject(MAT_DIALOG_DATA) public data: UserDeleteConfirmDialogComponent,
   ) { }
+
+  _id: string = '';
 
   ngOnInit(): void {
   }
@@ -22,6 +25,8 @@ export class UserDeleteConfirmDialogComponent implements OnInit {
   }
 
   onDeleteClick(): void {
+    const id = this.data._id;
+    this.userService.deleteUser(id);
     this.dialogRef.close();
   }
 

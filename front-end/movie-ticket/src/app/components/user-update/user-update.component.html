@@ -30,20 +30,20 @@
         <input type="text" matInput class="form-control" formControlName="email" required>
         <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Date of birth</mat-label>
-        <input type="text" matInput class="form-control" formControlName="dob">
+      <mat-form-field appearance="fill">
+        <input (dateInput)="OnDateChange($event.value)" matInput [matDatepicker]="picker" [max]="today"
+          placeholder="Choose your Birthday" formControlName="dob">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Address</mat-label>
         <input type="text" matInput class="form-control" formControlName="address">
       </mat-form-field>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Password</mat-label>
-        <input type="text" matInput class="form-control" formControlName="password" required>
-        <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
-      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Save</button>
+      <div class="btn-div">
+        <button mat-raised-button color="warn" class="full-width" type="reset">Clear</button>
+        <button mat-raised-button color="primary" class="save-btn" [disabled]="formData.invalid">Save</button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>

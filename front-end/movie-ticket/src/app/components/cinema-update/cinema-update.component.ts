@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CinemaService } from 'src/app/services/cinema.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cinema-update',
@@ -13,27 +13,29 @@ export class CinemaUpdateComponent implements OnInit {
   constructor(
     private cinemaService: CinemaService,
     private dialogRef: MatDialogRef<CinemaUpdateComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CinemaUpdateComponent,
   ) { }
 
   name = new FormControl('', Validators.required);
-  updatedAt = new Date();
   formData!: FormGroup;
+  _id: string = '';
 
   ngOnInit(): void {
     this.formData = new FormGroup({
-      name: new FormControl('', Validators.required),
-      updatedAt: new FormControl('')
+      name: new FormControl(this.data.name, Validators.required)
     });
   }
 
-  onClickUpdateCinema(cinema: any) {
-    const cinemaId = cinema._id;
-    const updatedAt = new Date();
+  onClickUpdateCinema() {
+    const cinemaId = this.data._id;
     const formData = new FormData();
+
     formData.append('name', this.formData.controls['name'].value);
-    formData.append('updatedAt', this.formData.controls['updatedAt'].value);
-    this.cinemaService.updateCinema(cinemaId, formData);
-    this.dialogRef.close();
+
+    this.cinemaService.updateCinema(cinemaId, formData)
+    .subscribe(res => {
+      this.dialogRef.close();
+    });
   }
 
   onCancelClick() {

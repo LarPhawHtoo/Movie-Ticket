@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CinemaService } from 'src/app/services/cinema.service';
 
 @Component({
@@ -12,7 +12,10 @@ export class CinemaDeleteConfirmDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<CinemaDeleteConfirmDialogComponent>,
     private cinemaService: CinemaService,
+    @Inject(MAT_DIALOG_DATA) public data: CinemaDeleteConfirmDialogComponent,
   ) { }
+
+  _id: string = '';
 
   ngOnInit(): void {
   }
@@ -22,7 +25,11 @@ export class CinemaDeleteConfirmDialogComponent implements OnInit {
   }
 
   onDeleteClick(): void {
-    this.dialogRef.close();
+    const id = this.data._id;
+    this.cinemaService.deleteCinema(id)
+    .subscribe(() => {
+      this.dialogRef.close();
+    });
   }
 
 }
