@@ -153,9 +153,7 @@ export const deleteSeatService = async (
       error.statusCode = 401;
       throw error;
     }
-    seat.deleted_at = new Date();
-    const result = await seat.save();
-    res.json({ message: "Delete Seat Successfully!", data: result, status: 1 });
+    res.json({ message: "Delete Seat Successfully!", data: seat, status: 1 });
   } catch (err) {
     next(err);
   }

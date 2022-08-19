@@ -112,9 +112,11 @@ export const deleteCinemaService = async (
       error.statusCode = 404;
       throw error;
     }
-    cinema.deleted_at = new Date();
-    await cinema.save();
-    res.sendStatus(204)
+    res.json({
+      message: "Delete Movie Successfully!",
+      cinemas:cinema,
+      status: 1,
+    });
   } catch (err) {
     next(err);
   }

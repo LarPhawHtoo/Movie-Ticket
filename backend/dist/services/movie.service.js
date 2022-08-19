@@ -141,9 +141,11 @@ const deleteMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.statusCode = 401;
             throw error;
         }
-        movie.deleted_at = new Date();
-        yield movie.save();
-        res.sendStatus(204);
+        res.json({
+            message: "Delete Movie Successfully!",
+            movies: movie,
+            status: 1,
+        });
     }
     catch (err) {
         next(err);
