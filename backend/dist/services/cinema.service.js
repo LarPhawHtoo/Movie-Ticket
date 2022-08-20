@@ -113,9 +113,17 @@ const deleteCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
             error.statusCode = 404;
             throw error;
         }
+<<<<<<< HEAD
         //cinema.deleted_at = new Date();
         //await cinema.save();
         res.sendStatus(204);
+=======
+        res.json({
+            message: "Delete Movie Successfully!",
+            cinemas: cinema,
+            status: 1,
+        });
+>>>>>>> 10fa53a2354d8fac2e3406832aba2067f538ec4a
     }
     catch (err) {
         next(err);

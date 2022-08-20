@@ -32,13 +32,7 @@ const getUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             const index = users.findIndex((dist) => users[i]._id.equals(dist._id));
             let username = "";
             index !== -1 ? username = users[index].fullName : "";
-            let obj = {
-                //...users[i]._doc,
-                fullName: users[i].fullName,
-                _id: users[i].id,
-                email: users[i].email,
-                created_username: username
-            };
+            let obj = Object.assign({}, users[i]._doc);
             result.push(obj);
         }
         res.json({
@@ -154,9 +148,7 @@ const deleteUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             error.statusCode = 401;
             throw error;
         }
-        user.deleted_at = new Date();
-        const result = yield user.save();
-        res.json({ message: "Delete User Successfully!", data: result, status: 1 });
+        res.json({ message: "Delete User Successfully!", data: user, status: 1 });
     }
     catch (err) {
         next(err);

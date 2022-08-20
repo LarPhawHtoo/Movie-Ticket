@@ -161,11 +161,9 @@ export const deleteTicketService = async (
       error.statusCode = 401;
       throw error;
     }
-    ticket.deleted_at = new Date();
-    const result = await ticket.save();
     res.json({
       message: "Delete Ticket Successfully!",
-      tickets: result,
+      tickets:ticket,
       status: 1,
     });
   } catch (err) {
@@ -193,60 +191,66 @@ export const getTicketByCinemaIdService = async (
 
     let seatingPlan: any = [];
 
-    const plan = seats.map((seat, index) => {
+    for (let i = 0; i < seats.length; i++) {
       const filterData: any = tickets.find(
         (ticket) =>
           ticket.seatNumber?.findIndex(
-            (number) => number === seat.seatNumber
+            (number) => number === seats[i].seatNumber
           ) !== -1
       );
 
       let data = {};
 
-      if (filterData) {
+      if (filterData && filterData !== undefined) {
         data = {
-          seatNumber: seat.seatNumber,
+          seatNumber: seats[i].seatNumber,
           status: filterData.status,
         };
       } else {
         data = {
-          seatNumber: seat.seatNumber,
+          seatNumber: seats[i].seatNumber,
           status: "available",
         };
       }
+      //console.log('data', data);
       seatingPlan.push(data);
-      if (index === seats.length - 1) {
-        return seatingPlan;
-      }
-    });
+    }
+
+    //console.log('plan', seatingPlan);
 
     var sortedSeat = seatingPlan.sort((a: any, b: any) =>
       a.seatNumber < b.seatNumber ? -1 : 1
     );
-    console.log(sortedSeat);
-//
-//    let firstName = "";
-//    let result: any= [];
-//    let firstArrIndex = 0;
+    //console.log(sortedSeat);
 
-    //sortedSeat.map((seat, index) => {
-    //  if (index === 0) {
-    //    result[firstArrIndex].push(seat);
-    //    firstName = seat.seatNumber[0];
-    //  } else if (seat.seatNumber.indexOf(firstName) === -1) {
-    //    firstArrIndex += 1;
-    //    firstName = seat.seatNumber[0];
-    //    result[firstArrIndex].push(seat);
-    //  } else {
-    //    result[firstArrIndex].push(seat);
-    //  }
-    //});
-    if (!sortedSeat) {
+    let firstName = "";
+    let result: any= [];
+    let firstArrIndex = 0;
+
+    for (let i = 0; i < sortedSeat.length; i++) {
+      if (i === 0) {
+        //console.log('result', result);
+        result[firstArrIndex]=[sortedSeat[i]];
+        firstName = sortedSeat[i].seatNumber[0];
+        //console.log('after result', result);
+      } else if (sortedSeat[i].seatNumber.indexOf(firstName) === -1) {
+        firstArrIndex += 1;
+        //console.log('result', result);
+        firstName = sortedSeat[i].seatNumber[0];
+        result[firstArrIndex] = [sortedSeat[i]];
+        //console.log('after result', result);
+      } else {
+        //console.log('result', result);
+        result[firstArrIndex] = [...result[firstArrIndex], sortedSeat[i]];
+        //console.log('after result', result);
+      }
+    }
+    if (!result) {
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
     }
-    res.json({ tickets: sortedSeat, status: 1 });
+    res.json({ tickets: result, status: 1 });
   } catch (err) {
     next(err);
   }
