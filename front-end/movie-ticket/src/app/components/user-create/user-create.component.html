@@ -4,9 +4,6 @@
   </mat-card-header>
   <mat-card-content>
     <form action="post" [formGroup]="formData" (ngSubmit)="onClickAddUser()">
-      <!--<mat-form-field appearance="fill">
-        <ngx-mat-file-input matInput type="file" (change)="imageUpload($event)" accept="image/*" class="form-control" formControlName="profile"></ngx-mat-file-input>
-      </mat-form-field>-->
       <label>Profile</label>
       <div *ngIf="confirmView==false" class="profileinput">
         <input #file type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*"
@@ -56,11 +53,12 @@
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Confirm your Password</mat-label>
         <input type="text" matInput class="form-control" formControlName="confirmPwd" required>
-        <mat-error *ngIf="myForm['confirmPwd'].hasError('required')">Please enter your confirm password</mat-error>
+        <mat-error *ngIf="myForm['confirmPwd'].hasError('required')">Please confirm your password</mat-error>
+        <mat-error *ngIf="myForm['confirmPwd'].hasError('mustMatch')">Password must be match</mat-error>
       </mat-form-field>
       <div class="btn-gp">
-        <button mat-raised-button color="warn" class="full-width" type="reset">Clear</button>
-        <button mat-raised-button color="primary" class="add-user-btn" [disabled]="formData.invalid">Add User</button>
+        <button mat-raised-button color="warn" class="full-width" (click)="onClear()"> {{ confirmView === true ? 'Cancel' : 'Clear' }} </button>
+        <button mat-raised-button color="primary" class="add-user-btn" [disabled]="formData.invalid"> {{ confirmView === true ? 'Confirm' : 'Register' }} </button>
       </div>
     </form>
   </mat-card-content>

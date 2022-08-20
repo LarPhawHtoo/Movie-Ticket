@@ -28,7 +28,7 @@ export class CinemaDeleteConfirmDialogComponent implements OnInit {
     const id = this.data._id;
     this.cinemaService.deleteCinema(id)
     .subscribe(() => {
-      this.dialogRef.close();
+      this.dialogRef.close('delete');
     });
   }
 

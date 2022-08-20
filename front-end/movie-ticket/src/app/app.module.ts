@@ -16,13 +16,13 @@ import { CreateCinemaBottomSheetComponent } from './components/create-cinema-bot
 import { UsersComponent } from './pages/users/users.component';
 import { UserCreateComponent } from './components/user-create/user-create.component';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
-import { UserActionsComponent } from './components/user-actions/user-actions.component';
 import { CinemasComponent } from './pages/cinemas/cinemas.component';
 import { CinemaUpdateComponent } from './components/cinema-update/cinema-update.component';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { UserUpdateComponent } from './components/user-update/user-update.component';
 import { UserDeleteConfirmDialogComponent } from './components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
 import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,6 @@ import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-c
     UsersComponent,
     UserCreateComponent,
     LogoutConfirmComponent,
-    UserActionsComponent,
     CinemasComponent,
     CinemaUpdateComponent,
     UserUpdateComponent,
@@ -52,6 +51,7 @@ import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-c
     ReactiveFormsModule,
     FormsModule,
     NgxMatFileInputModule,
+    MomentDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
