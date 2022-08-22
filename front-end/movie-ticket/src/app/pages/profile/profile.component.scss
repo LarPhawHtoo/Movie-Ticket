@@ -1,0 +1,46 @@
+span {
+  display: inline-block;
+  width: 200px;
+}
+
+p {
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px 0 20px;
+}
+
+.clearfix::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+mat-card-header {
+  text-align: center;
+  display: block;
+}
+
+mat-card-actions {
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.wrapper {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.profileimg {
+  object-fit: cover;
+  display: block;
+  height: 40%;
+  width: 40%;
+  margin: 10px auto;
+  float: left;
+}
+
+.content {
+  float: right;
+}
+

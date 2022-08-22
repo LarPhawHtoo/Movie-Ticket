@@ -23,6 +23,9 @@ import { UserUpdateComponent } from './components/user-update/user-update.compon
 import { UserDeleteConfirmDialogComponent } from './components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
 import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { AboutComponent } from './pages/about/about.component';
+import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,9 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     UserUpdateComponent,
     UserDeleteConfirmDialogComponent,
     CinemaDeleteConfirmDialogComponent,
+    ProfileComponent,
+    AboutComponent,
+    ChangePasswordDialogComponent,
   ],
   imports: [
     BrowserModule,

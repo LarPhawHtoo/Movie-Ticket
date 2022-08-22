@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-header>
+    <h1>Profile</h1>
+  </mat-card-header>
+  <mat-card-content class="clearfix wrapper">
+    <img mat-card-image [src]="profileImg" alt="User Profile" class="profileimg">
+    <mat-card-content class="content">
+      <p>
+        <span>Name</span> {{ loggedInUser.fullName }}
+      </p>
+      <mat-divider></mat-divider>
+      <p>
+        <span>Type</span> {{ loggedInUser.type }}
+      </p>
+      <mat-divider></mat-divider>
+      <p>
+        <span>Phone</span> {{ loggedInUser.phone }}
+      </p>
+      <mat-divider></mat-divider>
+      <p>
+        <span>Email</span> {{ loggedInUser.email }}
+      </p>
+      <mat-divider></mat-divider>
+      <p>
+        <span>Birthday</span> {{ loggedInUser.dob | date:'dd/MM/YYYY'}}
+      </p>
+      <mat-divider></mat-divider>
+      <p>
+        <span>Adderss</span> {{ loggedInUser.address }}
+      </p>
+    </mat-card-content>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="openChangePwdDialog()">Change Password</button>
+    <button mat-button (click)="openUpdateProfileDialog()">Update profile</button>
+  </mat-card-actions>
+</mat-card>
