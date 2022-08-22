@@ -9,11 +9,6 @@ const seatSchema = new Schema({
     type: String,
     required:true
   },
-  cinema_id: {
-    type: Schema.Types.ObjectId,
-    ref: "Cinema",
-    autopopulate: true
-  },
   price: {
     type: Number,
     required:true

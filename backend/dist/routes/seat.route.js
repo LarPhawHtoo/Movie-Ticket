@@ -22,9 +22,4 @@ router
     (0, express_validator_1.body)("seatNumber").notEmpty().withMessage("Seat of number must not be empty")
 ], seat_controller_1.updateSeat)
     .delete(seat_controller_1.deleteSeat);
-router
-    .route('/:cinema_id')
-    .post([
-    (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty")
-], seat_controller_1.getSeatByCinemaId);
 exports.default = router;

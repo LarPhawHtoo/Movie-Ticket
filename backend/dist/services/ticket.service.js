@@ -173,10 +173,8 @@ exports.deleteTicketService = deleteTicketService;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
-        console.log(cinema);
         const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
         const seats = yield seat_model_1.default.find();
-        console.log(seats);
         let seatingPlan = [];
         for (let i = 0; i < seats.length; i++) {
             const filterData = tickets.find((ticket) => {
@@ -196,33 +194,24 @@ const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0,
                     status: "available",
                 };
             }
-            //console.log('data', data);
             seatingPlan.push(data);
         }
-        //console.log('plan', seatingPlan);
         var sortedSeat = seatingPlan.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
-        //console.log(sortedSeat);
         let firstName = "";
         let result = [];
         let firstArrIndex = 0;
         for (let i = 0; i < sortedSeat.length; i++) {
             if (i === 0) {
-                //console.log('result', result);
                 result[firstArrIndex] = [sortedSeat[i]];
                 firstName = sortedSeat[i].seatNumber[0];
-                //console.log('after result', result);
             }
             else if (sortedSeat[i].seatNumber.indexOf(firstName) === -1) {
                 firstArrIndex += 1;
-                //console.log('result', result);
                 firstName = sortedSeat[i].seatNumber[0];
                 result[firstArrIndex] = [sortedSeat[i]];
-                //console.log('after result', result);
             }
             else {
-                //console.log('result', result);
                 result[firstArrIndex] = [...result[firstArrIndex], sortedSeat[i]];
-                //console.log('after result', result);
             }
         }
         if (!result) {

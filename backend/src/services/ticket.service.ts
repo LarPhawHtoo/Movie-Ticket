@@ -2,7 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import Ticket from "../models/ticket.model";
 import Cinema from "../models/cinema.model";
 import Seat from "../models/seat.model";
-import { TicketCreate, dataInterface } from "../interfaces/ticket";
+import Movie from "../models/movie.model";
+import { TicketCreate } from "../interfaces/ticket";
 import { validationResult } from "express-validator";
 import { deleteFile } from "../utils/utils";
 import ticketModel from "../models/ticket.model";
@@ -184,10 +185,9 @@ export const getTicketByCinemaIdService = async (
 ) => {
   try {
     const cinema = await Cinema.findById(req.params.cinema_id);
-    console.log(cinema);
+  
     const tickets: any = await Ticket.find({ cinema_id: cinema?._id });
     const seats: any = await Seat.find();
-    console.log(seats);
 
     let seatingPlan: any = [];
 
@@ -212,16 +212,12 @@ export const getTicketByCinemaIdService = async (
           status: "available",
         };
       }
-      //console.log('data', data);
       seatingPlan.push(data);
     }
-
-    //console.log('plan', seatingPlan);
 
     var sortedSeat = seatingPlan.sort((a: any, b: any) =>
       a.seatNumber < b.seatNumber ? -1 : 1
     );
-    //console.log(sortedSeat);
 
     let firstName = "";
     let result: any= [];
@@ -229,20 +225,14 @@ export const getTicketByCinemaIdService = async (
 
     for (let i = 0; i < sortedSeat.length; i++) {
       if (i === 0) {
-        //console.log('result', result);
         result[firstArrIndex]=[sortedSeat[i]];
         firstName = sortedSeat[i].seatNumber[0];
-        //console.log('after result', result);
       } else if (sortedSeat[i].seatNumber.indexOf(firstName) === -1) {
         firstArrIndex += 1;
-        //console.log('result', result);
         firstName = sortedSeat[i].seatNumber[0];
         result[firstArrIndex] = [sortedSeat[i]];
-        //console.log('after result', result);
       } else {
-        //console.log('result', result);
         result[firstArrIndex] = [...result[firstArrIndex], sortedSeat[i]];
-        //console.log('after result', result);
       }
     }
     if (!result) {
