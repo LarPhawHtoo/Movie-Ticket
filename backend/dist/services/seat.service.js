@@ -12,9 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSeatByCinemaIdService = exports.deleteSeatService = exports.updateSeatService = exports.findSeatService = exports.createSeatService = exports.getSeatService = void 0;
+exports.deleteSeatService = exports.updateSeatService = exports.findSeatService = exports.createSeatService = exports.getSeatService = void 0;
 const seat_model_1 = __importDefault(require("../models/seat.model"));
-const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const express_validator_1 = require("express-validator");
 /**
  * get seat service
@@ -60,7 +59,6 @@ const createSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         const seatTdo = {
             seatNumber: req.body.seatNumber,
             status: req.body.status,
-            cinema_id: req.body.cinema_id,
             price: req.body.price,
         };
         const seat = new seat_model_1.default(seatTdo);
@@ -120,7 +118,6 @@ const updateSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         }
         seat.seatNumber = req.body.seatNumber;
         seat.status = req.body.status;
-        seat.cinema_id = req.body.cinema_id;
         seat.price = req.body.price;
         const result = yield seat.save();
         res.json({
@@ -155,27 +152,3 @@ const deleteSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.deleteSeatService = deleteSeatService;
-/**
- * get Seat by Cinema Id service
- * @param req
- * @param res
- * @param next
- */
-const getSeatByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
-        console.log(cinema);
-        const seats = yield seat_model_1.default.find({ 'cinema_id': cinema === null || cinema === void 0 ? void 0 : cinema._id });
-        if (!seats) {
-            const error = Error("Not Found!");
-            error.statusCode = 401;
-            throw error;
-        }
-        var sortedSeat = seats.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
-        res.json({ seats: sortedSeat, status: 1 });
-    }
-    catch (err) {
-        next(err);
-    }
-});
-exports.getSeatByCinemaIdService = getSeatByCinemaIdService;
