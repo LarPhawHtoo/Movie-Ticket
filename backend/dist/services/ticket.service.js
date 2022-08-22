@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTicketByCinemaIdService = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
+exports.getTicketByCinemaIdService = exports.getdashBoardata = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
 const ticket_model_1 = __importDefault(require("../models/ticket.model"));
 const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const seat_model_1 = __importDefault(require("../models/seat.model"));
@@ -170,6 +170,61 @@ exports.deleteTicketService = deleteTicketService;
  * @param res
  * @param next
  */
+const getdashBoardata = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
+        console.log(cinema);
+        const ticket = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
+        const seats = yield seat_model_1.default.find();
+        let seatingList = [];
+        for (let i = 0; i < seats.length; i++) {
+            const filter = ticket.find((ticket) => { var _a; return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seats[i].seatNumber)) !== -1; });
+            let data = {};
+            if (filter && filter !== undefined) {
+                data = {
+                    seatNumber: seats[i].seatNumber,
+                    status: filter.status,
+                };
+            }
+            else {
+                data = {
+                    seatNumber: seats[i].seatNumber,
+                    status: "Available",
+                };
+            }
+            seatingList.push(data);
+        }
+        var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
+        console.log(sortedStatus);
+        let firstName = "";
+        let result = [];
+        let firstArrIndex = 0;
+        for (let i = 0; i < sortedStatus.length; i++) {
+            if (i === 0) {
+                result[firstArrIndex] = [sortedStatus[i]];
+                firstName = sortedStatus[i].status[0];
+            }
+            else if (sortedStatus[i].status.indexOf(firstName) === -1) {
+                firstArrIndex += 1;
+                firstName = sortedStatus[i].status[0];
+                result[firstArrIndex] = [sortedStatus[i]];
+            }
+            else {
+                result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
+            }
+        }
+        if (!result) {
+            const error = Error("Not Found!");
+            error.statusCode = 401;
+            throw error;
+        }
+        res.json({ tickets: result, status: 1 });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getdashBoardata = getdashBoardata;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction, request } from 'express';
 import {
-  getTicketService, createTicketService, updateTicketService, deleteTicketService,findTicketService,getTicketByCinemaIdService
+   getdashBoardata, getTicketService, createTicketService, updateTicketService, deleteTicketService,findTicketService,getTicketByCinemaIdService
 } from '../services/ticket.service';
 
 export const getTickets = async (
   req: Request, res: Response, next: NextFunction) => {
-  getTicketService(req, res, next);
+    getdashBoardata(req, res, next);
 };
 export const findTicket = async (
   req: Request,
