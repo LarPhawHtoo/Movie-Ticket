@@ -12,8 +12,15 @@ router
     .get(ticket_controller_1.getTickets)
     .post([
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
-    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
+    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty"),
+    (0, express_validator_1.body)("booking").notEmpty().withMessage("Booking must not be empty")
 ], ticket_controller_1.createTicket);
+router
+    .route('/:cinema_id')
+    .post([
+    (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
+    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty"),
+]);
 router
     .route("/:id")
     .get(ticket_controller_1.findTicket)

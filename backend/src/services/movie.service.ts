@@ -144,9 +144,12 @@ export const deleteMovieService = async (
       error.statusCode = 401;
       throw error;
     }
-    movie.deleted_at = new Date();
-    await movie.save();
-    res.sendStatus(204)
+    //movie.deleted_at = new Date();
+    //await movie.save();
+    res.sendStatus(204);
+    res.json({
+      message: "Deleted Movie Successfully",
+    });
   } catch (err) {
     next(err);
   }
