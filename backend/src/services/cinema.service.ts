@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Cinema from '../models/cinema.model';
-import { validationResult } from "express-validator";
+import { Result, validationResult } from "express-validator";
 
 /**
  * get post service.
@@ -112,6 +112,12 @@ export const deleteCinemaService = async (
       error.statusCode = 404;
       throw error;
     }
+    //cinema.deleted_at = new Date();
+    //await cinema.save();
+    res.sendStatus(204);
+    res.json({
+      message: "Deleted Cinema Successfully",
+    });
     res.json({
       message: "Delete Movie Successfully!",
       cinemas:cinema,

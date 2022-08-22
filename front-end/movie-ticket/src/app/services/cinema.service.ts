@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, retry, catchError, throwError } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { Observable, retry, catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Cinema } from '../interfaces/cinema.model';
 
@@ -20,22 +19,22 @@ export class CinemaService {
   createCinema(name: string) {
     const body = { "name": name };
     return this.http.post(this.url, body, this.options)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   };
 
   getCinemas(): Observable<Cinema[]> {
     return this.http.get<Cinema[]>(this.url, this.options)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   updateCinema(cinemaId: any, payload: any) {
     return this.http.put(`${this.url}/${cinemaId}`, payload, this.options)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   deleteCinema(cinemaId: any) {
     return this.http.delete(`${this.url}/${cinemaId}`, this.options)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   private httpErrorHandler(error: HttpErrorResponse) {

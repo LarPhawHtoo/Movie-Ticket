@@ -67,7 +67,7 @@ export class CinemasComponent implements OnInit, AfterViewInit {
   openDeleteDialog(element: any) {
     const dialogRef = this.dialog.open(CinemaDeleteConfirmDialogComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      this.getCinema();
+      if(result == 'delete') this.getCinema();
     })
   }
 

@@ -13,6 +13,14 @@ router
     body("time").notEmpty().withMessage("Time must not be empty")
   ],
     createTicket);
+router
+  .route('/:cinema_id')
+  .post(
+    [
+      body("date").notEmpty().withMessage("date must not be empty"),
+      body("time").notEmpty().withMessage("Time must not be empty"),
+    ]
+  )
 
 router
   .route("/:id")

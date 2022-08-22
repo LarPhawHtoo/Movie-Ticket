@@ -4,9 +4,14 @@
   </mat-card-header>
   <mat-card-content>
     <form action="post" [formGroup]="formData" (ngSubmit)="onClickUpdateUser()">
-      <mat-form-field appearance="fill">
-        <ngx-mat-file-input matInput type="file" (change)="imageUpload($event)" accept="image/*" class="form-control" formControlName="profile"></ngx-mat-file-input>
-      </mat-form-field>
+      <label>Profile</label>
+      <div *ngIf="confirmView==false" class="profileinput">
+        <input #file type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*"
+          maxFileSize=2000000>
+      </div>
+      <div *ngIf="profileImage">
+        <img [src]="profileImage" class="profileimg">
+      </div>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Name</mat-label>
         <input type="text" matInput class="form-control" formControlName="fullName" required>

@@ -7,8 +7,11 @@ import { TicketCreate } from "../interfaces/ticket";
 import { validationResult } from "express-validator";
 import { deleteFile } from "../utils/utils";
 import ticketModel from "../models/ticket.model";
-import { getTickets } from "../controllers/ticket.controller";
-import { type } from "os";
+import { getCinema } from "../controllers/cinemaController";
+import cinemaModel from "../models/cinema.model";
+import { SeatCreate } from "../interfaces/seat";
+import { StreamState } from "http2";
+import { stat } from "fs";
 
 /**
  * get tickets service
@@ -178,6 +181,62 @@ export const deleteTicketService = async (
  * @param res
  * @param next
  */
+export const getdashBoardata = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+   try {
+     const cinema = await Cinema.findById(req.params.cinema_id);
+     console.log(cinema);
+     const ticket = await Ticket.find({ cinema_id: cinema?._id });
+     const seats = await Seat.find();
+     let seatingList: any = [];
+     for (let i = 0; i < seats.length; i++){
+       const filter = ticket.find((ticket) => ticket.seatNumber?.findIndex((number) => number === seats[i].seatNumber) !== -1);
+       let data = {};
+       if (filter && filter !== undefined) {
+         data = {
+           seatNumber: seats[i].seatNumber,
+           status: filter.status,
+         };
+       } else {
+         data = {
+           seatNumber: seats[i].seatNumber,
+           status: "Available",
+         };
+       }
+       seatingList.push(data);
+     }
+     var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
+     console.log(sortedStatus);
+     let firstName = "";
+     let result: any = [];
+     let firstArrIndex = 0;
+     for (let i = 0; i < sortedStatus.length; i++){
+      if (i === 0) {
+        result[firstArrIndex] = [sortedStatus[i]];
+        firstName = sortedStatus[i].status[0];
+      } else if (sortedStatus[i].status.indexOf(firstName) === -1) {
+        firstArrIndex += 1;
+        firstName = sortedStatus[i].status[0];
+        result[firstArrIndex] = [sortedStatus[i]];
+      } else {
+        result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
+      }
+     }
+      
+    if (!result) {
+      const error: any = Error("Not Found!");
+      error.statusCode = 401;
+      throw error;
+    }
+    res.json({ tickets: result, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getTicketByCinemaIdService = async (
   req: Request,
   res: Response,

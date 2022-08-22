@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTicketByCinemaId = exports.deleteTicket = exports.updateTicket = exports.createTicket = exports.findTicket = exports.getTickets = void 0;
 const ticket_service_1 = require("../services/ticket.service");
 const getTickets = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, ticket_service_1.getTicketService)(req, res, next);
+    (0, ticket_service_1.getdashBoardata)(req, res, next);
 });
 exports.getTickets = getTickets;
 const findTicket = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
