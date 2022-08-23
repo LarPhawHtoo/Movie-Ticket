@@ -24,8 +24,12 @@ export class AppComponent {
   ) { }
   
   ngOnInit() {
-    this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
-
+    if (localStorage.getItem('loginUser')) {
+      this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
+    } else {
+      this.loggedInUser = '';
+    }
+    
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         let storeData = localStorage.getItem('isUserLoggedIn');

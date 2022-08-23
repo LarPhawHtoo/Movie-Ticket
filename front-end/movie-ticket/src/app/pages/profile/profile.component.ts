@@ -16,8 +16,11 @@ export class ProfileComponent implements OnInit {
   profileImg: string = '';
 
   ngOnInit(): void {
+    this.updateProfile();
+  }
+
+  updateProfile() {
     this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
-    console.log(this.loggedInUser);
     this.profileImg = `http://localhost:8081/${this.loggedInUser.profile}` || "";
   }
 
@@ -31,7 +34,9 @@ export class ProfileComponent implements OnInit {
   openUpdateProfileDialog() {
     const dialogRef = this.dialog.open(UserUpdateComponent, { data: this.loggedInUser });
     dialogRef.afterClosed().subscribe(result => {
-      
+      if (result == 'update') {
+        this.updateProfile();
+      }
     })
   }
 

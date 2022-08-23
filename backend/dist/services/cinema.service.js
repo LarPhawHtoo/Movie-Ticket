@@ -113,9 +113,6 @@ const deleteCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
             error.statusCode = 404;
             throw error;
         }
-<<<<<<< HEAD
-        res.sendStatus(204);
-=======
         //cinema.deleted_at = new Date();
         //await cinema.save();
         res.sendStatus(204);
@@ -127,7 +124,6 @@ const deleteCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
             cinemas: cinema,
             status: 1,
         });
->>>>>>> 0172bbe3970bc2edfe789668db83ead051d93534
     }
     catch (err) {
         next(err);
