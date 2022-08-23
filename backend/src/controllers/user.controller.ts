@@ -4,8 +4,8 @@ import {
   getUserService,
   findUserService,
   updateUserService,
-  deleteUserService
-  //findByNameService
+  deleteUserService,
+  passwordChangeService
 } from '../services/user.service';
 
 export const getUsers = async (
@@ -48,12 +48,12 @@ export const deleteUser = async (
   deleteUserService(req, res, next);
 };
 
-//export const findByName = async (
-//  req: any,
-//  res: Response,
-//  next: NextFunction
-//) => {
-//  findByNameService(req, res, next);
-//}
+export const changePassword = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+ passwordChangeService(req, res, next);
+}
 
 

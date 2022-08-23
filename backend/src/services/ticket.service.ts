@@ -7,7 +7,7 @@ import { TicketCreate } from "../interfaces/ticket";
 import { validationResult } from "express-validator";
 import { deleteFile } from "../utils/utils";
 import ticketModel from "../models/ticket.model";
-import { getCinema } from "../controllers/cinemaController";
+import { getCinema } from "../controllers/cinema.controller";
 import cinemaModel from "../models/cinema.model";
 import { SeatCreate } from "../interfaces/seat";
 import { StreamState } from "http2";

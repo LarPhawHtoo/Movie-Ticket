@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
+import { Validator } from 'node-input-validator';
 import bcrypt from 'bcrypt';
 import moment from 'moment';
 import { deleteFile } from "../utils/utils";
 import { UserCreate } from '../interfaces/user';
 import User from '../models/user.model';
 import { constData } from '../const/const';
+import { ValidatorsImpl } from 'express-validator/src/chain';
 
 export const getUserService = async (
   req: Request,
@@ -112,7 +114,7 @@ export const updateUserService = async (
       error.statusCode = 422;
       throw error;
     }
-    const user: any = await User.findById(req.params.id);
+    const user: any = await User.findByIdAndUpdate(req.params.id);
     if (!user) {
       const error: any = new Error("Not Found!");
       error.statusCode = 401;
@@ -158,5 +160,47 @@ export const deleteUserService = async (
     res.json({ message: "Delete User Successfully!", data: user, status: 1 });
   } catch (err) {
     next(err);
+  }
+}
+
+export const passwordChangeService = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+  const user:any = await User.findById(req.params.id);
+
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    //const currentUser:any = req.user;
+    //console.log(currentUser);
+
+    //Check required fields
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      res.json({ message: "Please fill in all fields." });
+    }
+    
+    //Check passwords match
+    if (newPassword !== confirmPassword) {
+      res.json({ message: "New password do not match." });
+    } else {
+      //Validation Passed
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
+      console.log(isMatch);
+        if (isMatch) {
+          //Update password for user with new password
+          bcrypt.genSalt(12, (err, salt) =>
+            bcrypt.hash(newPassword,salt, (err, hash) => {
+              if (err) {
+                throw err;
+              }
+              user.password = hash;
+              user.save(); 
+            })
+          );
+          res.json({ message: "Password Successfully Updated!", data: user, status: 1 });
+        } else {
+          res.json({ message: "Current Password is not match." })
+        }
+    }
+  } catch (err) {
+    res.json({ message: "Password does not match" });
   }
 }
