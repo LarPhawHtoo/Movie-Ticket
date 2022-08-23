@@ -23,6 +23,12 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { UserUpdateComponent } from './components/user-update/user-update.component';
 import { UserDeleteConfirmDialogComponent } from './components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
 import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
+import { MoviesComponent } from './pages/movies/movies.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CreateMovieBottomSheetComponent } from './components/create-movie-bottom-sheet/create-movie-bottom-sheet.component';
+//import { MovieCreateComponent } from './movie-create/movie-create.component';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +48,10 @@ import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-c
     UserUpdateComponent,
     UserDeleteConfirmDialogComponent,
     CinemaDeleteConfirmDialogComponent,
+    MoviesComponent,
+    CreateMovieBottomSheetComponent,
+    //MovieCreateComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -52,6 +62,8 @@ import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-c
     ReactiveFormsModule,
     FormsModule,
     NgxMatFileInputModule,
+    MatCardModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,13 +9,10 @@ clearfix::after{
 }
 
 mat-card {
-  height: 70px;
+  height: 30px;
   text-align: center;
 }
 
-.cinemas-btn {
-  margin-right: 30px;
-}
-.users-btn{
-  margin-right: 30px;
+.create-movie-btn {
+  float: right;
 }

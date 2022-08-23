@@ -11,6 +11,8 @@ import { CinemaResolverService } from './resolvers/cinema-resolver.service';
 import { UsersComponent } from './pages/users/users.component';
 import { UserResolverService } from './resolvers/user-resolver.service';
 import { CinemasComponent } from './pages/cinemas/cinemas.component';
+import { MoviesComponent } from './pages/movies/movies.component';
+import { MovieResolverService } from './resolvers/movie-resolver.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -33,6 +35,12 @@ const routes: Routes = [
     component: CinemasComponent,
     canActivate: [AuthGuard],
     resolve: { cinemas: CinemaResolverService }
+  },
+  {
+    path: 'movies',
+    component: MoviesComponent,
+    canActivate: [AuthGuard],
+    resolve: { movies: MovieResolverService }
   }
 ];
 
