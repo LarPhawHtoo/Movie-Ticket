@@ -79,9 +79,24 @@ export class UserUpdateComponent implements OnInit {
       formData.append('email', this.formData.controls['email'].value);
       formData.append('dob', this.formData.controls['dob'].value);
       formData.append('address', this.formData.controls['address'].value);
-  
+
       this.userService.updateUser(id, formData)
         .subscribe(res => {
+          const userData = {
+            "_id": this.data._id,
+            "fullName": this.formData.controls['fullName'].value,
+            "email": this.formData.controls['email'].value,
+            "password": "$2b$12$T1.pFsQ5Z.Kimrs4b9Tm9.R4gpPmjOZrWrNOs1Mc15qKgxvcI1Anm",
+            "type": this.formData.controls['type'].value,
+            "phone": this.formData.controls['phone'].value,
+            "dob": this.formData.controls['dob'].value,
+            "address": this.formData.controls['address'].value,
+            "profile": this.profileImage,
+            "createdAt": "2022-08-09T04:48:20.214Z",
+            "updatedAt": new Date()
+          }
+          localStorage.setItem('loginUser', JSON.stringify(userData));
+
           this.dialogRef.close('update');
         });
     }
