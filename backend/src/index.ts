@@ -51,7 +51,7 @@ const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
-app.use("/apiuploads", express.static(path.join(rootDir, "apiuploads")));
+app.use('/apiuploads', express.static('apiuploads'));
 app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());

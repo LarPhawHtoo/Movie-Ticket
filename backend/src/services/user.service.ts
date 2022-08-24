@@ -169,9 +169,6 @@ export const passwordChangeService = async (req: Request, res: Response, next: N
 
     const { oldPassword, newPassword, confirmPassword } = req.body;
 
-    //const currentUser:any = req.user;
-    //console.log(currentUser);
-
     //Check required fields
     if (!oldPassword || !newPassword || !confirmPassword) {
       res.json({ message: "Please fill in all fields." });

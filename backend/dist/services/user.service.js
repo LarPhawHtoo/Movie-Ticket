@@ -159,8 +159,6 @@ const passwordChangeService = (req, res, next) => __awaiter(void 0, void 0, void
     try {
         const user = yield user_model_1.default.findById(req.params.id);
         const { oldPassword, newPassword, confirmPassword } = req.body;
-        //const currentUser:any = req.user;
-        //console.log(currentUser);
         //Check required fields
         if (!oldPassword || !newPassword || !confirmPassword) {
             res.json({ message: "Please fill in all fields." });
