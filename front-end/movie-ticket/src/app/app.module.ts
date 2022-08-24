@@ -25,7 +25,7 @@ import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-c
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AboutComponent } from './pages/about/about.component';
-import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
+import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,7 @@ import { ChangePasswordDialogComponent } from './components/change-password-dial
     CinemaDeleteConfirmDialogComponent,
     ProfileComponent,
     AboutComponent,
-    ChangePasswordDialogComponent,
+    PasswordChangeComponent,
   ],
   imports: [
     BrowserModule,

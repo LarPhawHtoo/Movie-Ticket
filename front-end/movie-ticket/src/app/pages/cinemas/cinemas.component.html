@@ -2,7 +2,10 @@
   <mat-form-field>
     <input type="text" matInput (keyup)="doFilter($event.target)" placeholder="Filter">
   </mat-form-field>
-  <button mat-raised-button class="create-cinema-btn" (click)="openBottomSheet()">Create new Cinema</button>
+  <button mat-raised-button class="create-cinema-btn" color="primary" (click)="openBottomSheet()">
+    <mat-icon>add_circle_outline</mat-icon>
+    Add Cinema
+  </button>
 </mat-card>
 <table mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="name">
@@ -11,11 +14,11 @@
   </ng-container>
   <ng-container matColumnDef="createdAt">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
-    <td mat-cell *matCellDef="let element"> {{ element.createdAt }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element.createdAt | date:'dd/MM/YYYY' }} </td>
   </ng-container>
   <ng-container matColumnDef="updatedAt">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</th>
-    <td mat-cell *matCellDef="let element"> {{ element.updatedAt }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element.updatedAt | date:'dd/MM/YYYY' }} </td>
   </ng-container>
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
