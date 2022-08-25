@@ -12,16 +12,25 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     localStorage.setItem('isCinemas', 'false');
     localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isTickets', 'false');
   }
 
   onClickCinemas() {
     localStorage.setItem('isCinemas', 'true');
     localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isTickets', 'false');
   }
 
   onClickUsers() {
     localStorage.setItem('isUsers', 'true');
     localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isTickets', 'false');
+  }
+
+  onClickTickets() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isTickets', 'true');
   }
 
 }

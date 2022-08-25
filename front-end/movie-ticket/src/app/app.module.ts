@@ -26,6 +26,10 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AboutComponent } from './pages/about/about.component';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
+import { TicketsComponent } from './pages/tickets/tickets.component';
+import { CreateTicketDialogComponent } from './components/create-ticket-dialog/create-ticket-dialog.component';
+import { UpdateTicketDialogComponent } from './components/update-ticket-dialog/update-ticket-dialog.component';
+import { DeleteTicketConfirmDialogComponent } from './components/delete-ticket-confirm-dialog/delete-ticket-confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +51,10 @@ import { PasswordChangeComponent } from './pages/password-change/password-change
     ProfileComponent,
     AboutComponent,
     PasswordChangeComponent,
+    TicketsComponent,
+    CreateTicketDialogComponent,
+    UpdateTicketDialogComponent,
+    DeleteTicketConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

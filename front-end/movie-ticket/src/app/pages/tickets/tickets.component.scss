@@ -1,5 +1,11 @@
 table {
   width: 100%;
+  margin: 0 auto;
+}
+
+mat-paginator {
+  width: 100%;
+  margin: 0 auto;
 }
 
 clearfix::after{
@@ -9,14 +15,11 @@ clearfix::after{
 }
 
 mat-card {
-  height: 70px;
+  height: 30px;
   text-align: center;
 }
 
-.cinemas-btn {
-  margin-right: 30px;
-}
 
-.users-btn {
-  margin-right: 30px;
+.create-ticket-btn {
+  float: right;
 }
