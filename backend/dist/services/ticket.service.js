@@ -65,6 +65,8 @@ const createTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             seatNumber: req.body.seatNumber,
             price: req.body.price,
             status: req.body.status,
+            date: req.body.date,
+            time: req.body.time
         };
         const ticket = new ticket_model_1.default(ticketTdo);
         const result = yield ticket.save();
@@ -87,7 +89,12 @@ exports.createTicketService = createTicketService;
  */
 const findTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const ticket = yield ticket_model_1.default.findById(req.params.id);
+        let date = req.body.date;
+        console.log(date);
+        let time = req.body.time;
+        console.log(time);
+        const ticket = yield ticket_model_1.default.find({ date, time });
+        console.log(ticket);
         if (!ticket) {
             const error = Error("Not Found!");
             error.statusCode = 401;
@@ -127,6 +134,8 @@ const updateTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
         ticket.seatNumber = req.body.seatNumber;
         ticket.price = req.body.price;
         ticket.status = req.body.status;
+        ticket.date = req.body.date;
+        ticket.time = req.body.time;
         const result = yield ticket.save();
         res.json({
             message: "Updated Ticket Successfully!",

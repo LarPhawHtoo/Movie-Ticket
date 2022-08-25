@@ -3,6 +3,10 @@ import {
    getdashBoardata, getTicketService, createTicketService, updateTicketService, deleteTicketService,findTicketService,getTicketByCinemaIdService
 } from '../services/ticket.service';
 
+export const getTicket = async (
+  req: Request, res: Response, next: NextFunction) => {
+    getTicketService(req, res, next);
+};
 export const getTickets = async (
   req: Request, res: Response, next: NextFunction) => {
     getdashBoardata(req, res, next);

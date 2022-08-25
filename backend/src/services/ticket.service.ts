@@ -4,7 +4,7 @@ import Cinema from "../models/cinema.model";
 import Seat from "../models/seat.model";
 import Movie from "../models/movie.model";
 import { TicketCreate } from "../interfaces/ticket";
-import { validationResult } from "express-validator";
+import { param, validationResult } from "express-validator";
 import { deleteFile } from "../utils/utils";
 import ticketModel from "../models/ticket.model";
 import { getCinema } from "../controllers/cinema.controller";
@@ -12,6 +12,8 @@ import cinemaModel from "../models/cinema.model";
 import { SeatCreate } from "../interfaces/seat";
 import { StreamState } from "http2";
 import { stat } from "fs";
+import { AnyAaaaRecord } from "dns";
+import { getMovieService } from "./movie.service";
 
 /**
  * get tickets service
@@ -69,6 +71,8 @@ export const createTicketService = async (
       seatNumber: req.body.seatNumber,
       price: req.body.price,
       status: req.body.status,
+      date: req.body.date,
+      time: req.body.time
     };
     const ticket = new Ticket(ticketTdo);
     const result = await ticket.save();
@@ -93,7 +97,13 @@ export const findTicketService = async (
   next: NextFunction
 ) => {
   try {
-    const ticket = await Ticket.findById(req.params.id);
+    let date = req.body.date;
+    console.log(date);
+    let time = req.body.time;
+    console.log(time);
+    const ticket:any= await Ticket.find({date,time });
+    console.log(ticket);
+
     if (!ticket) {
       const error: any = Error("Not Found!");
       error.statusCode = 401;
@@ -136,6 +146,8 @@ export const updateTicketService = async (
     ticket.seatNumber = req.body.seatNumber;
     ticket.price = req.body.price;
     ticket.status = req.body.status;
+    ticket.date = req.body.date;
+    ticket.time= req.body.time;
     const result = await ticket.save();
     res.json({
       message: "Updated Ticket Successfully!",
