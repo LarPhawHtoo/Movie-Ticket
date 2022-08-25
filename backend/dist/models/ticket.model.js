@@ -32,7 +32,7 @@ const ticketSchema = new mongoose_1.Schema({
         required: true
     },
     time: {
-        type: [String],
+        type: String,
         required: true
     }
 });
