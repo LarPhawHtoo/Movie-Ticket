@@ -13,6 +13,7 @@ import { UserResolverService } from './resolvers/user-resolver.service';
 import { CinemasComponent } from './pages/cinemas/cinemas.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AboutComponent } from './pages/about/about.component';
+import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -44,6 +45,11 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+  },
+  {
+    path: 'passwordchange',
+    component: PasswordChangeComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

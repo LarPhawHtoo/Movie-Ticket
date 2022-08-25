@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ChangePasswordDialogComponent } from 'src/app/components/change-password-dialog/change-password-dialog.component';
 import { UserUpdateComponent } from 'src/app/components/user-update/user-update.component';
 
 @Component({
@@ -22,13 +21,6 @@ export class ProfileComponent implements OnInit {
   updateProfile() {
     this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
     this.profileImg = `http://localhost:8081/${this.loggedInUser.profile}` || "";
-  }
-
-  openChangePwdDialog() {
-    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, { data: this.loggedInUser });
-    dialogRef.afterClosed().subscribe(result => {
-      
-    })
   }
 
   openUpdateProfileDialog() {

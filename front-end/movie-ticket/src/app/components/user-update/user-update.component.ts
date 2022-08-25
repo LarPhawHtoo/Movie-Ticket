@@ -36,7 +36,7 @@ export class UserUpdateComponent implements OnInit {
     { enum: 'Admin' },
     { enum: 'User' }
   ];
-  profileImage: any = `${this.data.profile}` || '';
+  profileImage: any = `http://localhost:8081/${this.data.profile}` || "";
   imgFile: any;
   confirmView: Boolean = false;
   _id: string = '';
@@ -54,7 +54,7 @@ export class UserUpdateComponent implements OnInit {
   formData!: FormGroup;
 
   ngOnInit(): void {
-    this.profileImage = `${this.data.profile}` || '';
+    this.profileImage = `http://localhost:8081/${this.data.profile}` || "";
     console.log(this.profileImage)
     this.formData = new FormGroup({
       profile: new FormControl(''),

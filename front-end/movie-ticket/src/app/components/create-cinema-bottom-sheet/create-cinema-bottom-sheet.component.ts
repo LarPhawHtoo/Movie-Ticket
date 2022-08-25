@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CinemaService } from 'src/app/services/cinema.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { CinemaService } from 'src/app/services/cinema.service';
 export class CreateCinemaBottomSheetComponent implements OnInit {
 
   constructor(
-    private bottomSheetRef: MatBottomSheetRef<CreateCinemaBottomSheetComponent>,
+    private dialogRef: MatDialogRef<CreateCinemaBottomSheetComponent>,
     private cinemaService: CinemaService,
   ) { }
 
@@ -26,13 +26,13 @@ export class CreateCinemaBottomSheetComponent implements OnInit {
 
   onClickCreateCinema(data: any) {
     this.cinemaService.createCinema(data.name).subscribe( res => {
-      this.bottomSheetRef.dismiss("create");
+      this.dialogRef.close("create");
       console.log(res);
     });
   }
 
   openLink(event: MouseEvent) {
-    this.bottomSheetRef.dismiss();
+    this.dialogRef.close();
     event.preventDefault()
   }
 
