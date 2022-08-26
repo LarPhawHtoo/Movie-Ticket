@@ -14,6 +14,8 @@ import { CinemasComponent } from './pages/cinemas/cinemas.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AboutComponent } from './pages/about/about.component';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
+import { TicketsComponent } from './pages/tickets/tickets.component';
+import { TicketResolverService } from './resolvers/ticket-resolver.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -50,6 +52,12 @@ const routes: Routes = [
     path: 'passwordchange',
     component: PasswordChangeComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'tickets',
+    component: TicketsComponent,
+    canActivate: [AuthGuard],
+    resolve: { tickets: TicketResolverService }
   }
 ];
 

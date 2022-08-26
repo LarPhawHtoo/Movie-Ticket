@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from './services/auth.service';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
@@ -16,9 +15,9 @@ export class AppComponent {
   loggedInUser: any;
   isCinemas = false;
   isUsers = false;
+  isTickets = false;
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private dialog: MatDialog
   ) { }
@@ -31,6 +30,12 @@ export class AppComponent {
     }
     
     this.router.events.subscribe((event: Event) => {
+      if (localStorage.getItem('loginUser')) {
+        this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
+      } else {
+        this.loggedInUser = '';
+      }
+      
       if (event instanceof NavigationEnd) {
         let storeData = localStorage.getItem('isUserLoggedIn');
         if (storeData == 'true') {
@@ -52,6 +57,13 @@ export class AppComponent {
         } else {
           this.isUsers = false;
         }
+
+        let isTickets = localStorage.getItem('isTickets');
+        if (isTickets == 'true') {
+          this.isTickets = true;
+        } else {
+          this.isTickets = false;
+        }
       }
     });
   }
@@ -67,15 +79,30 @@ export class AppComponent {
   onClickHome() {
     localStorage.setItem('isCinemas', 'false');
     localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isTickets', 'false');
   }
 
   onClickUsers() {
     localStorage.setItem('isCinemas', 'false');
     localStorage.setItem('isUsers', 'true');
+    localStorage.setItem('isTickets', 'false');
   }
 
   onClickCinemas() {
     localStorage.setItem('isUsers', 'false');
     localStorage.setItem('isCinemas', 'true');
+    localStorage.setItem('isTickets', 'false');
+  }
+
+  onClickTickets() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isTickets', 'true');
+  }
+
+  onClickAboutUs() {
+    localStorage.setItem('isUsers', 'true');
+    localStorage.setItem('isCinemas', 'true');
+    localStorage.setItem('isTickets', 'true');
   }
 }
