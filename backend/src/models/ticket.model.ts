@@ -21,6 +21,7 @@ const ticketSchema = new Schema({
   },
   price: {
     type: Number,
+    required: true
   },
   status: {
     type: String,
@@ -33,7 +34,8 @@ const ticketSchema = new Schema({
   time: {
     type: String,
     required:true
-  }
+  },
 });
+ticketSchema.plugin(require('mongoose-autopopulate'));
 export default model("Ticket", ticketSchema);
 

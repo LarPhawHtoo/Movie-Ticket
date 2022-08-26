@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { getTickets,getTicket ,createTicket, updateTicket, deleteTicket, findTicket, getTicketByCinemaId } from '../controllers/ticket.controller';
+import {getTicket ,getTickets,createTicket, updateTicket, deleteTicket, findTicket, getTicketByCinemaId } from '../controllers/ticket.controller';
 import {body } from 'express-validator';
 
 const router = express.Router();

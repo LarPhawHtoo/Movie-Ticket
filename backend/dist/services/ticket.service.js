@@ -24,23 +24,25 @@ const express_validator_1 = require("express-validator");
  * @param next
  */
 const getTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    ticket_model_1.default.find(req.body.tickets, (err, tickets) => {
-        if (err) {
+    try {
+        const tickets = yield ticket_model_1.default.find();
+        if (!tickets) {
             res.json({
                 success: false,
-                message: "An error occured while fetching tickets: " + err,
+                message: "Not Found! ",
             });
         }
-        else {
-            var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
-            res.json({
-                success: true,
-                message: "Tickets fetched",
-                tickets: sortedTicket,
-                status: 1,
-            });
-        }
-    });
+        var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
+        res.json({
+            success: true,
+            message: "Tickets fetched",
+            tickets: sortedTicket,
+            status: 1,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
 });
 exports.getTicketService = getTicketService;
 /**
@@ -237,7 +239,9 @@ exports.getdashBoardata = getdashBoardata;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
-        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
+        let date = req.body.date;
+        let time = req.body.time;
+        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id, date, time });
         const seats = yield seat_model_1.default.find();
         let seatingPlan = [];
         for (let i = 0; i < seats.length; i++) {
