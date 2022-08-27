@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, retry, catchError, throwError } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { retry, catchError, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 
 @Injectable({
@@ -23,7 +22,7 @@ export class AuthService {
     }
 
     return this.http.post(this.loginUrl, data)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   signup(fullName: string, email: string, password: string) {
@@ -34,7 +33,7 @@ export class AuthService {
     }
 
     return this.http.post(this.signupUrl, body)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   private httpErrorHandler(error: HttpErrorResponse) {

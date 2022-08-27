@@ -17,14 +17,14 @@ export class MovieService {
     .set('Authorization', `Bearer ${this.token}`);
   options = { headers: this.headerOptions };
 
-  createMovie(name: string) {
-    const body = { "name": name };
-    return this.http.post(this.url, body, this.options)
+  createMovie(data: any) {
+
+    return this.http.post(this.url, data, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   };
 
-  getMovies(): Observable<Movie[]> {
-    return this.http.get<Movie[]>(this.url, this.options)
+  getMovies(): Observable<any> {
+    return this.http.get<any>(this.url, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 
@@ -33,8 +33,8 @@ export class MovieService {
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 
-  deleteMovie(movieId: any) {
-    return this.http.delete(`${this.url}/` + movieId, this.options)
+  deleteMovie(movieid: any) {
+    return this.http.delete(`${this.url}/${movieid}`, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
 

@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, retry, throwError, catchError } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { User } from '../interfaces/user.model';
 
 @Injectable({
@@ -19,22 +18,22 @@ export class UserService {
 
   addUser(payload: any) {
     return this.http.post(this.url, payload, this.options)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.url, this.options)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   updateUser(id: string, payload: any) {
     return this.http.put(`${this.url}/${id}`, payload, this.options)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   deleteUser(id: string) {
     return this.http.delete(`${this.url}/${id}`, this.options)
-      .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
+      .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
   private httpErrorHandler(error: HttpErrorResponse) {

@@ -10,7 +10,7 @@ mat-card {
 
 mat-form-field {
   width: 200px;
-  margin: 20px 20px;
+  margin: 5px 10px;
 }
 
 mat-label {
@@ -35,5 +35,29 @@ mat-card-title {
 }
 
 button {
-  width: 300px;
+  width: 200px;
+  margin-right: 30px;
+}
+
+.add-user-btn {
+  margin-right: 0;
+}
+
+.btn-gp {
+  width: 440px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.profileinput {
+  display: block;
+}
+
+.profileimg {
+  object-fit: cover;
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 0;
+  height: 80%;
+  width: 20%;
 }

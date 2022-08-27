@@ -7,8 +7,4 @@ export interface TicketCreate{
   status: String;
 }
 
-export interface dataInterface{
-  seatNumber: String;
-  status: String;
-}
 

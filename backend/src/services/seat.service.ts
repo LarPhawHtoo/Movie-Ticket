@@ -57,7 +57,6 @@ export const createSeatService = async (
     const seatTdo: SeatCreate = {
       seatNumber: req.body.seatNumber,
       status: req.body.status,
-      cinema_id: req.body.cinema_id,
       price: req.body.price,
     };
     const seat = new Seat(seatTdo);
@@ -122,7 +121,6 @@ export const updateSeatService = async (
     }
     seat.seatNumber = req.body.seatNumber;
     seat.status = req.body.status;
-    seat.cinema_id = req.body.cinema_id;
     seat.price = req.body.price;
     const result = await seat.save();
     res.json({
@@ -153,39 +151,7 @@ export const deleteSeatService = async (
       error.statusCode = 401;
       throw error;
     }
-    seat.deleted_at = new Date();
-    const result = await seat.save();
-    res.json({ message: "Delete Seat Successfully!", data: result, status: 1 });
-  } catch (err) {
-    next(err);
-  }
-};
-
-/**
- * get Seat by Cinema Id service
- * @param req
- * @param res
- * @param next
- */
-export const getSeatByCinemaIdService = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const cinema = await Cinema.findById(req.params.cinema_id);
-    console.log(cinema);
-    const seats = await Seat.find({ 'cinema_id': cinema?._id });
-    
-    if (!seats) {
-      const error: any = Error("Not Found!");
-      error.statusCode = 401;
-      throw error;
-    }
-    var sortedSeat = seats.sort((a, b) =>
-        a.seatNumber < b.seatNumber ? -1 : 1
-      );
-    res.json({ seats: sortedSeat, status: 1 });
+    res.json({ message: "Delete Seat Successfully!", data: seat, status: 1 });
   } catch (err) {
     next(err);
   }

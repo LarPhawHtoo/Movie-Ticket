@@ -2,12 +2,16 @@ import { Request, Response, NextFunction } from "express";
 import Ticket from "../models/ticket.model";
 import Cinema from "../models/cinema.model";
 import Seat from "../models/seat.model";
-import { TicketCreate, dataInterface } from "../interfaces/ticket";
+import Movie from "../models/movie.model";
+import { TicketCreate } from "../interfaces/ticket";
 import { validationResult } from "express-validator";
 import { deleteFile } from "../utils/utils";
 import ticketModel from "../models/ticket.model";
-import { getTickets } from "../controllers/ticket.controller";
-import { type } from "os";
+import { getCinema } from "../controllers/cinemaController";
+import cinemaModel from "../models/cinema.model";
+import { SeatCreate } from "../interfaces/seat";
+import { StreamState } from "http2";
+import { stat } from "fs";
 
 /**
  * get tickets service
@@ -161,11 +165,9 @@ export const deleteTicketService = async (
       error.statusCode = 401;
       throw error;
     }
-    ticket.deleted_at = new Date();
-    const result = await ticket.save();
     res.json({
       message: "Delete Ticket Successfully!",
-      tickets: result,
+      tickets:ticket,
       status: 1,
     });
   } catch (err) {
@@ -179,6 +181,62 @@ export const deleteTicketService = async (
  * @param res
  * @param next
  */
+export const getdashBoardata = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+   try {
+     const cinema = await Cinema.findById(req.params.cinema_id);
+     console.log(cinema);
+     const ticket = await Ticket.find({ cinema_id: cinema?._id });
+     const seats = await Seat.find();
+     let seatingList: any = [];
+     for (let i = 0; i < seats.length; i++){
+       const filter = ticket.find((ticket) => ticket.seatNumber?.findIndex((number) => number === seats[i].seatNumber) !== -1);
+       let data = {};
+       if (filter && filter !== undefined) {
+         data = {
+           seatNumber: seats[i].seatNumber,
+           status: filter.status,
+         };
+       } else {
+         data = {
+           seatNumber: seats[i].seatNumber,
+           status: "Available",
+         };
+       }
+       seatingList.push(data);
+     }
+     var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
+     console.log(sortedStatus);
+     let firstName = "";
+     let result: any = [];
+     let firstArrIndex = 0;
+     for (let i = 0; i < sortedStatus.length; i++){
+      if (i === 0) {
+        result[firstArrIndex] = [sortedStatus[i]];
+        firstName = sortedStatus[i].status[0];
+      } else if (sortedStatus[i].status.indexOf(firstName) === -1) {
+        firstArrIndex += 1;
+        firstName = sortedStatus[i].status[0];
+        result[firstArrIndex] = [sortedStatus[i]];
+      } else {
+        result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
+      }
+     }
+      
+    if (!result) {
+      const error: any = Error("Not Found!");
+      error.statusCode = 401;
+      throw error;
+    }
+    res.json({ tickets: result, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getTicketByCinemaIdService = async (
   req: Request,
   res: Response,
@@ -186,67 +244,62 @@ export const getTicketByCinemaIdService = async (
 ) => {
   try {
     const cinema = await Cinema.findById(req.params.cinema_id);
-    console.log(cinema);
+  
     const tickets: any = await Ticket.find({ cinema_id: cinema?._id });
     const seats: any = await Seat.find();
-    console.log(seats);
 
     let seatingPlan: any = [];
 
-    const plan = seats.map((seat, index) => {
+    for (let i = 0; i < seats.length; i++) {
       const filterData: any = tickets.find(
         (ticket) =>
           ticket.seatNumber?.findIndex(
-            (number) => number === seat.seatNumber
+            (number) => number === seats[i].seatNumber
           ) !== -1
       );
 
       let data = {};
 
-      if (filterData) {
+      if (filterData && filterData !== undefined) {
         data = {
-          seatNumber: seat.seatNumber,
+          seatNumber: seats[i].seatNumber,
           status: filterData.status,
         };
       } else {
         data = {
-          seatNumber: seat.seatNumber,
+          seatNumber: seats[i].seatNumber,
           status: "available",
         };
       }
       seatingPlan.push(data);
-      if (index === seats.length - 1) {
-        return seatingPlan;
-      }
-    });
+    }
 
     var sortedSeat = seatingPlan.sort((a: any, b: any) =>
       a.seatNumber < b.seatNumber ? -1 : 1
     );
-    console.log(sortedSeat);
-//
-//    let firstName = "";
-//    let result: any= [];
-//    let firstArrIndex = 0;
 
-    //sortedSeat.map((seat, index) => {
-    //  if (index === 0) {
-    //    result[firstArrIndex].push(seat);
-    //    firstName = seat.seatNumber[0];
-    //  } else if (seat.seatNumber.indexOf(firstName) === -1) {
-    //    firstArrIndex += 1;
-    //    firstName = seat.seatNumber[0];
-    //    result[firstArrIndex].push(seat);
-    //  } else {
-    //    result[firstArrIndex].push(seat);
-    //  }
-    //});
-    if (!sortedSeat) {
+    let firstName = "";
+    let result: any= [];
+    let firstArrIndex = 0;
+
+    for (let i = 0; i < sortedSeat.length; i++) {
+      if (i === 0) {
+        result[firstArrIndex]=[sortedSeat[i]];
+        firstName = sortedSeat[i].seatNumber[0];
+      } else if (sortedSeat[i].seatNumber.indexOf(firstName) === -1) {
+        firstArrIndex += 1;
+        firstName = sortedSeat[i].seatNumber[0];
+        result[firstArrIndex] = [sortedSeat[i]];
+      } else {
+        result[firstArrIndex] = [...result[firstArrIndex], sortedSeat[i]];
+      }
+    }
+    if (!result) {
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
     }
-    res.json({ tickets: sortedSeat, status: 1 });
+    res.json({ tickets: result, status: 1 });
   } catch (err) {
     next(err);
   }

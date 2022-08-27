@@ -10,19 +10,23 @@
    <mat-toolbar>
       <a routerLink="/home" (click)="onClickHome()">Happy Cinema</a>
       <span class="example-spacer"></span>
-      <button mat-button color="primary" *ngIf="isCinemas" routerLink="/users" (click)="onClickUsers()">
+      <button mat-button color="primary" routerLink="/about">
+         <mat-icon class="mat-18">info</mat-icon>
+         About Us
+      </button>
+      <button mat-button color="primary" *ngIf="isUsers || isMovies" routerLink="/users" (click)="onClickUsers()">
          <mat-icon class="mat-18">people_alt</mat-icon>
          Users
       </button>
-      <button mat-button color="primary" *ngIf="isUsers" routerLink="/cinemas" (click)="onClickCinemas()">
+      <button mat-button color="primary" *ngIf="isCinemas || isMovies" routerLink="/cinemas" (click)="onClickCinemas()">
          <mat-icon class="mat-18">movie</mat-icon>
          Cinemas
       </button>
-      <button mat-button color="primary" *ngIf="isMovies" routerLink="/movies" (click)="onClickMovies()">
+      <button mat-button color="primary" *ngIf="isUsers || isCinemas" routerLink="/movies" (click)="onClickMovies()">
          <mat-icon class="mat-18">movie</mat-icon>
-         Movie
+         Movies
       </button>
-      <button mat-button color="primary" *ngIf="isUserLoggedIn">
+      <button mat-button color="primary" *ngIf="isUserLoggedIn" routerLink="/profile">
          <mat-icon class="mat-18">account_circle</mat-icon>
          {{ loggedInUser.fullName }}
       </button>

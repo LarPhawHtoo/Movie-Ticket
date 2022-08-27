@@ -26,11 +26,7 @@ export const getUserService = async (
       let username = "";
       index !== -1 ? username = users[index].fullName : "";
       let obj: any = {
-        //...users[i]._doc,
-        fullName: users[i].fullName,
-        _id: users[i].id,
-        email:users[i].email,
-        created_username: username
+        ...users[i]._doc,
       };
       result.push(obj);
     }
@@ -159,9 +155,7 @@ export const deleteUserService = async (
       error.statusCode = 401;
       throw error;
     }
-    user.deleted_at = new Date();
-    const result = await user.save();
-    res.json({ message: "Delete User Successfully!", data: result, status: 1 });
+    res.json({ message: "Delete User Successfully!", data: user, status: 1 });
   } catch (err) {
     next(err);
   }

@@ -4,13 +4,18 @@
   </mat-card-header>
   <mat-card-content>
     <form action="post" [formGroup]="formData" (ngSubmit)="onClickAddUser()">
-      <mat-form-field appearance="fill">
-        <ngx-mat-file-input matInput type="file" (change)="imageUpload($event)" accept="image/*" class="form-control" formControlName="profile"></ngx-mat-file-input>
-      </mat-form-field>
+      <label>Profile</label>
+      <div *ngIf="confirmView==false" class="profileinput">
+        <input #file type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*"
+          maxFileSize=2000000>
+      </div>
+      <div *ngIf="profileImage">
+        <img [src]="profileImage" class="profileimg">
+      </div>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Name</mat-label>
         <input type="text" matInput class="form-control" formControlName="fullName" required>
-        <mat-error *ngIf="fullName.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-error *ngIf="myForm['fullName'].hasError('required')">Please enter your name</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>User Type</mat-label>
@@ -23,16 +28,18 @@
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Phone</mat-label>
         <input type="text" matInput class="form-control" formControlName="phone" required>
-        <mat-error *ngIf="phone.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-error *ngIf="myForm['phone'].hasError('required')">Please enter your phone number</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Email</mat-label>
         <input type="text" matInput class="form-control" formControlName="email" required>
-        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-error *ngIf="myForm['email'].hasError('required')">Please enter your email</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Date of birth</mat-label>
-        <input type="text" matInput class="form-control" formControlName="dob">
+      <mat-form-field appearance="fill">
+        <input (dateInput)="OnDateChange($event.value)" matInput [matDatepicker]="picker" [max]="today"
+          placeholder="Choose your Birthday" formControlName="dob">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Address</mat-label>
@@ -41,9 +48,18 @@
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Password</mat-label>
         <input type="text" matInput class="form-control" formControlName="password" required>
-        <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
+        <mat-error *ngIf="myForm['password'].hasError('required')">Please enter your password</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Add User</button>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Confirm your Password</mat-label>
+        <input type="text" matInput class="form-control" formControlName="confirmPwd" required>
+        <mat-error *ngIf="myForm['confirmPwd'].hasError('required')">Please confirm your password</mat-error>
+        <mat-error *ngIf="myForm['confirmPwd'].hasError('mustMatch')">Password must be match</mat-error>
+      </mat-form-field>
+      <div class="btn-gp">
+        <button mat-raised-button color="warn" class="full-width" (click)="onClear()"> {{ confirmView === true ? 'Cancel' : 'Clear' }} </button>
+        <button mat-raised-button color="primary" class="add-user-btn" [disabled]="formData.invalid"> {{ confirmView === true ? 'Confirm' : 'Register' }} </button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>

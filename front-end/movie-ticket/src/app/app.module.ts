@@ -16,19 +16,20 @@ import { CreateCinemaBottomSheetComponent } from './components/create-cinema-bot
 import { UsersComponent } from './pages/users/users.component';
 import { UserCreateComponent } from './components/user-create/user-create.component';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
-import { UserActionsComponent } from './components/user-actions/user-actions.component';
 import { CinemasComponent } from './pages/cinemas/cinemas.component';
 import { CinemaUpdateComponent } from './components/cinema-update/cinema-update.component';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { UserUpdateComponent } from './components/user-update/user-update.component';
 import { UserDeleteConfirmDialogComponent } from './components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
 import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { AboutComponent } from './pages/about/about.component';
+import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
+import { MovieCreateComponent } from './movie-create/movie-create.component';
 import { MoviesComponent } from './pages/movies/movies.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { CreateMovieBottomSheetComponent } from './components/create-movie-bottom-sheet/create-movie-bottom-sheet.component';
-//import { MovieCreateComponent } from './movie-create/movie-create.component';
-
+import { MovieDeleteConfirmDialogComponent } from './components/movie-delete-confirm-dialog/movie-delete-confirm-dialog.component';
+import { MovieUpdateComponent } from './movie-update/movie-update.component';
 
 @NgModule({
   declarations: [
@@ -42,16 +43,18 @@ import { CreateMovieBottomSheetComponent } from './components/create-movie-botto
     UsersComponent,
     UserCreateComponent,
     LogoutConfirmComponent,
-    UserActionsComponent,
     CinemasComponent,
     CinemaUpdateComponent,
     UserUpdateComponent,
     UserDeleteConfirmDialogComponent,
     CinemaDeleteConfirmDialogComponent,
+    ProfileComponent,
+    AboutComponent,
+    ChangePasswordDialogComponent,
     MoviesComponent,
-    CreateMovieBottomSheetComponent,
-    //MovieCreateComponent,
-
+    MovieCreateComponent,
+    MovieDeleteConfirmDialogComponent,
+    MovieUpdateComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,8 +65,7 @@ import { CreateMovieBottomSheetComponent } from './components/create-movie-botto
     ReactiveFormsModule,
     FormsModule,
     NgxMatFileInputModule,
-    MatCardModule,
-    MatFormFieldModule,
+    MomentDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,6 +9,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { CinemaUpdateComponent } from 'src/app/components/cinema-update/cinema-update.component';
 import { CinemaDeleteConfirmDialogComponent } from 'src/app/components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
+import { CinemaService } from 'src/app/services/cinema.service';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-cinemas',
@@ -23,7 +25,8 @@ export class CinemasComponent implements OnInit, AfterViewInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private bottomSheet: MatBottomSheet,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cinemaService: CinemaService,
   ) { }
 
   // variables for showing cinemas
@@ -31,7 +34,9 @@ export class CinemasComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Cinema>();
 
   ngOnInit(): void {
-    this.getCinema();
+    this.activatedRoute.data.subscribe((response: any) => {
+      this.dataSource.data = response.cinemas.data as Cinema[];
+    })
   }
 
   ngAfterViewInit(): void {
@@ -40,8 +45,12 @@ export class CinemasComponent implements OnInit, AfterViewInit {
   }
 
   getCinema() {
-    this.activatedRoute.data.subscribe((response: any) => {
-      this.dataSource.data = response.cinemas.data as Cinema[];
+    this.cinemaService.getCinemas().pipe(
+      catchError(error => {
+        return of(error);
+      })
+    ).subscribe((response: any) => {
+      this.dataSource.data = response.data as Cinema[];
     })
   }
 
@@ -49,16 +58,16 @@ export class CinemasComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = target.value.trim().toLocaleLowerCase();
   }
 
-  openUpdateDialog() {
-    const dialogRef = this.dialog.open(CinemaUpdateComponent, {data: this.dataSource.data});
+  openUpdateDialog(element: any) {
+    const dialogRef = this.dialog.open(CinemaUpdateComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      this.getCinema();
     })
   }
-  openDeleteDialog() {
-    const dialogRef = this.dialog.open(CinemaDeleteConfirmDialogComponent);
+  openDeleteDialog(element: any) {
+    const dialogRef = this.dialog.open(CinemaDeleteConfirmDialogComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      if(result == 'delete') this.getCinema();
     })
   }
 

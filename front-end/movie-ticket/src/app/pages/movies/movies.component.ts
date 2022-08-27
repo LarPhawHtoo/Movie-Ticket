@@ -4,14 +4,14 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import { ActivatedRoute } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { CreateCinemaBottomSheetComponent } from 'src/app/components/create-cinema-bottom-sheet/create-cinema-bottom-sheet.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { CinemaUpdateComponent } from 'src/app/components/cinema-update/cinema-update.component';
-import { CinemaDeleteConfirmDialogComponent } from 'src/app/components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
 import { Movie } from 'src/app/interfaces/movie.model';
-import { CreateMovieBottomSheetComponent } from 'src/app/components/create-movie-bottom-sheet/create-movie-bottom-sheet.component';
 import { catchError,of } from 'rxjs';
+import { MovieService } from 'src/app/services/movie.service';
+import { MovieCreateComponent } from 'src/app/movie-create/movie-create.component';
+import { MovieDeleteConfirmDialogComponent } from 'src/app/components/movie-delete-confirm-dialog/movie-delete-confirm-dialog.component';
+import { MovieUpdateComponent } from 'src/app/movie-update/movie-update.component';
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
@@ -20,22 +20,23 @@ import { catchError,of } from 'rxjs';
 export class MoviesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  movieService: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private bottomSheet: MatBottomSheet,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    public movieService: MovieService
+  ) { }
 
-    displayedColumns: string[] = ['id', 'code', 'name', 'year','ratings'];
+    displayedColumns: string[] = ['id', 'code', 'name', 'year','rating','createdAt','updatedAt','time','actions'];
     dataSource = new MatTableDataSource<Movie>();
   
     ngOnInit(): void {
       
       //console.log(this.dataSource.data);
       this.activatedRoute.data.subscribe((response: any) => {
-        this.dataSource.data = response.movies.data as Movie[];
-        console.log(this.dataSource.data);
+
+        this.dataSource.data = response.movies.movies as Movie[];
       })
     }
   
@@ -48,8 +49,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       this.movieService.getMovies().pipe(
         catchError(error => {
           return of(error);
-        })
-      ).subscribe((response: any) => {
+        })).subscribe((response: any) => {
+        console.log(response);
         this.dataSource.data = response.data as Movie[];
       })
     }
@@ -58,26 +59,25 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       this.dataSource.filter = target.value.trim().toLocaleLowerCase();
     }
   
-    openUpdateDialog() {
-      const dialogRef = this.dialog.open(CinemaUpdateComponent, {data: this.dataSource.data});
+    openUpdateDialog(element:any) {
+      const dialogRef = this.dialog.open(MovieUpdateComponent, {data: element});
       dialogRef.afterClosed().subscribe(result => {
         console.log(result);
       })
     }
-    openDeleteDialog() {
-      const dialogRef = this.dialog.open(CinemaDeleteConfirmDialogComponent);
+    openDeleteDialog(element:any) {
+      const dialogRef = this.dialog.open(MovieDeleteConfirmDialogComponent,{data:element});
       dialogRef.afterClosed().subscribe(result => {
         console.log(result);
       })
     }
   
-    openBottomSheet() {
-      let bottomSheetRef = this.bottomSheet.open(CreateMovieBottomSheetComponent);
-      bottomSheetRef.afterDismissed().subscribe((data) => {
-        if (data == "create") {
-          this.getMovie();
-        }
-      });
+    openDialog() {
+      const dialogRef = this.dialog.open(MovieCreateComponent, { width: '700px' });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        this.getMovie();
+      })
     }
   
   }
