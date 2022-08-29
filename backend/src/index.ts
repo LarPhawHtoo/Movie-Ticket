@@ -48,7 +48,7 @@ const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
 
 const app: Express = express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended:true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
 app.use('/apiuploads/profile', express.static('apiuploads/profile'));
 app.use(cors());

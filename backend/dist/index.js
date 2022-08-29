@@ -41,7 +41,7 @@ const fileFilter = (_req, file, cb) => {
 };
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
 app.use('/apiuploads/profile', express_1.default.static('apiuploads/profile'));
 app.use((0, cors_1.default)());

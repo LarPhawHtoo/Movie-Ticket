@@ -36,6 +36,8 @@ const ticketSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+}, {
+    timestamps: true
 });
 ticketSchema.plugin(require('mongoose-autopopulate'));
 exports.default = (0, mongoose_1.model)("Ticket", ticketSchema);
