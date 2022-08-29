@@ -17,23 +17,22 @@ require('./config/passport');
 
 import "dotenv/config"; 
 
-import {json} from 'body-parser';
+import bodyParser, {json} from 'body-parser';
 import path from "path";
 import { rootDir } from "./utils/utils";
 import cookieParser from "cookie-parser";
 
-
 dotenv.config();
-
 
 const fileStorage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, "apiuploads");
+    cb(null, "apiuploads/profile");
   },
   filename: (_req, file, cb) => {
     cb(null, `${v4()}_${file.originalname}`);
   }
 });
+
 
 const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
   if (
@@ -48,10 +47,10 @@ const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
 }
 
 const app: Express = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended:true }));
 app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
-app.use('/apiuploads', express.static('apiuploads'));
+app.use('/apiuploads/profile', express.static('apiuploads/profile'));
 app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());

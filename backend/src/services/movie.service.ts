@@ -53,7 +53,7 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       error.statusCode = 401;
       throw error;
     }
-    let profile: string = req.body.profile;
+    let profile:string= req.body.profile;
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
     }
@@ -64,7 +64,7 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       rating: req.body.rating,
       cinema_id: req.body.cinema_id,
       time: req.body.time,
-      profile: profile,
+      profile:profile,
       created_user_id: req.body.created_user_id,
     }
     const movie = new Movie(movieTdo);
