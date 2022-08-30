@@ -15,6 +15,7 @@ export class AppComponent {
   loggedInUser: any;
   isCinemas = false;
   isUsers = false;
+  isMovies = false;
   isTickets = false;
 
   constructor(
@@ -57,7 +58,12 @@ export class AppComponent {
         } else {
           this.isUsers = false;
         }
-
+        let isMovies = localStorage.getItem('isMovies');
+        if (isMovies == 'true') {
+          this.isMovies = true;
+        } else {
+          this.isMovies = false;
+        }
         let isTickets = localStorage.getItem('isTickets');
         if (isTickets == 'true') {
           this.isTickets = true;
@@ -79,18 +85,27 @@ export class AppComponent {
   onClickHome() {
     localStorage.setItem('isCinemas', 'false');
     localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isTickets', 'false');
   }
 
   onClickUsers() {
     localStorage.setItem('isCinemas', 'false');
     localStorage.setItem('isUsers', 'true');
+    localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isTickets', 'false');
   }
 
   onClickCinemas() {
     localStorage.setItem('isUsers', 'false');
     localStorage.setItem('isCinemas', 'true');
+    localStorage.setItem('isMovies', 'false');
+    localStorage.setItem('isTickets', 'false');
+  }
+  onClickMovies() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isMovies', 'true');
     localStorage.setItem('isTickets', 'false');
   }
 
@@ -98,11 +113,13 @@ export class AppComponent {
     localStorage.setItem('isUsers', 'false');
     localStorage.setItem('isCinemas', 'false');
     localStorage.setItem('isTickets', 'true');
+    localStorage.setItem('isMovies', 'false');
   }
 
   onClickAboutUs() {
     localStorage.setItem('isUsers', 'true');
     localStorage.setItem('isCinemas', 'true');
     localStorage.setItem('isTickets', 'true');
+    localStorage.setItem('isMovies', 'true');
   }
 }
