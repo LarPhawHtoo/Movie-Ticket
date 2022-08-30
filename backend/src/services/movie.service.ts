@@ -19,15 +19,20 @@ export const getMovieService = async (
   next: NextFunction
 ) => {
   try {
-    const userType = _req.headers['userType'];
-    const userId = _req.headers['userId'];
-    let condition: any = { deleted_at: null };
-    if (userType === "User") {
-      condition.created_user_id = userId;
-      condition.updated_user_id = userId;
+    const movies: any = await Movie.find();
+    
+    if (!movies) {
+      res.json({
+        success: false,
+        message: "Not Found! ",
+      });
     }
-    const movies = await Movie.find(condition);
-    res.json({ movies: movies, status: 1 });
+    res.json({
+      success: true,
+      message: "Movies fetched",
+      movies: movies,
+      status: 1,
+    });
   } catch (err) {
     next(err);
   }
@@ -48,7 +53,7 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       error.statusCode = 401;
       throw error;
     }
-    let profile: string = req.body.profile;
+    let profile:string= req.body.profile;
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
     }
@@ -59,7 +64,7 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       rating: req.body.rating,
       cinema_id: req.body.cinema_id,
       time: req.body.time,
-      profile: profile,
+      profile:profile,
       created_user_id: req.body.created_user_id,
     }
     const movie = new Movie(movieTdo);

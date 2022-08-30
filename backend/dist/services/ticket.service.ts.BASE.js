@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTicketByCinemaIdService = exports.getdashBoardata = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
+exports.getTicketByCinemaIdService = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
 const ticket_model_1 = __importDefault(require("../models/ticket.model"));
 const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const seat_model_1 = __importDefault(require("../models/seat.model"));
@@ -24,25 +24,23 @@ const express_validator_1 = require("express-validator");
  * @param next
  */
 const getTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const tickets = yield ticket_model_1.default.find();
-        if (!tickets) {
+    ticket_model_1.default.find(req.body.tickets, (err, tickets) => {
+        if (err) {
             res.json({
                 success: false,
-                message: "Not Found! ",
+                message: "An error occured while fetching tickets: " + err,
             });
         }
-        var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
-        res.json({
-            success: true,
-            message: "Tickets fetched",
-            tickets: sortedTicket,
-            status: 1,
-        });
-    }
-    catch (err) {
-        next(err);
-    }
+        else {
+            var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
+            res.json({
+                success: true,
+                message: "Tickets fetched",
+                tickets: sortedTicket,
+                status: 1,
+            });
+        }
+    });
 });
 exports.getTicketService = getTicketService;
 /**
@@ -67,8 +65,6 @@ const createTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             seatNumber: req.body.seatNumber,
             price: req.body.price,
             status: req.body.status,
-            date: req.body.date,
-            time: req.body.time
         };
         const ticket = new ticket_model_1.default(ticketTdo);
         const result = yield ticket.save();
@@ -91,12 +87,7 @@ exports.createTicketService = createTicketService;
  */
 const findTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let date = req.body.date;
-        console.log(date);
-        let time = req.body.time;
-        console.log(time);
-        const ticket = yield ticket_model_1.default.find({ date, time });
-        console.log(ticket);
+        const ticket = yield ticket_model_1.default.findById(req.params.id);
         if (!ticket) {
             const error = Error("Not Found!");
             error.statusCode = 401;
@@ -136,8 +127,6 @@ const updateTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
         ticket.seatNumber = req.body.seatNumber;
         ticket.price = req.body.price;
         ticket.status = req.body.status;
-        ticket.date = req.body.date;
-        ticket.time = req.body.time;
         const result = yield ticket.save();
         res.json({
             message: "Updated Ticket Successfully!",
@@ -164,9 +153,11 @@ const deleteTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             error.statusCode = 401;
             throw error;
         }
+        ticket.deleted_at = new Date();
+        const result = yield ticket.save();
         res.json({
             message: "Delete Ticket Successfully!",
-            tickets: ticket,
+            tickets: result,
             status: 1,
         });
     }
@@ -181,113 +172,61 @@ exports.deleteTicketService = deleteTicketService;
  * @param res
  * @param next
  */
-const getdashBoardata = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
-        console.log(cinema);
-        const ticket = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
-        const seats = yield seat_model_1.default.find();
-        let seatingList = [];
-        for (let i = 0; i < seats.length; i++) {
-            const filter = ticket.find((ticket) => { var _a; return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seats[i].seatNumber)) !== -1; });
-            let data = {};
-            if (filter && filter !== undefined) {
-                data = {
-                    seatNumber: seats[i].seatNumber,
-                    status: filter.status,
-                };
-            }
-            else {
-                data = {
-                    seatNumber: seats[i].seatNumber,
-                    status: "Available",
-                };
-            }
-            seatingList.push(data);
-        }
-        var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
-        console.log(sortedStatus);
-        let firstName = "";
-        let result = [];
-        let firstArrIndex = 0;
-        for (let i = 0; i < sortedStatus.length; i++) {
-            if (i === 0) {
-                result[firstArrIndex] = [sortedStatus[i]];
-                firstName = sortedStatus[i].status[0];
-            }
-            else if (sortedStatus[i].status.indexOf(firstName) === -1) {
-                firstArrIndex += 1;
-                firstName = sortedStatus[i].status[0];
-                result[firstArrIndex] = [sortedStatus[i]];
-            }
-            else {
-                result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
-            }
-        }
-        if (!result) {
-            const error = Error("Not Found!");
-            error.statusCode = 401;
-            throw error;
-        }
-        res.json({ tickets: result, status: 1 });
-    }
-    catch (err) {
-        next(err);
-    }
-});
-exports.getdashBoardata = getdashBoardata;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
-        let date = req.body.date;
-        let time = req.body.time;
-        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id, date, time });
+        console.log(cinema);
+        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
         const seats = yield seat_model_1.default.find();
+        console.log(seats);
         let seatingPlan = [];
-        for (let i = 0; i < seats.length; i++) {
+        const plan = seats.map((seat, index) => {
             const filterData = tickets.find((ticket) => {
                 var _a;
-                return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seats[i].seatNumber)) !== -1;
+                return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seat.seatNumber)) !== -1;
             });
             let data = {};
-            if (filterData && filterData !== undefined) {
+            if (filterData) {
                 data = {
-                    seatNumber: seats[i].seatNumber,
+                    seatNumber: seat.seatNumber,
                     status: filterData.status,
                 };
             }
             else {
                 data = {
-                    seatNumber: seats[i].seatNumber,
+                    seatNumber: seat.seatNumber,
                     status: "available",
                 };
             }
             seatingPlan.push(data);
-        }
+            if (index === seats.length - 1) {
+                return seatingPlan;
+            }
+        });
         var sortedSeat = seatingPlan.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
-        let firstName = "";
-        let result = [];
-        let firstArrIndex = 0;
-        for (let i = 0; i < sortedSeat.length; i++) {
-            if (i === 0) {
-                result[firstArrIndex] = [sortedSeat[i]];
-                firstName = sortedSeat[i].seatNumber[0];
-            }
-            else if (sortedSeat[i].seatNumber.indexOf(firstName) === -1) {
-                firstArrIndex += 1;
-                firstName = sortedSeat[i].seatNumber[0];
-                result[firstArrIndex] = [sortedSeat[i]];
-            }
-            else {
-                result[firstArrIndex] = [...result[firstArrIndex], sortedSeat[i]];
-            }
-        }
-        if (!result) {
+        console.log(sortedSeat);
+        //
+        //    let firstName = "";
+        //    let result: any= [];
+        //    let firstArrIndex = 0;
+        //sortedSeat.map((seat, index) => {
+        //  if (index === 0) {
+        //    result[firstArrIndex].push(seat);
+        //    firstName = seat.seatNumber[0];
+        //  } else if (seat.seatNumber.indexOf(firstName) === -1) {
+        //    firstArrIndex += 1;
+        //    firstName = seat.seatNumber[0];
+        //    result[firstArrIndex].push(seat);
+        //  } else {
+        //    result[firstArrIndex].push(seat);
+        //  }
+        //});
+        if (!sortedSeat) {
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
         }
-        res.json({ tickets: result, status: 1 });
+        res.json({ tickets: sortedSeat, status: 1 });
     }
     catch (err) {
         next(err);

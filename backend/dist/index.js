@@ -18,11 +18,12 @@ const uuid_1 = require("uuid");
 const passport_1 = __importDefault(require("passport"));
 require('./config/passport');
 require("dotenv/config");
+const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 dotenv_1.default.config();
 const fileStorage = multer_1.default.diskStorage({
     destination: (_req, _file, cb) => {
-        cb(null, "apiuploads");
+        cb(null, "apiuploads/profile");
     },
     filename: (_req, file, cb) => {
         cb(null, `${(0, uuid_1.v4)()}_${file.originalname}`);
@@ -39,10 +40,10 @@ const fileFilter = (_req, file, cb) => {
     }
 };
 const app = (0, express_1.default)();
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: false }));
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
-app.use('/apiuploads', express_1.default.static('apiuploads'));
+app.use('/apiuploads/profile', express_1.default.static('apiuploads/profile'));
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());

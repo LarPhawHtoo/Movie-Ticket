@@ -6,9 +6,9 @@ import Movie from "../models/movie.model";
 import { TicketCreate } from "../interfaces/ticket";
 import { param, validationResult } from "express-validator";
 import { deleteFile } from "../utils/utils";
-import ticketModel from "../models/ticket.model";
+//import ticketModel from "../models/ticket.model";
 import { getCinema } from "../controllers/cinema.controller";
-import cinemaModel from "../models/cinema.model";
+//import cinemaModel from "../models/cinema.model";
 import { SeatCreate } from "../interfaces/seat";
 import { StreamState } from "http2";
 import { stat } from "fs";
@@ -21,30 +21,34 @@ import { getMovieService } from "./movie.service";
  * @param res
  * @param next
  */
-export const getTicketService = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  Ticket.find(req.body.tickets, (err, tickets) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "An error occured while fetching tickets: " + err,
-      });
-    } else {
+
+ export const getTicketService = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const tickets: any = await Ticket.find();
+      if (!tickets) {
+        res.json({
+          success: false,
+          message: "Not Found! ",
+        });
+      }
       var sortedTicket = tickets.sort((a, b) =>
-        a.seatNumber < b.seatNumber ? -1 : 1
-      );
-      res.json({
-        success: true,
-        message: "Tickets fetched",
-        tickets: sortedTicket,
-        status: 1,
-      });
+      a.seatNumber < b.seatNumber ? -1 : 1
+    );
+    res.json({
+      success: true,
+      message: "Tickets fetched",
+      tickets: sortedTicket,
+      status: 1,
+    });
+    } catch (err) {
+      next(err);
     }
-  });
 };
+
 /**
  * create ticket service
  * @param _req
@@ -256,8 +260,10 @@ export const getTicketByCinemaIdService = async (
 ) => {
   try {
     const cinema = await Cinema.findById(req.params.cinema_id);
-  
-    const tickets: any = await Ticket.find({ cinema_id: cinema?._id });
+
+    let date = req.body.date;
+    let time= req.body.time;
+    const tickets: any = await Ticket.find({ cinema_id: cinema?._id, date, time });
     const seats: any = await Seat.find();
 
     let seatingPlan: any = [];

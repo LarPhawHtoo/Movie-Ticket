@@ -1,0 +1,42 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>New Movie</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form action="post" [formGroup]="formData" (ngSubmit)="onClickAddMovie()">
+      <!--<mat-form-field appearance="fill" class="full-width">
+        <mat-label>Movie ID</mat-label>
+        <input type="text" matInput class="form-control" formControlName="id" required>
+        <mat-error *ngIf="movieid.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>-->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Movie Code</mat-label>
+        <input type="text" matInput class="form-control" formControlName="code" required>
+        <mat-error *ngIf="code.invalid">{{getErrorMessage('code')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Movie Name</mat-label>
+        <input type="text" matInput class="form-control" formControlName="name" required>
+        <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Release Year</mat-label>
+        <input type="text" matInput class="form-control" formControlName="year">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Movie Ratings</mat-label>
+        <input type="text" matInput class="form-control" formControlName="rating">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <ngx-mat-file-input matInput type="file" (change)="imageUpload($event)" accept="image/*" class="form-control" formControlName="profile"></ngx-mat-file-input>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Time</mat-label>
+        <input type="text" matInput class="form-control" formControlName="time" required>
+        <mat-error *ngIf="time.invalid">{{getErrorMessage('time')}}</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Add </button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
