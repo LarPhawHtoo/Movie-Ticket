@@ -55,7 +55,6 @@ export class UserUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileImage = `http://localhost:8081/${this.data.profile}` || "";
-    console.log(this.profileImage)
     this.formData = new FormGroup({
       profile: new FormControl(''),
       fullName: new FormControl(this.data.fullName, Validators.required),

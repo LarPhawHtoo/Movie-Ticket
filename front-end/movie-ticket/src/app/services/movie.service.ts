@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, retry, catchError, throwError } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { Observable, retry, catchError, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Movie } from '../interfaces/movie.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,6 @@ export class MovieService {
   options = { headers: this.headerOptions };
 
   createMovie(data: any) {
-
     return this.http.post(this.url, data, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   };

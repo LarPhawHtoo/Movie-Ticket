@@ -55,7 +55,6 @@ export class MovieCreateComponent implements OnInit {
     this.movieService.createMovie(formData)
       .subscribe(res => {
         this.dialogRef.close('create');
-        this.router.navigate(['/movies']);
       });
   }
 

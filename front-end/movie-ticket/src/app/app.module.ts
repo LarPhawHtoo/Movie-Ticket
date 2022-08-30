@@ -30,10 +30,10 @@ import { TicketsComponent } from './pages/tickets/tickets.component';
 import { CreateTicketDialogComponent } from './components/create-ticket-dialog/create-ticket-dialog.component';
 import { UpdateTicketDialogComponent } from './components/update-ticket-dialog/update-ticket-dialog.component';
 import { DeleteTicketConfirmDialogComponent } from './components/delete-ticket-confirm-dialog/delete-ticket-confirm-dialog.component';
-import { MovieCreateComponent } from './movie-create/movie-create.component';
+import { MovieCreateComponent } from './components/movie-create/movie-create.component';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieDeleteConfirmDialogComponent } from './components/movie-delete-confirm-dialog/movie-delete-confirm-dialog.component';
-import { MovieUpdateComponent } from './movie-update/movie-update.component';
+import { MovieUpdateComponent } from './components/movie-update/movie-update.component';
 
 @NgModule({
   declarations: [

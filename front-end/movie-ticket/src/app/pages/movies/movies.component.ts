@@ -9,9 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Movie } from 'src/app/interfaces/movie.model';
 import { catchError,of } from 'rxjs';
 import { MovieService } from 'src/app/services/movie.service';
-import { MovieCreateComponent } from 'src/app/movie-create/movie-create.component';
+import { MovieCreateComponent } from 'src/app/components/movie-create/movie-create.component';
 import { MovieDeleteConfirmDialogComponent } from 'src/app/components/movie-delete-confirm-dialog/movie-delete-confirm-dialog.component';
-import { MovieUpdateComponent } from 'src/app/movie-update/movie-update.component';
+import { MovieUpdateComponent } from 'src/app/components/movie-update/movie-update.component';
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
@@ -32,10 +32,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     dataSource = new MatTableDataSource<Movie>();
   
     ngOnInit(): void {
-      
-      //console.log(this.dataSource.data);
       this.activatedRoute.data.subscribe((response: any) => {
-
         this.dataSource.data = response.movies.movies as Movie[];
       })
     }
@@ -50,8 +47,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         catchError(error => {
           return of(error);
         })).subscribe((response: any) => {
-        console.log(response);
-        this.dataSource.data = response.data as Movie[];
+
+        this.dataSource.data = response.movies as Movie[];
       })
     }
   
@@ -62,21 +59,20 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     openUpdateDialog(element:any) {
       const dialogRef = this.dialog.open(MovieUpdateComponent, {data: element});
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
+        if (result == 'update') this.getMovie();
       })
     }
     openDeleteDialog(element:any) {
       const dialogRef = this.dialog.open(MovieDeleteConfirmDialogComponent,{data:element});
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
+        if (result == 'delete') this.getMovie();
       })
     }
   
     openDialog() {
       const dialogRef = this.dialog.open(MovieCreateComponent, { width: '700px' });
-  
       dialogRef.afterClosed().subscribe(result => {
-        this.getMovie();
+        if (result == 'create') this.getMovie();
       })
     }
   

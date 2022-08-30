@@ -34,7 +34,7 @@ export class CinemaUpdateComponent implements OnInit {
 
     this.cinemaService.updateCinema(cinemaId, formData)
     .subscribe(res => {
-      this.dialogRef.close();
+      this.dialogRef.close('update');
     });
   }
 
