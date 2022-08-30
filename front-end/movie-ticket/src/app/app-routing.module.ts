@@ -58,7 +58,8 @@ const routes: Routes = [
     component: TicketsComponent,
     canActivate: [AuthGuard],
     resolve: { tickets: TicketResolverService }
-  }
+  },
+
 ];
 
 @NgModule({

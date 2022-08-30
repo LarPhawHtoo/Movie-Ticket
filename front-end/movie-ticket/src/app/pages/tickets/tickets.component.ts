@@ -28,14 +28,15 @@ export class TicketsComponent implements OnInit, AfterViewInit {
   ) { }
 
   // variables for showing tickets
-  displayedColumns: string[] = ['customer_name', 'seatNumber', 'movie_id', 'cinema_id', 'price', 'date', 'time', 'status', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns: string[] = ['customer_name', 'seatNumber', 'movie', 'cinema', 'price', 'date', 'time', 'status', 'createdAt', 'updatedAt', 'actions'];
   dataSource = new MatTableDataSource<Ticket>();
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((response: any) => {
       this.dataSource.data = response.tickets.tickets as Ticket[];
-      console.log(response.tickets.tickets)
     })
+
+    console.log(this.dataSource.data);
   }
 
   ngAfterViewInit(): void {

@@ -19,7 +19,7 @@
          Users
       </button>
       <button mat-button color="primary" *ngIf="( isUsers || isTickets ) && isUserLoggedIn" routerLink="/cinemas" (click)="onClickCinemas()">
-         <mat-icon class="mat-18">movie</mat-icon>
+         <mat-icon class="mat-18">theaters</mat-icon>
          Cinemas
       </button>
       <button mat-button color="primary" *ngIf="( isCinemas || isUsers ) && isUserLoggedIn" routerLink="/tickets" (click)="onClickTickets()">
@@ -30,7 +30,7 @@
          <mat-icon class="mat-18">account_circle</mat-icon>
          {{ loggedInUser.fullName }}
        </button>
-      <button mat-button color="primary" *ngIf="isUserLoggedIn; else isLogOut" class="nav-link" (click)="openDialog()">
+      <button mat-button color="warn" *ngIf="isUserLoggedIn; else isLogOut" class="nav-link" (click)="openDialog()">
          <mat-icon class="mat-18">logout</mat-icon>
          Log Out
       </button>
