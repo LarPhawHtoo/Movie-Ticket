@@ -35,8 +35,6 @@ export class TicketsComponent implements OnInit, AfterViewInit {
     this.activatedRoute.data.subscribe((response: any) => {
       this.dataSource.data = response.tickets.tickets as Ticket[];
     })
-
-    console.log(this.dataSource.data);
   }
 
   ngAfterViewInit(): void {
@@ -50,7 +48,7 @@ export class TicketsComponent implements OnInit, AfterViewInit {
         return of(error);
       })
     ).subscribe((response: any) => {
-      this.dataSource.data = response.tickets.tickets[0] as Ticket[];
+      this.dataSource.data = response.tickets as Ticket[];
     })
   }
 
@@ -70,7 +68,7 @@ export class TicketsComponent implements OnInit, AfterViewInit {
   openUpdateDialog(element: any) {
     const dialogRef = this.dialog.open(UpdateTicketDialogComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      this.getTickets();
+      if (result == 'update') this.getTickets();
     })
   }
 

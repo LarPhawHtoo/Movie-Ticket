@@ -16,8 +16,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Movie</mat-label>
         <mat-select formControlName="movie">
-          <mat-option *ngFor="let movie of movies" [value]="movie">
-            {{ movie }}
+          <mat-option *ngFor="let movie of movies" [value]="movie._id">
+            {{ movie.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -75,7 +75,7 @@
       <p style="color: rgb(63,81,181);">Almost done! Please check your information!</p>
       <p>Customer name : {{ myForm['customerName'].value }} </p>
       <p>Cinema : {{ selectedCinema }} </p>
-      <p>Movie : {{ myForm['movie'].value }} </p>
+      <p>Movie : {{ selectedMovie }} </p>
       <p>Date : {{ myForm['date'].value }} </p>
       <p>Time : {{ myForm['time'].value }} </p>
       <p>Seat : <span *ngFor="let selectedSeat of selectedSeats"> {{ selectedSeat }} </span> </p>

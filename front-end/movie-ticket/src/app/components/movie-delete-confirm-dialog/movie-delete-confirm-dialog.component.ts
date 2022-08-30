@@ -14,9 +14,12 @@ export class MovieDeleteConfirmDialogComponent implements OnInit {
     private movieService: MovieService,
     @Inject(MAT_DIALOG_DATA) public data: MovieDeleteConfirmDialogComponent,
   ) { }
+
   _id: string = '';
+
   ngOnInit(): void {
   }
+  
   onClick(): void {
     this.dialogRef.close();
   }
