@@ -4,38 +4,48 @@
   </mat-card-header>
   <mat-card-content>
     <form action="post" [formGroup]="formData" (ngSubmit)="onClickAddMovie()">
-      <!--<mat-form-field appearance="fill" class="full-width">
-        <mat-label>Movie ID</mat-label>
-        <input type="text" matInput class="form-control" formControlName="id" required>
-        <mat-error *ngIf="movieid.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>-->
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Movie Code</mat-label>
         <input type="text" matInput class="form-control" formControlName="code" required>
-        <mat-error *ngIf="code.invalid">{{getErrorMessage('code')}}</mat-error>
+        <mat-error *ngIf="myForm['code'].hasError('required')">Please enter the code</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Movie Name</mat-label>
         <input type="text" matInput class="form-control" formControlName="name" required>
-        <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
+        <mat-error *ngIf="myForm['name'].hasError('required')">Please enter the name</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Release Year</mat-label>
-        <input type="text" matInput class="form-control" formControlName="year">
+        <input type="text" matInput class="form-control" formControlName="year" >
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Movie Ratings</mat-label>
         <input type="text" matInput class="form-control" formControlName="rating">
       </mat-form-field>
       <mat-form-field appearance="fill">
+        <mat-label>Cinema</mat-label>
+        <mat-select formControlName="cinema">
+          <mat-option *ngFor="let cinema of cinemas" [value]="cinema._id">
+            {{ cinema.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="myForm['cinema'].hasError('required')">Please choose the cinema</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
         <ngx-mat-file-input matInput type="file" (change)="imageUpload($event)" accept="image/*" class="form-control" formControlName="profile"></ngx-mat-file-input>
       </mat-form-field>
-      <mat-form-field appearance="fill" class="full-width">
+      <mat-form-field appearance="fill">
         <mat-label>Time</mat-label>
-        <input type="text" matInput class="form-control" formControlName="time" required>
-        <mat-error *ngIf="time.invalid">{{getErrorMessage('time')}}</mat-error>
+        <mat-select formControlName="time">
+          <mat-option *ngFor="let time of times" [value]="time">
+            {{ time }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="myForm['time'].hasError('required')">Please choose the time</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Add </button>
+      <div class="btn-gp">
+        <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Add</button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>

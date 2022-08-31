@@ -8,11 +8,27 @@ import { SeatService } from 'src/app/services/seat.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Movie } from 'src/app/interfaces/movie.model';
 import { MovieService } from 'src/app/services/movie.service';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+
+export const MY_DATE_FORMAT = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'MMMM YYYY',
+    dateAllyLabel: 'LL',
+    monthYearAllyLabel: 'MMMM YYYY'
+  },
+};
 
 @Component({
   selector: 'app-create-ticket-dialog',
   templateUrl: './create-ticket-dialog.component.html',
-  styleUrls: ['./create-ticket-dialog.component.scss']
+  styleUrls: ['./create-ticket-dialog.component.scss'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT }
+  ]
 })
 export class CreateTicketDialogComponent implements OnInit {
 
@@ -23,16 +39,21 @@ export class CreateTicketDialogComponent implements OnInit {
     private ticketService: TicketService,
     private movieService: MovieService,
     private dialogRef: MatDialogRef<CreateTicketDialogComponent>
-  ) { }
+  ) { 
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    this.maxDate = new Date(currentYear, currentMonth + 1, 10);
+  }
 
-  dates: string[] = ['22/08/2022', '11/08/2022', '14/08/2022', '25/08/2022', '17/08/2022'];
   times: string[] = ['10:30 AM', '1:00 PM', '2:30 PM', '3:00 PM'];
-  numOfPeople: number[] = [1, 2, 3, 4, 5];
+  numOfPeople: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   seats: any[] = [];
   selectedSeats: string[] = [];
   price: number = 5000;
   selectedCinema: string = '';
   selectedMovie: string = '';
+  minDate = new Date();
+  maxDate!: Date;
 
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
@@ -130,6 +151,10 @@ export class CreateTicketDialogComponent implements OnInit {
     if (this.selectedSeats.length < this.firstFormGroup.controls['numOfPeople'].value) {
       this.selectedSeats.push(element);
     }
+  }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.firstFormGroup.controls[controlName].hasError(errorName);
   }
 
 }

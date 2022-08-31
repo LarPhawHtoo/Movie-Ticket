@@ -21,10 +21,11 @@ const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./api.yaml');
 require('./config/passport');
 require("dotenv/config");
+const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 dotenv_1.default.config();
 const fileStorage = multer_1.default.diskStorage({
-    destination: (req, file, cb) => {
+    destination: (_req, _file, cb) => {
         cb(null, "apiuploads/profile");
     },
     filename: (_req, file, cb) => {
