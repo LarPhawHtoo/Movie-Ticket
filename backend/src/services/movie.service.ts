@@ -4,6 +4,9 @@ import Cinema from "../models/cinema.model";
 import Seat from "../models/seat.model";
 import { SeatCreate } from '../interfaces/seat';
 import { validationResult } from 'express-validator';
+import { Validator } from 'node-input-validator';
+import bcrypt from 'bcrypt';
+import moment from 'moment';
 import { deleteFile } from '../utils/utils';
 import { MovieCreate } from '../interfaces/movie';
 
@@ -53,7 +56,9 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       error.statusCode = 401;
       throw error;
     }
-    let profile:string= req.body.profile;
+
+    let profile: string = req.body.profile;
+    
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
     }
