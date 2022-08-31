@@ -17,10 +17,13 @@ import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieResolverService } from './resolvers/movie-resolver.service';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { TicketsComponent } from './pages/tickets/tickets.component';
-import { TicketResolverService } from './resolvers/ticket-resolver.service';const routes: Routes = [
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { TicketResolverService } from './resolvers/ticket-resolver.service';
+const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'logout', component: LogoutComponent },
+  { path: 'dashboard', component: DashboardComponent},
   {
     path: 'home',
     component: HomeComponent,

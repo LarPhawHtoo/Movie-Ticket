@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatDividerModule,
     MatStepperModule,
     MatButtonToggleModule,
+    MatSidenavModule ,
   ],
   exports: [
     MatCardModule,
@@ -65,6 +67,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatDividerModule,
     MatStepperModule,
     MatButtonToggleModule,
+    MatSidenavModule ,
   ]
 })
 export class MaterialModule { }
