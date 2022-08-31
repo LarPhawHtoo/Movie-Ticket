@@ -31,15 +31,12 @@ export class UsersComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['profile', 'fullName', 'type', 'phone', 'email', 'dob', 'address', 'createdAt', 'updatedAt', 'actions'];
   dataSource = new MatTableDataSource<User>();
   loggedInUser: any;
-  profileImg: any;
   
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((response: any) => {
       this.dataSource.data = response.users.data as User[];
     });
-    this.profileImg = "http://localhost:8081/";
-    console.log(this.dataSource.data[5].profile)
   }
 
   ngAfterViewInit(): void {
@@ -64,13 +61,13 @@ export class UsersComponent implements OnInit, AfterViewInit {
   openUpdateDialog(element: any) {
     const dialogRef = this.dialog.open(UserUpdateComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      this.getUser();
+      if (result == 'update') this.getUser();
     })
   }
   openDeleteDialog(element: any) {
     const dialogRef = this.dialog.open(UserDeleteConfirmDialogComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      this.getUser();
+      if (result == 'delete') this.getUser();
     })
   }
 
@@ -78,7 +75,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(UserCreateComponent, { width: '700px' });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.getUser();
+      if (result == 'create') this.getUser();
     })
   }
 

@@ -27,7 +27,6 @@ export class CreateCinemaBottomSheetComponent implements OnInit {
   onClickCreateCinema(data: any) {
     this.cinemaService.createCinema(data.name).subscribe( res => {
       this.dialogRef.close("create");
-      console.log(res);
     });
   }
 

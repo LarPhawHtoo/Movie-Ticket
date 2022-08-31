@@ -28,13 +28,12 @@ export class TicketsComponent implements OnInit, AfterViewInit {
   ) { }
 
   // variables for showing tickets
-  displayedColumns: string[] = ['customer_name', 'seatNumber', 'movie_id', 'cinema_id', 'price', 'date', 'time', 'status', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns: string[] = ['customer_name', 'seatNumber', 'movie', 'cinema', 'price', 'date', 'time', 'status', 'createdAt', 'updatedAt', 'actions'];
   dataSource = new MatTableDataSource<Ticket>();
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((response: any) => {
       this.dataSource.data = response.tickets.tickets as Ticket[];
-      console.log(response.tickets.tickets)
     })
   }
 
@@ -49,7 +48,7 @@ export class TicketsComponent implements OnInit, AfterViewInit {
         return of(error);
       })
     ).subscribe((response: any) => {
-      this.dataSource.data = response.tickets.tickets[0] as Ticket[];
+      this.dataSource.data = response.tickets as Ticket[];
     })
   }
 
@@ -69,7 +68,7 @@ export class TicketsComponent implements OnInit, AfterViewInit {
   openUpdateDialog(element: any) {
     const dialogRef = this.dialog.open(UpdateTicketDialogComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      this.getTickets();
+      if (result == 'update') this.getTickets();
     })
   }
 

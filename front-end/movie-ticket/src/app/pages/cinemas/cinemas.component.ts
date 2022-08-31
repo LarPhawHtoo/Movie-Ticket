@@ -59,7 +59,7 @@ export class CinemasComponent implements OnInit, AfterViewInit {
   openUpdateDialog(element: any) {
     const dialogRef = this.dialog.open(CinemaUpdateComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      this.getCinema();
+      if (result == 'update') this.getCinema();
     })
   }
   openDeleteDialog(element: any) {
@@ -72,9 +72,7 @@ export class CinemasComponent implements OnInit, AfterViewInit {
   openBottomSheet() {
     let bottomSheetRef = this.dialog.open(CreateCinemaBottomSheetComponent);
     bottomSheetRef.afterClosed().subscribe((data) => {
-      if (data == "create") {
-        this.getCinema();
-      }
+      if (data == "create") this.getCinema();
     });
   }
 

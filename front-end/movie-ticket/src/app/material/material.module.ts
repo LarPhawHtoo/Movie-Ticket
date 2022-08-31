@@ -17,6 +17,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -40,6 +42,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDialogModule,
     MatSelectModule,
     MatDividerModule,
+    MatStepperModule,
+    MatButtonToggleModule,
   ],
   exports: [
     MatCardModule,
@@ -59,6 +63,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDialogModule,
     MatSelectModule,
     MatDividerModule,
+    MatStepperModule,
+    MatButtonToggleModule,
   ]
 })
 export class MaterialModule { }
