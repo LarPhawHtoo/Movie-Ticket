@@ -9,7 +9,7 @@ const express_validator_1 = require("express-validator");
 const router = express_1.default.Router();
 router
     .route('/')
-    .get(ticket_controller_1.getTickets)
+    .get(ticket_controller_1.getTicket)
     .post([
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
     (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
@@ -20,6 +20,11 @@ router
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
     (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty"),
 ]);
+router
+    .route("/dashboard")
+    .post([
+    (0, express_validator_1.body)("date").notEmpty().withMessage("Date must not be empty")
+], ticket_controller_1.getdashBoard);
 router
     .route("/:id")
     .get(ticket_controller_1.findTicket)

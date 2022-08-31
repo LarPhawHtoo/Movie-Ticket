@@ -25,15 +25,15 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 
-
 const fileStorage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, "apiuploads");
+  destination: (req, file, cb) => {
+    cb(null, "apiuploads/profile");
   },
   filename: (_req, file, cb) => {
     cb(null, `${v4()}_${file.originalname}`);
   }
 });
+
 
 const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
   if (
@@ -46,12 +46,25 @@ const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
     cb(null, false);
   } 
 }
+const fileStorageMovies = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "apiuploads/movies");
+  },
+  filename: (_req, file, cb) => {
+    cb(null, `${v4()}_${file.originalname}`);
+  }
+});
+
 
 const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+//app.use(upload.single('image'));
+//app.use("/single", upload.single("image"));
 app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
-app.use("/apiuploads", express.static(path.join(rootDir, "apiuploads")));
+app.use('/apiuploads/profiles', express.static('apiuploads/profiles'));
+app.use(multer({ storage: fileStorageMovies, fileFilter }).single("image"));
+app.use('/apiuploads/movies', express.static('apiuploads/movies'));
 app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());

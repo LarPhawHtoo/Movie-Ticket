@@ -17,6 +17,7 @@ const ticket_model_1 = __importDefault(require("../models/ticket.model"));
 const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const seat_model_1 = __importDefault(require("../models/seat.model"));
 const express_validator_1 = require("express-validator");
+const movie_model_1 = __importDefault(require("../models/movie.model"));
 /**
  * get tickets service
  * @param _req
@@ -165,60 +166,76 @@ const deleteTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
 });
 exports.deleteTicketService = deleteTicketService;
 /**
- * get Ticket by Cinema Id service
+ * get getdashBoar by Cinema Id service
  * @param req
  * @param res
  * @param next
  */
 const getdashBoardata = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
+        const cinema = yield cinema_model_1.default.find();
         console.log(cinema);
-        const ticket = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
-        const seats = yield seat_model_1.default.find();
-        let seatingList = [];
-        for (let i = 0; i < seats.length; i++) {
-            const filter = ticket.find((ticket) => { var _a; return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seats[i].seatNumber)) !== -1; });
-            let data = {};
-            if (filter && filter !== undefined) {
-                data = {
-                    seatNumber: seats[i].seatNumber,
-                    status: filter.status,
+        const ticket = yield ticket_model_1.default.find({ date: req.body.date });
+        const movie = yield movie_model_1.default.find({ deleted_at: null });
+        var resultMovie = [];
+        for (let i = 0; i < movie.length; i++) {
+            for (let j = 0; j < movie[i].time.length; j++) {
+                let data = {
+                    cinema_name: movie[i].cinema_id,
+                    movieName: movie[i].name,
+                    time: movie[i].time[j],
+                    date: req.body.date,
+                    image: movie[i].image,
                 };
+                resultMovie.push(data);
+                const seats = yield seat_model_1.default.find();
+                let seatingList = [];
+                for (let i = 0; i < seats.length; i++) {
+                    const filter = ticket.find((ticket) => { var _a; return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seats[i].seatNumber)) !== -1; });
+                    let data = {};
+                    if (filter && filter !== undefined) {
+                        data = {
+                            seatNumber: seats[i].seatNumber,
+                            status: filter.status,
+                        };
+                    }
+                    else {
+                        data = {
+                            seatNumber: seats[i].seatNumber,
+                            status: "Available",
+                        };
+                    }
+                    seatingList.push(data);
+                }
+                var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
+                // console.log(sortedStatus);
+                let firstName = "";
+                var result = [];
+                let firstArrIndex = 0;
+                for (let i = 0; i < sortedStatus.length; i++) {
+                    if (i === 0) {
+                        result[firstArrIndex] = [sortedStatus[i]];
+                        firstName = sortedStatus[i].status[0];
+                    }
+                    else if (sortedStatus[i].status.indexOf(firstName) === -1) {
+                        firstArrIndex += 1;
+                        firstName = sortedStatus[i].status[0];
+                        result[firstArrIndex] = [sortedStatus[i]];
+                    }
+                    else {
+                        result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
+                    }
+                }
+                resultMovie.push(sortedStatus);
             }
-            else {
-                data = {
-                    seatNumber: seats[i].seatNumber,
-                    status: "Available",
-                };
-            }
-            seatingList.push(data);
         }
-        var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
-        console.log(sortedStatus);
-        let firstName = "";
-        let result = [];
-        let firstArrIndex = 0;
-        for (let i = 0; i < sortedStatus.length; i++) {
-            if (i === 0) {
-                result[firstArrIndex] = [sortedStatus[i]];
-                firstName = sortedStatus[i].status[0];
-            }
-            else if (sortedStatus[i].status.indexOf(firstName) === -1) {
-                firstArrIndex += 1;
-                firstName = sortedStatus[i].status[0];
-                result[firstArrIndex] = [sortedStatus[i]];
-            }
-            else {
-                result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
-            }
-        }
-        if (!result) {
+        // resultMovie.push(result);
+        if (!resultMovie) {
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
         }
-        res.json({ tickets: result, status: 1 });
+        res.json({ tickets: resultMovie, status: 1 });
     }
     catch (err) {
         next(err);

@@ -17,7 +17,7 @@ const movieSchema = new Schema({
     type: Number,
     required:true
   },
-  profile: {
+  image: {
     type: String,
     default:""
   },
@@ -29,6 +29,10 @@ const movieSchema = new Schema({
   time: {
     type: [String],
     required:true
+  },
+  date: {
+    type: String,
+    required: true,
   },
   created_user_id: {
     type: Schema.Types.ObjectId,

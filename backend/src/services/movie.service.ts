@@ -6,7 +6,10 @@ import { SeatCreate } from '../interfaces/seat';
 import { validationResult } from 'express-validator';
 import { deleteFile } from '../utils/utils';
 import { MovieCreate } from '../interfaces/movie';
-
+import movieModel from '../models/movie.model';
+import { ChainCondition } from 'express-validator/src/context-items';
+import multer, { FileFilterCallback } from "multer";
+const upload: any = multer({ dest: 'apiuploads/movies' });
 /**
  * get movie service.
  * @param _req 
@@ -33,6 +36,8 @@ export const getMovieService = async (
   }
 };
 
+
+
 /**
  * create post service
  * @param req 
@@ -48,7 +53,7 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       error.statusCode = 401;
       throw error;
     }
-    let profile: string = req.body.profile;
+    let profile: string = req.body.image;
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
     }
@@ -59,7 +64,9 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       rating: req.body.rating,
       cinema_id: req.body.cinema_id,
       time: req.body.time,
-      profile: profile,
+      date: req.body.date,
+      //date: req.body.date,
+      image: profile,
       created_user_id: req.body.created_user_id,
     }
     const movie = new Movie(movieTdo);
@@ -109,20 +116,21 @@ export const updateMovieService = async (
       error.statusCode = 401;
       throw error;
     }
-    let profile: string = req.body.profile;
+    let image: string = req.body.image;
     if (req.file) {
-      profile = req.file.path.replace("\\", "/");
-      if (movie.profile && movie.profile != profile) {
-        deleteFile(movie.profile);
+      image = req.file.path.replace("\\", "/");
+      if (movie.image && movie.image != image) {
+        deleteFile(movie.image);
       }
-      if (profile) {
-        movie.profile = profile;
+      if (image) {
+        movie.image = image;
       }
     }
     movie.code = req.body.code;
     movie.name = req.body.name;
     movie.year = req.body.year;
     movie.rating = req.body.rating;
+    movie.image = image;
     movie.created_user_id = req.body.created_user_id;
     movie.updated_user_id = req.body.updated_user_id;
     const result = await movie.save();

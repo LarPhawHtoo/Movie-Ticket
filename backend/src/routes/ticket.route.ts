@@ -1,13 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { getTickets, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId} from '../controllers/ticket.controller';
+import {getdashBoard, getTicket, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId} from '../controllers/ticket.controller';
 import {body } from 'express-validator';
 
 const router = express.Router();
 
 router
   .route('/')
-  .get(getTickets)
+  .get(getTicket)
   .post([
     body("date").notEmpty().withMessage("date must not be empty"),
     body("time").notEmpty().withMessage("Time must not be empty")
@@ -21,6 +21,14 @@ router
       body("time").notEmpty().withMessage("Time must not be empty"),
     ]
   )
+  
+  router
+  .route("/dashboard")
+  .post(
+    [
+      body("date").notEmpty().withMessage("Date must not be empty")
+    ],
+    getdashBoard);
 
 router
   .route("/:id")
