@@ -3,7 +3,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Cinema } from 'src/app/interfaces/cinema.model';
 import { ActivatedRoute } from '@angular/router';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CreateCinemaBottomSheetComponent } from 'src/app/components/create-cinema-bottom-sheet/create-cinema-bottom-sheet.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +23,6 @@ export class CinemasComponent implements OnInit, AfterViewInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
     private cinemaService: CinemaService,
   ) { }
@@ -61,7 +59,7 @@ export class CinemasComponent implements OnInit, AfterViewInit {
   openUpdateDialog(element: any) {
     const dialogRef = this.dialog.open(CinemaUpdateComponent, { data: element });
     dialogRef.afterClosed().subscribe(result => {
-      this.getCinema();
+      if (result == 'update') this.getCinema();
     })
   }
   openDeleteDialog(element: any) {
@@ -72,11 +70,9 @@ export class CinemasComponent implements OnInit, AfterViewInit {
   }
 
   openBottomSheet() {
-    let bottomSheetRef = this.bottomSheet.open(CreateCinemaBottomSheetComponent);
-    bottomSheetRef.afterDismissed().subscribe((data) => {
-      if (data == "create") {
-        this.getCinema();
-      }
+    let bottomSheetRef = this.dialog.open(CreateCinemaBottomSheetComponent);
+    bottomSheetRef.afterClosed().subscribe((data) => {
+      if (data == "create") this.getCinema();
     });
   }
 

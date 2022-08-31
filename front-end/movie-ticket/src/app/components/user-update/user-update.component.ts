@@ -36,7 +36,7 @@ export class UserUpdateComponent implements OnInit {
     { enum: 'Admin' },
     { enum: 'User' }
   ];
-  profileImage: any;
+  profileImage: any = `http://localhost:8081/${this.data.profile}` || "";
   imgFile: any;
   confirmView: Boolean = false;
   _id: string = '';
@@ -54,8 +54,9 @@ export class UserUpdateComponent implements OnInit {
   formData!: FormGroup;
 
   ngOnInit(): void {
+    this.profileImage = `http://localhost:8081/${this.data.profile}` || "";
     this.formData = new FormGroup({
-      profile: new FormControl(this.data.profile),
+      profile: new FormControl(''),
       fullName: new FormControl(this.data.fullName, Validators.required),
       type: new FormControl(this.data.type, Validators.required),
       phone: new FormControl(this.data.phone, Validators.required),
@@ -67,20 +68,51 @@ export class UserUpdateComponent implements OnInit {
   }
 
   onClickUpdateUser() {
-    const id = this.data._id;
-    const formData = new FormData();
-    formData.append('profile', this.imgFile);
-    formData.append('fullName', this.formData.controls['fullName'].value);
-    formData.append('type', this.formData.controls['type'].value);
-    formData.append('phone', this.formData.controls['phone'].value);
-    formData.append('email', this.formData.controls['email'].value);
-    formData.append('dob', this.formData.controls['dob'].value);
-    formData.append('address', this.formData.controls['address'].value);
+    if (this.confirmView == true) {
+      const id = this.data._id;
+      const formData = new FormData();
+      formData.append('profile', this.imgFile);
+      formData.append('fullName', this.formData.controls['fullName'].value);
+      formData.append('type', this.formData.controls['type'].value);
+      formData.append('phone', this.formData.controls['phone'].value);
+      formData.append('email', this.formData.controls['email'].value);
+      formData.append('dob', this.formData.controls['dob'].value);
+      formData.append('address', this.formData.controls['address'].value);
+  
+      this.userService.updateUser(id, formData)
+        .subscribe(res => {
+          this.dialogRef.close('update');
+        });
+    }
 
-    this.userService.updateUser(id, formData)
-      .subscribe(res => {
-        this.dialogRef.close('create');
-      });
+
+    if (this.formData.valid) {
+      this.formData.controls['profile'].disable();
+      this.formData.controls['fullName'].disable();
+      this.formData.controls['type'].disable();
+      this.formData.controls['phone'].disable();
+      this.formData.controls['email'].disable();
+      this.formData.controls['dob'].disable();
+      this.formData.controls['address'].disable();
+      this.confirmView = true;
+    }
+  }
+
+  public onClear() {
+    if (this.confirmView === true) {
+      this.formData.controls['profile'].enable();
+      this.formData.controls['fullName'].enable();
+      this.formData.controls['type'].enable();
+      this.formData.controls['phone'].enable();
+      this.formData.controls['email'].enable();
+      this.formData.controls['dob'].enable();
+      this.formData.controls['address'].enable();
+      this.formData.controls['password'].enable();
+      this.formData.controls['confirmPwd'].enable();
+      this.confirmView = false;
+    } else {
+      this.formData.reset();
+    }
   }
 
   imageUpload(event: any) {
@@ -94,12 +126,12 @@ export class UserUpdateComponent implements OnInit {
     }
   }
 
-  getErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
-    }
+  get myForm() {
+    return this.formData.controls;
+  }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+  public hasError = (controlName: string, errorName: string) => {
+    return this.formData.controls[controlName].hasError(errorName);
   }
 
   OnDateChange(event: any) {

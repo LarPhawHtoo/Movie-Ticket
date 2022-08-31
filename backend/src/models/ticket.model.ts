@@ -21,12 +21,25 @@ const ticketSchema = new Schema({
   },
   price: {
     type: Number,
-    required:true
+    required: true
   },
   status: {
     type: String,
     required:true
-  }
-});
+  },
+  date: {
+    type: String,
+    required:true
+  },
+  time: {
+    type: String,
+    required:true
+  }, 
+},
+{
+  timestamps: true
+}
+);
+ticketSchema.plugin(require('mongoose-autopopulate'));
 export default model("Ticket", ticketSchema);
 

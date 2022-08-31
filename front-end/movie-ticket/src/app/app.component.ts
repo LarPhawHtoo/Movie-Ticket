@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from './services/auth.service';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
@@ -16,17 +15,30 @@ export class AppComponent {
   loggedInUser: any;
   isCinemas = false;
   isUsers = false;
+  isMovies = false;
+  isTickets = false;
+  isAboutUs = false;
+  isProfile = false;
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private dialog: MatDialog
   ) { }
   
   ngOnInit() {
-    this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
-
+    if (localStorage.getItem('loginUser')) {
+      this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
+    } else {
+      this.loggedInUser = '';
+    }
+    
     this.router.events.subscribe((event: Event) => {
+      if (localStorage.getItem('loginUser')) {
+        this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
+      } else {
+        this.loggedInUser = '';
+      }
+      
       if (event instanceof NavigationEnd) {
         let storeData = localStorage.getItem('isUserLoggedIn');
         if (storeData == 'true') {
@@ -48,6 +60,30 @@ export class AppComponent {
         } else {
           this.isUsers = false;
         }
+        let isMovies = localStorage.getItem('isMovies');
+        if (isMovies == 'true') {
+          this.isMovies = true;
+        } else {
+          this.isMovies = false;
+        }
+        let isTickets = localStorage.getItem('isTickets');
+        if (isTickets == 'true') {
+          this.isTickets = true;
+        } else {
+          this.isTickets = false;
+        }
+        let isAboutUs = localStorage.getItem('isAboutUs');
+        if (isAboutUs == 'true') {
+          this.isAboutUs = true;
+        } else {
+          this.isAboutUs = false;
+        }
+        let isProfile = localStorage.getItem('isProfile');
+        if (isProfile == 'true') {
+          this.isProfile = true;
+        } else {
+          this.isProfile = false;
+        }
       }
     });
   }
@@ -61,17 +97,64 @@ export class AppComponent {
   }
 
   onClickHome() {
-    localStorage.setItem('isCinemas', 'false');
-    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'true');
+    localStorage.setItem('isUsers', 'true');
+    localStorage.setItem('isMovies', 'true');
+    localStorage.setItem('isTickets', 'true');
+    localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isProfile', 'false');
   }
 
   onClickUsers() {
     localStorage.setItem('isCinemas', 'false');
     localStorage.setItem('isUsers', 'true');
+    localStorage.setItem('isMovies', 'false');
+    localStorage.setItem('isTickets', 'false');
+    localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isProfile', 'false');
   }
 
   onClickCinemas() {
     localStorage.setItem('isUsers', 'false');
     localStorage.setItem('isCinemas', 'true');
+    localStorage.setItem('isMovies', 'false');
+    localStorage.setItem('isTickets', 'false');
+    localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isProfile', 'false');
+  }
+  onClickMovies() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isMovies', 'true');
+    localStorage.setItem('isTickets', 'false');
+    localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isProfile', 'false');
+  }
+
+  onClickTickets() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isTickets', 'true');
+    localStorage.setItem('isMovies', 'false');
+    localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isProfile', 'false');
+  }
+
+  onClickAboutUs() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isTickets', 'false');
+    localStorage.setItem('isMovies', 'false');
+    localStorage.setItem('isAboutUs', 'true');
+    localStorage.setItem('isProfile', 'false');
+  }
+
+  onClickProfile() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isTickets', 'false');
+    localStorage.setItem('isMovies', 'false');
+    localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isProfile', 'true');
   }
 }

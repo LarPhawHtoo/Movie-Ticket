@@ -1,0 +1,64 @@
+span {
+  display: inline-block;
+  width: 300px;
+  margin-left: 100px;
+}
+
+mat-card-title {
+  margin-left: 100px;
+}
+
+p {
+  padding: 20px 0 20px;
+}
+
+.clearfix::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+mat-card-header {
+  text-align: center;
+  display: block;
+}
+
+mat-card {
+  width: 80%;
+  margin: 50px auto 50px;
+}
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.vision-content {
+  text-align: center;
+}
+
+.parent-div {
+  width: 83%;
+  margin: 0 auto 100px;
+}
+
+.mission-card, .value-card {
+  margin: 0;
+  width: 45%;
+}
+
+.mission-card {
+  float: left;
+}
+
+.value-card {
+  float: right;
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: rgb(245,245,245);
+}
+
+

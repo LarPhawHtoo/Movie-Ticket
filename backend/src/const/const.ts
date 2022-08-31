@@ -1,3 +1,3 @@
  export const constData = {
-    userType: 'User'
+    userType: 'User || Admin',
 }

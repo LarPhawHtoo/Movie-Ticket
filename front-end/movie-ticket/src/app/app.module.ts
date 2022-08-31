@@ -23,6 +23,17 @@ import { UserUpdateComponent } from './components/user-update/user-update.compon
 import { UserDeleteConfirmDialogComponent } from './components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
 import { CinemaDeleteConfirmDialogComponent } from './components/cinema-delete-confirm-dialog/cinema-delete-confirm-dialog.component';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { AboutComponent } from './pages/about/about.component';
+import { PasswordChangeComponent } from './pages/password-change/password-change.component';
+import { TicketsComponent } from './pages/tickets/tickets.component';
+import { CreateTicketDialogComponent } from './components/create-ticket-dialog/create-ticket-dialog.component';
+import { UpdateTicketDialogComponent } from './components/update-ticket-dialog/update-ticket-dialog.component';
+import { DeleteTicketConfirmDialogComponent } from './components/delete-ticket-confirm-dialog/delete-ticket-confirm-dialog.component';
+import { MovieCreateComponent } from './components/movie-create/movie-create.component';
+import { MoviesComponent } from './pages/movies/movies.component';
+import { MovieDeleteConfirmDialogComponent } from './components/movie-delete-confirm-dialog/movie-delete-confirm-dialog.component';
+import { MovieUpdateComponent } from './components/movie-update/movie-update.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +52,17 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     UserUpdateComponent,
     UserDeleteConfirmDialogComponent,
     CinemaDeleteConfirmDialogComponent,
+    ProfileComponent,
+    AboutComponent,
+    PasswordChangeComponent,
+    TicketsComponent,
+    CreateTicketDialogComponent,
+    UpdateTicketDialogComponent,
+    DeleteTicketConfirmDialogComponent,
+    MoviesComponent,
+    MovieCreateComponent,
+    MovieDeleteConfirmDialogComponent,
+    MovieUpdateComponent,
   ],
   imports: [
     BrowserModule,

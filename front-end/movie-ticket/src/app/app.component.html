@@ -4,32 +4,44 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+   <title>Happy Cinema</title>
 </head>
 <body>
    <mat-toolbar>
       <a routerLink="/home" (click)="onClickHome()">Happy Cinema</a>
       <span class="example-spacer"></span>
-      <button mat-button color="primary" *ngIf="isCinemas" routerLink="/users" (click)="onClickUsers()">
+      <button mat-button color="primary" *ngIf="isCinemas || isMovies || isTickets || isUsers || isProfile" routerLink="/about" (click)="onClickAboutUs()">
+         <mat-icon class="mat-18">info</mat-icon>
+         About Us
+      </button>
+      <button mat-button color="primary" *ngIf=" (isCinemas || isMovies || isTickets || isAboutUs || isProfile) && isUserLoggedIn" routerLink="/users" (click)="onClickUsers()">
          <mat-icon class="mat-18">people_alt</mat-icon>
          Users
       </button>
-      <button mat-button color="primary" *ngIf="isUsers" routerLink="/cinemas" (click)="onClickCinemas()">
-         <mat-icon class="mat-18">movie</mat-icon>
+      <button mat-button color="primary" *ngIf=" (isUsers || isMovies || isTickets || isAboutUs || isProfile) && isUserLoggedIn" routerLink="/cinemas" (click)="onClickCinemas()">
+         <mat-icon class="mat-18">theaters</mat-icon>
          Cinemas
       </button>
-      <button mat-button color="primary" *ngIf="isUserLoggedIn">
+      <button mat-button color="primary" *ngIf=" (isUsers || isCinemas || isTickets || isAboutUs || isProfile) && isUserLoggedIn" routerLink="/movies" (click)="onClickMovies()">
+         <mat-icon class="mat-18">movie</mat-icon>
+         Movies
+      </button>
+      <button mat-button color="primary" *ngIf=" (isUsers || isCinemas || isMovies || isAboutUs || isProfile) && isUserLoggedIn" routerLink="/tickets" (click)="onClickTickets()">
+         <mat-icon class="mat-18">local_activity</mat-icon>
+         Tickets
+      </button>
+      <button mat-button color="primary" *ngIf=" (isUsers || isCinemas || isMovies || isTickets || isAboutUs) && isUserLoggedIn" routerLink="/profile" (click)="onClickProfile()">
          <mat-icon class="mat-18">account_circle</mat-icon>
          {{ loggedInUser.fullName }}
-       </button>
-      <button mat-button color="primary" *ngIf="isUserLoggedIn; else isLogOut" class="nav-link" (click)="openDialog()">
+      </button>
+      <button mat-button color="warn" *ngIf="isUserLoggedIn; else isLogOut" class="nav-link" (click)="openDialog()">
          <mat-icon class="mat-18">logout</mat-icon>
          Log Out
       </button>
       <ng-template mat-button color="primary" #isLogOut>
          <button mat-button color="primary" class="nav-link" routerLink="/login">
             <mat-icon class="mat-18">login</mat-icon>
-            Log In
+            Login
          </button>
       </ng-template>
       <button mat-button color="accent" *ngIf="!isUserLoggedIn" routerLink="/signup">

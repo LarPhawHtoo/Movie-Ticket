@@ -4,24 +4,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const cinemaController_1 = require("../controllers/cinemaController");
+const cinema_controller_1 = require("../controllers/cinema.controller");
 const express_validator_1 = require("express-validator");
 const cinema_service_1 = require("../services/cinema.service");
 const router = express_1.default.Router();
 router
     .route("/")
-    .get(cinemaController_1.getCinema)
+    .get(cinema_controller_1.getCinema)
     .post([
     (0, express_validator_1.body)("name").notEmpty().withMessage("Cinema Name must not be empty"),
-], cinemaController_1.createCinema);
+], cinema_controller_1.createCinema);
 router
     .route("/search")
     .post(cinema_service_1.findByIdService);
 router
     .route("/:id")
-    .get(cinemaController_1.findCinema)
+    .get(cinema_controller_1.findCinema)
     .put([
     (0, express_validator_1.body)("name").notEmpty().withMessage("Cinema Name must not be empty"),
-], cinemaController_1.updateCinema)
-    .delete(cinemaController_1.deleteCinema);
+], cinema_controller_1.updateCinema)
+    .delete(cinema_controller_1.deleteCinema);
 exports.default = router;

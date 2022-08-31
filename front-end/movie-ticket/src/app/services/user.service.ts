@@ -11,6 +11,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   url = 'http://localhost:8081/api/users';
+  changePwdUrl = 'http://localhost:8081/api/users/changePassword'
   token = localStorage.getItem("token") || "";
   headerOptions = new HttpHeaders()
     .set('Authorization', `Bearer ${this.token}`);
@@ -33,6 +34,11 @@ export class UserService {
 
   deleteUser(id: string) {
     return this.http.delete(`${this.url}/${id}`, this.options)
+      .pipe(retry(3), catchError(this.httpErrorHandler));
+  }
+
+  changePwd(id: string, payload: any) {
+    return this.http.post(`${this.changePwdUrl}/${id}`, payload, this.options)
       .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 

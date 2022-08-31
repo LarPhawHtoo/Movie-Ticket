@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUserService = exports.updateUserService = exports.findUserService = exports.createUserService = exports.getUserService = void 0;
+exports.passwordChangeService = exports.deleteUserService = exports.updateUserService = exports.findUserService = exports.createUserService = exports.getUserService = void 0;
 const express_validator_1 = require("express-validator");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const utils_1 = require("../utils/utils");
@@ -108,7 +108,7 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             error.statusCode = 422;
             throw error;
         }
-        const user = yield user_model_1.default.findById(req.params.id);
+        const user = yield user_model_1.default.findByIdAndUpdate(req.params.id);
         if (!user) {
             const error = new Error("Not Found!");
             error.statusCode = 401;
@@ -155,3 +155,40 @@ const deleteUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.deleteUserService = deleteUserService;
+const passwordChangeService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield user_model_1.default.findById(req.params.id);
+        const { oldPassword, newPassword, confirmPassword } = req.body;
+        //Check required fields
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            res.json({ message: "Please fill in all fields." });
+        }
+        //Check passwords match
+        if (newPassword !== confirmPassword) {
+            res.json({ message: "New password do not match." });
+        }
+        else {
+            //Validation Passed
+            const isMatch = yield bcrypt_1.default.compare(oldPassword, user.password);
+            console.log(isMatch);
+            if (isMatch) {
+                //Update password for user with new password
+                bcrypt_1.default.genSalt(12, (err, salt) => bcrypt_1.default.hash(newPassword, salt, (err, hash) => {
+                    if (err) {
+                        throw err;
+                    }
+                    user.password = hash;
+                    user.save();
+                }));
+                res.json({ message: "Password Successfully Updated!", data: user, status: 1 });
+            }
+            else {
+                res.json({ message: "Current Password is not match." });
+            }
+        }
+    }
+    catch (err) {
+        res.json({ message: "Password does not match" });
+    }
+});
+exports.passwordChangeService = passwordChangeService;

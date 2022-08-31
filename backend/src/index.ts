@@ -4,29 +4,31 @@ import dotenv from "dotenv";
 import  movieRoute  from "./routes/movie.route";
 import  userRoute  from "./routes/user.route";
 import authRoute from "./routes/auth.route";
-
 import cinemaRoute from "./routes/cinema_route";
-
 import seatRoute from "./routes/seat.route";
 import ticketRoute from "./routes/ticket.route";
 import cors from 'cors';
 import multer, { FileFilterCallback } from "multer";
 import { v4 } from "uuid";
 import passport from "passport";
+
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
+
 require('./config/passport');
 
 import "dotenv/config"; 
 
-import {json} from 'body-parser';
+import bodyParser, {json} from 'body-parser';
 import path from "path";
 import { rootDir } from "./utils/utils";
 import cookieParser from "cookie-parser";
 
-
 dotenv.config();
 
 const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, "apiuploads/profile");
   },
   filename: (_req, file, cb) => {
@@ -57,8 +59,8 @@ const fileStorageMovies = multer.diskStorage({
 
 
 const app: Express = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(upload.single('image'));
 //app.use("/single", upload.single("image"));
 app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
@@ -83,6 +85,8 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
           console.log('Error in connection ' + err);
       }
   });
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinemaRoute);
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);

@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Edit Movie</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form action="post" [formGroup]="formData" (ngSubmit)="onClickUpdateMovie()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Movie <Code></Code></mat-label>
+        <input type="text" matInput class="form-control" formControlName="code" required>
+        <mat-error *ngIf="myForm['code'].hasError('required')">Please enter movie code!</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Movie Name</mat-label>
+        <input type="text" matInput class="form-control" formControlName="name" required>
+        <mat-error *ngIf="myForm['name'].hasError('required')">Please enter movie name!</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Year</mat-label>
+        <input type="number" matInput class="form-control" formControlName="year" required>
+        <mat-error *ngIf="myForm['year'].hasError('required')">Please enter movie release year!</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Ratings</mat-label>
+        <input type="text" matInput class="form-control" formControlName="rating" >     
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Time</mat-label>
+        <input type="text" matInput class="form-control" formControlName="time" >     
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Update movie</button>
+      <button mat-raised-button color="primary" class="full-width" (onclick)="onCancelClick()">Cancel</button>
+    </form>
+  </mat-card-content>
+  </mat-card>

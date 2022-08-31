@@ -12,7 +12,8 @@ router
     body("date").notEmpty().withMessage("date must not be empty"),
     body("time").notEmpty().withMessage("Time must not be empty")
   ],
-    createTicket);
+    createTicket)
+    
 router
   .route('/:cinema_id')
   .post(
@@ -33,8 +34,7 @@ router
 router
   .route("/:id")
   .get(findTicket)
-  .put(
-    [
+  .put([
       body("date").notEmpty().withMessage("date must not be empty"),
       body("time").notEmpty().withMessage("Time must not be empty")
     ],
@@ -48,7 +48,7 @@ router
     body("time").notEmpty().withMessage("time must not be empty")
   ],
     getTicketByCinemaId)
-    
+
 export default router;
 
 

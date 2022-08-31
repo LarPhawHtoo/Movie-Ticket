@@ -16,8 +16,8 @@ exports.getTicketByCinemaIdService = exports.getdashBoardata = exports.deleteTic
 const ticket_model_1 = __importDefault(require("../models/ticket.model"));
 const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const seat_model_1 = __importDefault(require("../models/seat.model"));
-const express_validator_1 = require("express-validator");
 const movie_model_1 = __importDefault(require("../models/movie.model"));
+const express_validator_1 = require("express-validator");
 /**
  * get tickets service
  * @param _req
@@ -25,23 +25,25 @@ const movie_model_1 = __importDefault(require("../models/movie.model"));
  * @param next
  */
 const getTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    ticket_model_1.default.find(req.body.tickets, (err, tickets) => {
-        if (err) {
+    try {
+        const tickets = yield ticket_model_1.default.find();
+        if (!tickets) {
             res.json({
                 success: false,
-                message: "An error occured while fetching tickets: " + err,
+                message: "Not Found! ",
             });
         }
-        else {
-            var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
-            res.json({
-                success: true,
-                message: "Tickets fetched",
-                tickets: sortedTicket,
-                status: 1,
-            });
-        }
-    });
+        var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
+        res.json({
+            success: true,
+            message: "Tickets fetched",
+            tickets: sortedTicket,
+            status: 1,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
 });
 exports.getTicketService = getTicketService;
 /**
@@ -66,6 +68,8 @@ const createTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             seatNumber: req.body.seatNumber,
             price: req.body.price,
             status: req.body.status,
+            date: req.body.date,
+            time: req.body.time
         };
         const ticket = new ticket_model_1.default(ticketTdo);
         const result = yield ticket.save();
@@ -89,6 +93,7 @@ exports.createTicketService = createTicketService;
 const findTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const ticket = yield ticket_model_1.default.findById(req.params.id);
+        console.log(ticket);
         if (!ticket) {
             const error = Error("Not Found!");
             error.statusCode = 401;
@@ -128,6 +133,8 @@ const updateTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
         ticket.seatNumber = req.body.seatNumber;
         ticket.price = req.body.price;
         ticket.status = req.body.status;
+        ticket.date = req.body.date;
+        ticket.time = req.body.time;
         const result = yield ticket.save();
         res.json({
             message: "Updated Ticket Successfully!",
@@ -245,10 +252,10 @@ exports.getdashBoardata = getdashBoardata;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
-        console.log(cinema);
-        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
+        let date = req.body.date;
+        let time = req.body.time;
+        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id, date, time });
         const seats = yield seat_model_1.default.find();
-        console.log(seats);
         let seatingPlan = [];
         for (let i = 0; i < seats.length; i++) {
             const filterData = tickets.find((ticket) => {
@@ -268,33 +275,24 @@ const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0,
                     status: "available",
                 };
             }
-            //console.log('data', data);
             seatingPlan.push(data);
         }
-        //console.log('plan', seatingPlan);
         var sortedSeat = seatingPlan.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
-        //console.log(sortedSeat);
         let firstName = "";
         let result = [];
         let firstArrIndex = 0;
         for (let i = 0; i < sortedSeat.length; i++) {
             if (i === 0) {
-                //console.log('result', result);
                 result[firstArrIndex] = [sortedSeat[i]];
                 firstName = sortedSeat[i].seatNumber[0];
-                //console.log('after result', result);
             }
             else if (sortedSeat[i].seatNumber.indexOf(firstName) === -1) {
                 firstArrIndex += 1;
-                //console.log('result', result);
                 firstName = sortedSeat[i].seatNumber[0];
                 result[firstArrIndex] = [sortedSeat[i]];
-                //console.log('after result', result);
             }
             else {
-                //console.log('result', result);
                 result[firstArrIndex] = [...result[firstArrIndex], sortedSeat[i]];
-                //console.log('after result', result);
             }
         }
         if (!result) {

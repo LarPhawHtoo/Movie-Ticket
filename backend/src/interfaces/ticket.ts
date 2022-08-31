@@ -5,10 +5,8 @@ export interface TicketCreate{
   seatNumber: [String];
   price: Number;
   status: String;
+  date: String;
+  time: String;
 }
 
-export interface dataInterface{
-  seatNumber: String;
-  status: String;
-}
 

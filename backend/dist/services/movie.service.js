@@ -26,15 +26,19 @@ const upload = (0, multer_1.default)({ dest: 'apiuploads/movies' });
  */
 const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userType = _req.headers['userType'];
-        const userId = _req.headers['userId'];
-        let condition = { deleted_at: null };
-        if (userType === "User") {
-            condition.created_user_id = userId;
-            condition.updated_user_id = userId;
+        const movies = yield movie_model_1.default.find();
+        if (!movies) {
+            res.json({
+                success: false,
+                message: "Not Found! ",
+            });
         }
-        const movies = yield movie_model_1.default.find(condition);
-        res.json({ movies: movies, status: 1 });
+        res.json({
+            success: true,
+            message: "Movies fetched",
+            movies: movies,
+            status: 1,
+        });
     }
     catch (err) {
         next(err);

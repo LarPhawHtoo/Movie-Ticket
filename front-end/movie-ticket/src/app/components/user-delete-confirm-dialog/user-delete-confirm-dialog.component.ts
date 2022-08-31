@@ -27,7 +27,7 @@ export class UserDeleteConfirmDialogComponent implements OnInit {
   onDeleteClick(): void {
     const id = this.data._id;
     this.userService.deleteUser(id);
-    this.dialogRef.close();
+    this.dialogRef.close('delete');
   }
 
 }
