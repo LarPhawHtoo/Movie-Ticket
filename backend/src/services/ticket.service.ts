@@ -177,7 +177,7 @@ export const deleteTicketService = async (
     }
     res.json({
       message: "Delete Ticket Successfully!",
-      tickets:ticket,
+      tickets: ticket,
       status: 1,
     });
   } catch (err) {
@@ -186,7 +186,7 @@ export const deleteTicketService = async (
 };
 
 /**
- * get Ticket by Cinema Id service
+ * get getdashBoar by Cinema Id service
  * @param req
  * @param res
  * @param next
@@ -196,52 +196,71 @@ export const getdashBoardata = async (
   res: Response,
   next: NextFunction
 ) => {
-   try {
-     const cinema = await Cinema.findById(req.params.cinema_id);
-     console.log(cinema);
-     const ticket = await Ticket.find({ cinema_id: cinema?._id });
-     const seats = await Seat.find();
-     let seatingList: any = [];
-     for (let i = 0; i < seats.length; i++){
-       const filter = ticket.find((ticket) => ticket.seatNumber?.findIndex((number) => number === seats[i].seatNumber) !== -1);
-       let data = {};
-       if (filter && filter !== undefined) {
-         data = {
-           seatNumber: seats[i].seatNumber,
-           status: filter.status,
-         };
-       } else {
-         data = {
-           seatNumber: seats[i].seatNumber,
-           status: "Available",
-         };
-       }
-       seatingList.push(data);
-     }
-     var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
-     console.log(sortedStatus);
-     let firstName = "";
-     let result: any = [];
-     let firstArrIndex = 0;
-     for (let i = 0; i < sortedStatus.length; i++){
-      if (i === 0) {
-        result[firstArrIndex] = [sortedStatus[i]];
-        firstName = sortedStatus[i].status[0];
-      } else if (sortedStatus[i].status.indexOf(firstName) === -1) {
-        firstArrIndex += 1;
-        firstName = sortedStatus[i].status[0];
-        result[firstArrIndex] = [sortedStatus[i]];
-      } else {
-        result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
+  try {
+    const cinema: any = await Cinema.find();
+    console.log(cinema);
+    const ticket = await Ticket.find({ date: req.body.date });
+    const movie = await Movie.find({ deleted_at: null });
+    var resultMovie: any = [];
+    for (let i = 0; i < movie.length; i++) {
+      for (let j = 0; j < movie[i].time.length; j++) {
+        let data = {
+          cinema_name: movie[i].cinema_id,
+          movieName: movie[i].name,
+          time: movie[i].time[j],
+          date: req.body.date,
+          image: movie[i].image,
+        };
+        resultMovie.push(data);
+
+
+        const seats = await Seat.find();
+        let seatingList: any = [];
+        for (let i = 0; i < seats.length; i++) {
+          const filter = ticket.find((ticket) => ticket.seatNumber?.findIndex((number) => number === seats[i].seatNumber) !== -1);
+          let data = {};
+          if (filter && filter !== undefined) {
+            data = {
+              seatNumber: seats[i].seatNumber,
+              status: filter.status,
+            };
+          } else {
+            data = {
+              seatNumber: seats[i].seatNumber,
+              status: "Available",
+            };
+          }
+          seatingList.push(data);
+        }
+        var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
+        // console.log(sortedStatus);
+        let firstName = "";
+        var result: any = [];
+        let firstArrIndex = 0;
+        for (let i = 0; i < sortedStatus.length; i++) {
+          if (i === 0) {
+            result[firstArrIndex] = [sortedStatus[i]];
+            firstName = sortedStatus[i].status[0];
+          } else if (sortedStatus[i].status.indexOf(firstName) === -1) {
+            firstArrIndex += 1;
+            firstName = sortedStatus[i].status[0];
+            result[firstArrIndex] = [sortedStatus[i]];
+          } else {
+            result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
+          }
+
+        }
+        resultMovie.push(sortedStatus);
       }
-     }
-      
-    if (!result) {
+    }
+
+    // resultMovie.push(result);
+    if (!resultMovie) {
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
     }
-    res.json({ tickets: result, status: 1 });
+    res.json({ tickets: resultMovie, status: 1 });
   } catch (err) {
     next(err);
   }
@@ -291,12 +310,12 @@ export const getTicketByCinemaIdService = async (
     );
 
     let firstName = "";
-    let result: any= [];
+    let result: any = [];
     let firstArrIndex = 0;
 
     for (let i = 0; i < sortedSeat.length; i++) {
       if (i === 0) {
-        result[firstArrIndex]=[sortedSeat[i]];
+        result[firstArrIndex] = [sortedSeat[i]];
         firstName = sortedSeat[i].seatNumber[0];
       } else if (sortedSeat[i].seatNumber.indexOf(firstName) === -1) {
         firstArrIndex += 1;

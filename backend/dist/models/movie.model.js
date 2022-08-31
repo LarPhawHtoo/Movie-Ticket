@@ -18,7 +18,7 @@ const movieSchema = new mongoose_1.Schema({
         type: Number,
         required: true
     },
-    profile: {
+    image: {
         type: String,
         default: ""
     },
@@ -30,6 +30,10 @@ const movieSchema = new mongoose_1.Schema({
     time: {
         type: [String],
         required: true
+    },
+    date: {
+        type: String,
+        required: true,
     },
     created_user_id: {
         type: mongoose_1.Schema.Types.ObjectId,

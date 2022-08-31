@@ -3,7 +3,8 @@ export interface MovieCreate {
   name: string;
   year: Number;
   rating: Number;
-  profile: String;
+  image: string;
+  date: string;
   cinema_id: string;
   time: [string];
   created_user_id: any;

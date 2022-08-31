@@ -10,19 +10,24 @@ const router = express_1.default.Router();
 router
     .route('/')
     .get(ticket_controller_1.getTicket)
-    .get(ticket_controller_1.getTickets)
     .post([
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
     (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
 ], ticket_controller_1.createTicket);
 router
-    .route("/findTicket")
+    .route('/:cinema_id')
     .post([
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
-    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
-], ticket_controller_1.findTicket);
+    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty"),
+]);
+router
+    .route("/dashboard")
+    .post([
+    (0, express_validator_1.body)("date").notEmpty().withMessage("Date must not be empty")
+], ticket_controller_1.getdashBoard);
 router
     .route("/:id")
+    .get(ticket_controller_1.findTicket)
     .put([
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
     (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")

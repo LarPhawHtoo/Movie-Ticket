@@ -8,7 +8,6 @@ import {
   findByIdService
 } from '../services/movie.service';
 
-
 export const getMovies = async (
   req: Request,
   res: Response,
@@ -17,7 +16,7 @@ export const getMovies = async (
   getMovieService(req, res, next);
 };
 
-export const createMovie = async (
+export const createMovie =  async (
   req: any,
   res: Response,
   next: NextFunction

@@ -15,7 +15,7 @@
         <mat-error *ngIf="myForm['name'].hasError('required')">Please enter movie name!</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Year</mat-label>
+        <mat-label>Release Year</mat-label>
         <input type="number" matInput class="form-control" formControlName="year" required>
         <mat-error *ngIf="myForm['year'].hasError('required')">Please enter movie release year!</mat-error>
       </mat-form-field>
@@ -23,12 +23,28 @@
         <mat-label>Ratings</mat-label>
         <input type="text" matInput class="form-control" formControlName="rating" >     
       </mat-form-field>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Time</mat-label>
-        <input type="text" matInput class="form-control" formControlName="time" >     
+      <mat-form-field appearance="fill">
+        <mat-label>Cinema</mat-label>
+        <mat-select formControlName="cinema">
+          <mat-option *ngFor="let cinema of cinemas" [value]="cinema._id">
+            {{ cinema.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="myForm['cinema'].hasError('required')">Please choose the cinema</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Update movie</button>
-      <button mat-raised-button color="primary" class="full-width" (onclick)="onCancelClick()">Cancel</button>
+      <mat-form-field appearance="fill">
+        <mat-label>Time</mat-label>
+        <mat-select formControlName="time">
+          <mat-option *ngFor="let time of times" [value]="time">
+            {{ time }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="myForm['time'].hasError('required')">Please choose the time</mat-error>
+      </mat-form-field>
+      <div class="btn-gp">
+        <button mat-raised-button class="full-width" (onclick)="onCancelClick()">Cancel</button>
+        <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Update movie</button>
+      </div>
     </form>
   </mat-card-content>
   </mat-card>
