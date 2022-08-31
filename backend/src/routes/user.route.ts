@@ -36,7 +36,7 @@ router
   .delete(deleteUser);
 
 router
-  .route("/changePassword/:id")
+  .route("/password-change/:id")
   .post(changePassword)
 
 export default router;

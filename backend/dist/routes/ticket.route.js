@@ -16,13 +16,8 @@ router
     (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
 ], ticket_controller_1.createTicket);
 router
-    .route("/findTicket")
-    .post([
-    (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
-    (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")
-], ticket_controller_1.findTicket);
-router
     .route("/:id")
+    .get(ticket_controller_1.findTicket)
     .put([
     (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty"),
     (0, express_validator_1.body)("time").notEmpty().withMessage("Time must not be empty")

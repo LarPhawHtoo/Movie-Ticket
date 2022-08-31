@@ -4,15 +4,18 @@ import dotenv from "dotenv";
 import  movieRoute  from "./routes/movie.route";
 import  userRoute  from "./routes/user.route";
 import authRoute from "./routes/auth.route";
-
 import cinemaRoute from "./routes/cinema_route";
-
 import seatRoute from "./routes/seat.route";
 import ticketRoute from "./routes/ticket.route";
 import cors from 'cors';
 import multer, { FileFilterCallback } from "multer";
 import { v4 } from "uuid";
 import passport from "passport";
+
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
+
 require('./config/passport');
 
 import "dotenv/config"; 
@@ -69,6 +72,8 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
           console.log('Error in connection ' + err);
       }
   });
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinemaRoute);
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);

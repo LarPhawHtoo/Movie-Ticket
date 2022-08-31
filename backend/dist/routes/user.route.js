@@ -25,6 +25,6 @@ router
     .put(user_controller_1.updateUser)
     .delete(user_controller_1.deleteUser);
 router
-    .route("/changePassword/:id")
+    .route("/password-change/:id")
     .post(user_controller_1.changePassword);
 exports.default = router;

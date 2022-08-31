@@ -16,16 +16,8 @@ router
     createTicket)
 
 router
-  .route("/findTicket")
-  .post([
-    body("date").notEmpty().withMessage("date must not be empty"),
-    body("time").notEmpty().withMessage("Time must not be empty")
-  ],
-    findTicket)
-
-
-router
   .route("/:id")
+  .get(findTicket)
   .put([
       body("date").notEmpty().withMessage("date must not be empty"),
       body("time").notEmpty().withMessage("Time must not be empty")

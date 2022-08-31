@@ -91,11 +91,7 @@ exports.createTicketService = createTicketService;
  */
 const findTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let date = req.body.date;
-        console.log(date);
-        let time = req.body.time;
-        console.log(time);
-        const ticket = yield ticket_model_1.default.find({ date, time });
+        const ticket = yield ticket_model_1.default.findById(req.params.id);
         console.log(ticket);
         if (!ticket) {
             const error = Error("Not Found!");

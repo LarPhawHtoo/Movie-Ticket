@@ -101,11 +101,7 @@ export const findTicketService = async (
   next: NextFunction
 ) => {
   try {
-    let date = req.body.date;
-    console.log(date);
-    let time = req.body.time;
-    console.log(time);
-    const ticket:any= await Ticket.find({date,time });
+    const ticket:any= await Ticket.findById(req.params.id);
     console.log(ticket);
 
     if (!ticket) {

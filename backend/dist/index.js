@@ -16,6 +16,9 @@ const cors_1 = __importDefault(require("cors"));
 const multer_1 = __importDefault(require("multer"));
 const uuid_1 = require("uuid");
 const passport_1 = __importDefault(require("passport"));
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
 require('./config/passport');
 require("dotenv/config");
 const body_parser_1 = __importDefault(require("body-parser"));
@@ -60,6 +63,7 @@ mongoose_1.default.connect(`${process.env.MONGO_URL}`, {
         console.log('Error in connection ' + err);
     }
 });
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/cinemas', passport_1.default.authenticate('jwt', { session: false }), cinema_route_1.default);
 app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
 app.use('/api/movies', passport_1.default.authenticate('jwt', { session: false }), movie_route_1.default);
