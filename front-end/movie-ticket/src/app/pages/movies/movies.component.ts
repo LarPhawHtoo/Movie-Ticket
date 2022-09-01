@@ -28,7 +28,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     public movieService: MovieService
   ) { }
 
-    displayedColumns: string[] = ['id', 'code', 'name', 'year','rating','createdAt','updatedAt','time','actions'];
+    displayedColumns: string[] = [ 'code', 'name', 'year','rating','createdAt','updatedAt','time','actions'];
     dataSource = new MatTableDataSource<Movie>();
   
     ngOnInit(): void {
