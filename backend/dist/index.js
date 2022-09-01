@@ -16,17 +16,17 @@ const cors_1 = __importDefault(require("cors"));
 const multer_1 = __importDefault(require("multer"));
 const uuid_1 = require("uuid");
 const passport_1 = __importDefault(require("passport"));
-const swaggerUI = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerDocument = YAML.load('./api.yaml');
 require('./config/passport');
 require("dotenv/config");
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
 dotenv_1.default.config();
 const fileStorage = multer_1.default.diskStorage({
     destination: (_req, _file, cb) => {
-        cb(null, "apiuploads/profile");
+        cb(null, "apiuploads/profiles");
     },
     filename: (_req, file, cb) => {
         cb(null, `${(0, uuid_1.v4)()}_${file.originalname}`);
@@ -42,23 +42,11 @@ const fileFilter = (_req, file, cb) => {
         cb(null, false);
     }
 };
-const fileStorageMovies = multer_1.default.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "apiuploads/movies");
-    },
-    filename: (_req, file, cb) => {
-        cb(null, `${(0, uuid_1.v4)()}_${file.originalname}`);
-    }
-});
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
-//app.use(upload.single('image'));
-//app.use("/single", upload.single("image"));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
 app.use('/apiuploads/profiles', express_1.default.static('apiuploads/profiles'));
-app.use((0, multer_1.default)({ storage: fileStorageMovies, fileFilter }).single("image"));
-app.use('/apiuploads/movies', express_1.default.static('apiuploads/movies'));
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());

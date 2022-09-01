@@ -10,26 +10,25 @@ import ticketRoute from "./routes/ticket.route";
 import cors from 'cors';
 import multer, { FileFilterCallback } from "multer";
 import { v4 } from "uuid";
+import path from "path";
 import passport from "passport";
+require('./config/passport');
+
+import "dotenv/config"; 
+import bodyParser, {json} from 'body-parser';
+import { rootDir } from "./utils/utils";
+import cookieParser from "cookie-parser";
 
 const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./api.yaml');
 
-require('./config/passport');
-
-import "dotenv/config"; 
-
-import bodyParser, {json} from 'body-parser';
-import path from "path";
-import { rootDir } from "./utils/utils";
-import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const fileStorage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, "apiuploads/profile");
+    cb(null, "apiuploads/profiles");
   },
   filename: (_req, file, cb) => {
     cb(null, `${v4()}_${file.originalname}`);
@@ -47,25 +46,13 @@ const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
     cb(null, false);
   } 
 }
-const fileStorageMovies = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "apiuploads/movies");
-  },
-  filename: (_req, file, cb) => {
-    cb(null, `${v4()}_${file.originalname}`);
-  }
-});
-
 
 const app: Express = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(upload.single('image'));
-//app.use("/single", upload.single("image"));
+
 app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
 app.use('/apiuploads/profiles', express.static('apiuploads/profiles'));
-app.use(multer({ storage: fileStorageMovies, fileFilter }).single("image"));
-app.use('/apiuploads/movies', express.static('apiuploads/movies'));
 
 app.use(cors());
 app.use(cookieParser());
