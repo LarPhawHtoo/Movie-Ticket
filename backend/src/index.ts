@@ -73,7 +73,7 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
       }
   });
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/cinemas', passport.authenticate('jwt', { session: false }), cinemaRoute);
 app.use('/api/users', passport.authenticate('jwt', { session: false }), userRoute);
 app.use('/api/movies', passport.authenticate('jwt', { session: false }), movieRoute);

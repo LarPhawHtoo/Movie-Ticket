@@ -18,6 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const utils_1 = require("../utils/utils");
 const user_model_1 = __importDefault(require("../models/user.model"));
 const const_1 = require("../const/const");
+const logger_1 = require("../logger/logger");
 const getUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userType = req.headers['userType'];
@@ -43,9 +44,11 @@ const getUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 self: req.originalUrl,
             }
         });
+        logger_1.logger.info("Successfully retrieved User data");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error retrieving User data");
     }
 });
 exports.getUserService = getUserService;
@@ -57,6 +60,7 @@ const createUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             error.data = errors.array();
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Validation failed!");
         }
         let profile = req.body.profile;
         if (req.file) {
@@ -78,9 +82,11 @@ const createUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         res
             .status(201)
             .json({ message: "Created User Successfully!", data: result, status: 1 });
+        logger_1.logger.info("Created User Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Validation failed!");
     }
 });
 exports.createUserService = createUserService;
@@ -91,11 +97,14 @@ const findUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found!");
         }
         res.json({ data: user, status: 1 });
+        logger_1.logger.info("User Data Information");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Not Found!");
     }
 });
 exports.findUserService = findUserService;
@@ -106,12 +115,14 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             const error = new Error("Validation failed!");
             error.data = errors.array();
             error.statusCode = 422;
+            logger_1.logger.error("Validation failed");
             throw error;
         }
         const user = yield user_model_1.default.findByIdAndUpdate(req.params.id);
         if (!user) {
             const error = new Error("Not Found!");
             error.statusCode = 401;
+            logger_1.logger.error("Not Found!");
             throw error;
         }
         let profile = req.body.profile;
@@ -134,9 +145,11 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         user.updated_user_id = req.body.updated_user_id;
         const result = yield user.save();
         res.json({ message: "Updated User Successfully!", data: result, status: 1 });
+        logger_1.logger.info("Updated User Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error updating user");
     }
 });
 exports.updateUserService = updateUserService;
@@ -146,12 +159,15 @@ const deleteUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         if (!user) {
             const error = new Error("Not Found!");
             error.statusCode = 401;
+            logger_1.logger.error("Not Found!");
             throw error;
         }
         res.json({ message: "Delete User Successfully!", data: user, status: 1 });
+        logger_1.logger.info("User deleted successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error deleting user!");
     }
 });
 exports.deleteUserService = deleteUserService;
@@ -162,10 +178,12 @@ const passwordChangeService = (req, res, next) => __awaiter(void 0, void 0, void
         //Check required fields
         if (!oldPassword || !newPassword || !confirmPassword) {
             res.json({ message: "Please fill in all fields." });
+            logger_1.logger.error("Please fill in all fields.");
         }
         //Check passwords match
         if (newPassword !== confirmPassword) {
             res.json({ message: "New password do not match." });
+            logger_1.logger.error("New password do not match.");
         }
         else {
             //Validation Passed
@@ -181,14 +199,17 @@ const passwordChangeService = (req, res, next) => __awaiter(void 0, void 0, void
                     user.save();
                 }));
                 res.json({ message: "Password Successfully Updated!", data: user, status: 1 });
+                logger_1.logger.info("Password Successfully Updated!");
             }
             else {
                 res.json({ message: "Current Password is not match." });
+                logger_1.logger.error("Current Password is not match.");
             }
         }
     }
     catch (err) {
         res.json({ message: "Password does not match" });
+        logger_1.logger.error("Password does not match!");
     }
 });
 exports.passwordChangeService = passwordChangeService;

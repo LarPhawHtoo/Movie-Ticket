@@ -63,7 +63,7 @@ mongoose_1.default.connect(`${process.env.MONGO_URL}`, {
         console.log('Error in connection ' + err);
     }
 });
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/cinemas', passport_1.default.authenticate('jwt', { session: false }), cinema_route_1.default);
 app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
 app.use('/api/movies', passport_1.default.authenticate('jwt', { session: false }), movie_route_1.default);

@@ -10,7 +10,7 @@ import moment from 'moment';
 import { deleteFile } from '../utils/utils';
 import { MovieCreate } from '../interfaces/movie';
 import movieModel from '../models/movie.model';
-
+import { logger } from "../logger/logger"
 /**
  * get movie service.
  * @param _req 
@@ -30,6 +30,7 @@ export const getMovieService = async (
         success: false,
         message: "Not Found! ",
       });
+      logger.error("Movie not found");
     }
     res.json({
       success: true,
@@ -37,8 +38,10 @@ export const getMovieService = async (
       movies: movies,
       status: 1,
     });
+    logger.info("Successfully fetched movies");
   } catch (err) {
     next(err);
+    logger.error("Error fetching movies");
   }
 };
 
@@ -58,6 +61,7 @@ export const createMovieService = async ( req: Request, res: Response, next: Nex
       error.data = errors.array();
       error.statusCode = 401;
       throw error;
+      logger.error("Validation failed");
     }
     var image: string = req.body;
     if (req.file) {
@@ -79,9 +83,11 @@ export const createMovieService = async ( req: Request, res: Response, next: Nex
     const result = await movie.save();
     res
       .status(201)
-      .json({ message: "Created Movie Successfully!", movies:result, status: 1 });
+      .json({ message: "Created Movie Successfully!", movies: result, status: 1 });
+    logger.info("Movie created successfully");
   } catch (err) {
     next(err);
+    logger.error("Error creating Movie");
   }
 };
 
@@ -96,10 +102,13 @@ export const findMovieService = async (
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
+      logger.error("Not Found!");
     }
     res.json({ movies: movie, status: 1 });
+    logger.info("Successfully found movie!");
   } catch (err) {
     next(err);
+    logger.error("Error finding movie!");
   }
 }
 
@@ -115,12 +124,14 @@ export const updateMovieService = async (
       error.data = errors.array();
       error.statusCode = 401;
       throw error;
+      logger.error("Validation failed");
     }
     const movie: any = await Movie.findById(req.params.id);
     if (!movie) {
       const error: any = new Error("Not Found!");
       error.statusCode = 401;
       throw error;
+      logger.error("Not Found!");
     }
     let image: string = req.body.image;
     if (req.file) {
@@ -141,8 +152,10 @@ export const updateMovieService = async (
     movie.updated_user_id = req.body.updated_user_id;
     const result = await movie.save();
     res.json({ message: "Updated Successfully!", movies: result, status: 1 });
+    logger.info("Movie Updated Successfully");
   } catch (err) {
     next(err);
+    logger.error("Error updating movie");
   }
 };
 
@@ -157,14 +170,17 @@ export const deleteMovieService = async (
       const error: any = new Error("Not Found!");
       error.statusCode = 401;
       throw error;
+      logger.error("Not Found!");
     }
     res.json({
       message: "Delete Movie Successfully!",
       movies:movie,
       status: 1,
     });
+    logger.info("Movie deleted successfully");
   } catch (err) {
     next(err);
+    logger.error("Error deleting Movie");
   }
 };
 
@@ -176,8 +192,10 @@ export const findByIdService = async (
   try {
     const movies = await Movie.findById(req.params.id);
     res.json({ movies: movies, status: 1 });
+    logger.info("Movie found successfully");
   } catch (err) {
     next(err);
+    logger.error("Error finding movie");
   }
 };
 

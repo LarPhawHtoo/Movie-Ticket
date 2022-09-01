@@ -12,7 +12,7 @@ import { StreamState } from "http2";
 import { stat } from "fs";
 import { AnyAaaaRecord } from "dns";
 import { getMovieService } from "./movie.service";
-
+import { logger } from "../logger/logger"
 /**
  * get tickets service
  * @param _req
@@ -32,6 +32,7 @@ import { getMovieService } from "./movie.service";
           success: false,
           message: "Not Found! ",
         });
+        logger.error("Tickets Not Found!");
       }
       var sortedTicket = tickets.sort((a, b) =>
       a.seatNumber < b.seatNumber ? -1 : 1
@@ -42,8 +43,10 @@ import { getMovieService } from "./movie.service";
       tickets: sortedTicket,
       status: 1,
     });
+      logger.info("Tickets fetched successfully");
     } catch (err) {
       next(err);
+      logger.error("Error fetching tickets");
     }
 };
 
@@ -65,6 +68,7 @@ export const createTicketService = async (
       error.data = errors.array();
       error.statusCode = 401;
       throw error;
+      logger.error("Validation failed");
     }
     const ticketTdo: TicketCreate = {
       customer_name: req.body.customer_name,
@@ -83,8 +87,10 @@ export const createTicketService = async (
       tickets: result,
       status: 1,
     });
+    logger.info("Created Ticket successfully!");
   } catch (err) {
     next(err);
+    logger.error("Failed to create Ticket!");
   }
 };
 /**
@@ -106,10 +112,13 @@ export const findTicketService = async (
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
+      logger.error("Not Found Ticket!");
     }
     res.json({ tickets: ticket, status: 1 });
+    logger.info("Successfully found Ticket!");
   } catch (err) {
     next(err);
+    logger.error("Error finding Ticket!");
   }
 };
 
@@ -131,12 +140,14 @@ export const updateTicketService = async (
       error.data = errors.array();
       error.statusCode = 401;
       throw error;
+      logger.error("Validation failed");
     }
     const ticket: any = await Ticket.findByIdAndUpdate(req.params.id);
     if (!ticket) {
       const error: any = new Error("Not Found!");
       error.statusCode = 401;
       throw error;
+      logger.error("Not Found!");
     }
     ticket.customer_name = req.body.customer_name;
     ticket.cinema_id = req.body.cinema_id;
@@ -152,8 +163,10 @@ export const updateTicketService = async (
       tickets: result,
       status: 1,
     });
+    logger.info("Updated Ticket Successfully!");
   } catch (err) {
     next(err);
+    logger.error("Error updating Ticket");
   }
 };
 
@@ -174,14 +187,17 @@ export const deleteTicketService = async (
       const error: any = new Error("Not Found!");
       error.statusCode = 401;
       throw error;
+      logger.error("Not Found Ticket");
     }
     res.json({
       message: "Delete Ticket Successfully!",
       tickets: ticket,
       status: 1,
     });
+    logger.info("Delete Ticket Successfully!");
   } catch (err) {
     next(err);
+    logger.error("Error deleting Ticket");
   }
 };
 
@@ -259,8 +275,10 @@ export const getdashBoardata = async (
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
+      logger.error("Not Found Ticket!");
     }
     res.json({ tickets: resultMovie, status: 1 });
+    logger.info("Successfully got tickets");
   } catch (err) {
     next(err);
   }
@@ -329,9 +347,12 @@ export const getTicketByCinemaIdService = async (
       const error: any = Error("Not Found!");
       error.statusCode = 401;
       throw error;
+      logger.error("Not found Ticket!");
     }
     res.json({ tickets: result, status: 1 });
+    logger.info("Successfully got Tickets by Cinema ID!");
   } catch (err) {
     next(err);
+    logger.error("Failed to get tickets!");
   }
 };

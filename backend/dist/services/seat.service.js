@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSeatService = exports.updateSeatService = exports.findSeatService = exports.createSeatService = exports.getSeatService = void 0;
 const seat_model_1 = __importDefault(require("../models/seat.model"));
 const express_validator_1 = require("express-validator");
+const logger_1 = require("../logger/logger");
 /**
  * get seat service
  * @param _req
@@ -28,6 +29,7 @@ const getSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 success: false,
                 message: "An error occured while fetching seats: " + err,
             });
+            logger_1.logger.error("An error occured while fetching seats ");
         }
         else {
             var sortedSeat = seats.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
@@ -37,6 +39,7 @@ const getSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 seats: sortedSeat,
                 status: 1,
             });
+            logger_1.logger.info("Seats fetched successfully");
         }
     });
 });
@@ -55,6 +58,7 @@ const createSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             error.data = errors.array();
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Validation failed");
         }
         const seatTdo = {
             seatNumber: req.body.seatNumber,
@@ -68,9 +72,11 @@ const createSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             data: result,
             status: 1,
         });
+        logger_1.logger.info("Created Seat successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error creating seat");
     }
 });
 exports.createSeatService = createSeatService;
@@ -87,11 +93,14 @@ const findSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found Seat");
         }
         res.json({ data: seat, status: 1 });
+        logger_1.logger.info("Successfully found seat");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error finding seat");
     }
 });
 exports.findSeatService = findSeatService;
@@ -108,6 +117,7 @@ const updateSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             const error = new Error("Validation failed!");
             error.data = errors.array();
             error.statusCode = 401;
+            logger_1.logger.error("Validation failed!");
             throw error;
         }
         const seat = yield seat_model_1.default.findById(req.params.id);
@@ -115,6 +125,7 @@ const updateSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             const error = new Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found seat");
         }
         seat.seatNumber = req.body.seatNumber;
         seat.status = req.body.status;
@@ -125,9 +136,11 @@ const updateSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             data: result,
             status: 1,
         });
+        logger_1.logger.info("Updated seat Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error updating seat");
     }
 });
 exports.updateSeatService = updateSeatService;
@@ -143,12 +156,15 @@ const deleteSeatService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         if (!seat) {
             const error = new Error("Not Found!");
             error.statusCode = 401;
+            logger_1.logger.error("Not Found seat!");
             throw error;
         }
         res.json({ message: "Delete Seat Successfully!", data: seat, status: 1 });
+        logger_1.logger.info("Delete Seat Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error deleting seat!");
     }
 });
 exports.deleteSeatService = deleteSeatService;

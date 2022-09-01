@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findByIdService = exports.deleteCinemaService = exports.updateCinemaService = exports.findCinemaService = exports.createCinemaService = exports.getCinemaService = void 0;
 const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const express_validator_1 = require("express-validator");
+const logger_1 = require("../logger/logger");
 /**
  * get post service.
  * @param _req
@@ -26,9 +27,11 @@ const getCinemaService = (_req, res, next) => __awaiter(void 0, void 0, void 0, 
         let condition = { deleted_at: null };
         const cinemas = yield cinema_model_1.default.find(condition);
         res.json({ data: cinemas, status: 1 });
+        logger_1.logger.info("Successfully retrieved Cinema Data");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Data Not Found!");
     }
 });
 exports.getCinemaService = getCinemaService;
@@ -45,6 +48,7 @@ const createCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
             const error = new Error("Validation failed!");
             error.data = errors.array();
             error.statusCode = 401;
+            logger_1.logger.error("Validation failed!");
             throw error;
         }
         const cinemaList = req.body;
@@ -56,9 +60,11 @@ const createCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
         res
             .status(201)
             .json({ message: "Created Successfully!", data: result, status: 1 });
+        logger_1.logger.info("Cinema Created Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Cinema Failed to Create");
     }
 });
 exports.createCinemaService = createCinemaService;
@@ -68,12 +74,15 @@ const findCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         if (!cinema) {
             const error = Error("Not Found!");
             error.statusCode = 401;
+            logger_1.logger.error("Not Found!");
             throw error;
         }
         res.json({ data: cinema, status: 1 });
+        logger_1.logger.info("Success!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Not Found!");
     }
 });
 exports.findCinemaService = findCinemaService;
@@ -84,12 +93,14 @@ const updateCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
             const error = new Error("Validation failed!");
             error.data = errors.array();
             error.statusCode = 401;
+            logger_1.logger.error("Validation failed!");
             throw error;
         }
         const cinema = yield cinema_model_1.default.findById(req.params.id);
         if (!cinema) {
             const error = new Error("Not Found!");
             error.statusCode = 404;
+            logger_1.logger.error("Not Found!");
             throw error;
         }
         cinema.name = req.body.name;
@@ -99,9 +110,11 @@ const updateCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
         cinema.updated_user_id = req.body.updated_user_id;
         const result = yield cinema.save();
         res.json({ message: "Updated Successfully!", data: result, status: 1 });
+        logger_1.logger.info("Updated Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Failed to update");
     }
 });
 exports.updateCinemaService = updateCinemaService;
@@ -111,22 +124,20 @@ const deleteCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
         if (!cinema) {
             const error = new Error("Not Found!");
             error.statusCode = 404;
+            logger_1.logger.error("Not Found!");
             throw error;
         }
-        //cinema.deleted_at = new Date();
-        //await cinema.save();
         res.sendStatus(204);
         res.json({
-            message: "Deleted Cinema Successfully",
-        });
-        res.json({
-            message: "Delete Movie Successfully!",
+            message: "Delete Cinema Successfully!",
             cinemas: cinema,
             status: 1,
         });
+        logger_1.logger.info("Delete Cinema Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error deleting");
     }
 });
 exports.deleteCinemaService = deleteCinemaService;
@@ -134,9 +145,11 @@ const findByIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     try {
         const cinemas = yield cinema_model_1.default.findById(req.params.id);
         res.json({ data: cinemas, status: 1 });
+        logger_1.logger.info("Successfully found cinema");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Failed to find cinema");
     }
 });
 exports.findByIdService = findByIdService;

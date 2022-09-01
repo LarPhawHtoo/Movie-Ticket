@@ -18,6 +18,7 @@ const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const seat_model_1 = __importDefault(require("../models/seat.model"));
 const movie_model_1 = __importDefault(require("../models/movie.model"));
 const express_validator_1 = require("express-validator");
+const logger_1 = require("../logger/logger");
 /**
  * get tickets service
  * @param _req
@@ -32,6 +33,7 @@ const getTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
                 success: false,
                 message: "Not Found! ",
             });
+            logger_1.logger.error("Tickets Not Found!");
         }
         var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
         res.json({
@@ -40,9 +42,11 @@ const getTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             tickets: sortedTicket,
             status: 1,
         });
+        logger_1.logger.info("Tickets fetched successfully");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error fetching tickets");
     }
 });
 exports.getTicketService = getTicketService;
@@ -60,6 +64,7 @@ const createTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             error.data = errors.array();
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Validation failed");
         }
         const ticketTdo = {
             customer_name: req.body.customer_name,
@@ -78,9 +83,11 @@ const createTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             tickets: result,
             status: 1,
         });
+        logger_1.logger.info("Created Ticket successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Failed to create Ticket!");
     }
 });
 exports.createTicketService = createTicketService;
@@ -98,11 +105,14 @@ const findTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found Ticket!");
         }
         res.json({ tickets: ticket, status: 1 });
+        logger_1.logger.info("Successfully found Ticket!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error finding Ticket!");
     }
 });
 exports.findTicketService = findTicketService;
@@ -120,12 +130,14 @@ const updateTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             error.data = errors.array();
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Validation failed");
         }
         const ticket = yield ticket_model_1.default.findByIdAndUpdate(req.params.id);
         if (!ticket) {
             const error = new Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found!");
         }
         ticket.customer_name = req.body.customer_name;
         ticket.cinema_id = req.body.cinema_id;
@@ -141,9 +153,11 @@ const updateTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             tickets: result,
             status: 1,
         });
+        logger_1.logger.info("Updated Ticket Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error updating Ticket");
     }
 });
 exports.updateTicketService = updateTicketService;
@@ -160,15 +174,18 @@ const deleteTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             const error = new Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found Ticket");
         }
         res.json({
             message: "Delete Ticket Successfully!",
             tickets: ticket,
             status: 1,
         });
+        logger_1.logger.info("Delete Ticket Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error deleting Ticket");
     }
 });
 exports.deleteTicketService = deleteTicketService;
@@ -241,8 +258,10 @@ const getdashBoardata = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found Ticket!");
         }
         res.json({ tickets: resultMovie, status: 1 });
+        logger_1.logger.info("Successfully got tickets");
     }
     catch (err) {
         next(err);
@@ -299,11 +318,14 @@ const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0,
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not found Ticket!");
         }
         res.json({ tickets: result, status: 1 });
+        logger_1.logger.info("Successfully got Tickets by Cinema ID!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Failed to get tickets!");
     }
 });
 exports.getTicketByCinemaIdService = getTicketByCinemaIdService;
