@@ -73,7 +73,6 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       cinema_id: req.body.cinema_id,
       time: req.body.time,
       date: req.body.date,
-      //date: req.body.date,
       image: profile,
       created_user_id: req.body.created_user_id,
     }

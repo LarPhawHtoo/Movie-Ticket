@@ -72,6 +72,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             cinema_id: req.body.cinema_id,
             time: req.body.time,
             date: req.body.date,
+            //date: req.body.date,
             image: profile,
             created_user_id: req.body.created_user_id,
         };
