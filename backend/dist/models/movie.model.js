@@ -19,8 +19,8 @@ const movieSchema = new mongoose_1.Schema({
         required: true
     },
     image: {
-        type: String,
-        default: ""
+        type: Object,
+        required: true
     },
     cinema_id: {
         type: mongoose_1.Schema.Types.ObjectId,

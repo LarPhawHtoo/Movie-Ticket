@@ -16,8 +16,6 @@ exports.findByIdService = exports.deleteMovieService = exports.updateMovieServic
 const movie_model_1 = __importDefault(require("../models/movie.model"));
 const express_validator_1 = require("express-validator");
 const utils_1 = require("../utils/utils");
-const multer_1 = __importDefault(require("multer"));
-const upload = (0, multer_1.default)({ dest: 'apiuploads/movies' });
 /**
  * get movie service.
  * @param _req
@@ -60,9 +58,9 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.statusCode = 401;
             throw error;
         }
-        let profile = req.body.image;
+        var image = req.body;
         if (req.file) {
-            profile = req.file.path.replace("\\", "/");
+            image = req.file.path.replace("\\", "/");
         }
         const movieTdo = {
             code: req.body.code,
@@ -72,9 +70,10 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             cinema_id: req.body.cinema_id,
             time: req.body.time,
             date: req.body.date,
-            image: profile,
+            image: image,
             created_user_id: req.body.created_user_id,
         };
+        console.log(image);
         const movie = new movie_model_1.default(movieTdo);
         const result = yield movie.save();
         res

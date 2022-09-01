@@ -10,9 +10,7 @@ import moment from 'moment';
 import { deleteFile } from '../utils/utils';
 import { MovieCreate } from '../interfaces/movie';
 import movieModel from '../models/movie.model';
-import { ChainCondition } from 'express-validator/src/context-items';
-import multer, { FileFilterCallback } from "multer";
-const upload: any = multer({ dest: 'apiuploads/movies' });
+
 /**
  * get movie service.
  * @param _req 
@@ -52,7 +50,7 @@ export const getMovieService = async (
  * @param res 
  * @param next 
  */
-export const createMovieService = async (req: Request, res: Response, next: NextFunction) => {
+export const createMovieService = async ( req: Request, res: Response, next: NextFunction) => {
   try {
     const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
@@ -61,9 +59,9 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       error.statusCode = 401;
       throw error;
     }
-    let profile: string = req.body.image;
+    var image: string = req.body;
     if (req.file) {
-      profile = req.file.path.replace("\\", "/");
+      image= req.file.path.replace("\\", "/");
     }
     const movieTdo: MovieCreate = {
      code: req.body.code,
@@ -73,9 +71,10 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       cinema_id: req.body.cinema_id,
       time: req.body.time,
       date: req.body.date,
-      image: profile,
+      image: image,
       created_user_id: req.body.created_user_id,
     }
+    console.log(image)
     const movie = new Movie(movieTdo);
     const result = await movie.save();
     res
