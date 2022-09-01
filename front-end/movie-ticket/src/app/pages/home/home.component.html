@@ -1,14 +1,14 @@
 <mat-card>
   <mat-card-title>Welcome to Happy Cinema!</mat-card-title>
-  <button mat-raised-button color="primary" class="cinemas-btn" routerLink="/cinemas" (click)="onClickCinemas()">
+  <button mat-raised-button color="primary" class="cinemas-btn" routerLink="/cinemas" *ngIf="isAdmin" (click)="onClickCinemas()">
     <mat-icon class="mat-18">theaters</mat-icon>
     Cinemas
   </button>
-  <button mat-raised-button color="primary" class="users-btn" routerLink="/users" (click)="onClickUsers()">
+  <button mat-raised-button color="primary" class="users-btn" routerLink="/users" *ngIf="isAdmin" (click)="onClickUsers()">
     <mat-icon class="mat-18">people_alt</mat-icon>
     Users
   </button>
-  <button mat-raised-button color="primary" class="movies-btn" routerLink="/movies" (click)="onClickMovies()">
+  <button mat-raised-button color="primary" class="movies-btn" routerLink="/movies" *ngIf="isAdmin" (click)="onClickMovies()">
     <mat-icon class="mat-18">movie</mat-icon>
     Movies
   </button>

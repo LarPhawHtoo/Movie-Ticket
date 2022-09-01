@@ -15,16 +15,16 @@ const ticket_route_1 = __importDefault(require("./routes/ticket.route"));
 const cors_1 = __importDefault(require("cors"));
 const multer_1 = __importDefault(require("multer"));
 const uuid_1 = require("uuid");
+const path_1 = __importDefault(require("path"));
 const passport_1 = __importDefault(require("passport"));
-const swaggerUI = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerDocument = YAML.load('./api.yaml');
 require('./config/passport');
 require("dotenv/config");
 const body_parser_1 = __importDefault(require("body-parser"));
-const path_1 = __importDefault(require("path"));
 const utils_1 = require("./utils/utils");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
 dotenv_1.default.config();
 const fileStorage = multer_1.default.diskStorage({
     destination: (_req, _file, cb) => {
@@ -53,12 +53,6 @@ const fileFilter = (_req, file, cb) => {
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
-//app.use(upload.single('image'));
-//app.use("/single", upload.single("image"));
-//app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
-//app.use('/apiuploads/profiles', express.static('apiuploads/profiles'));
-//app.use(multer({ storage: fileStorageMovies, fileFilter }).single("image"));
-//app.use('/apiuploads/movies', express.static('apiuploads/movies'));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
 //app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'movie', maxCount: 1},{ name: 'image', maxCount: 1}]));
 app.use("/apiuploads", express_1.default.static(path_1.default.join(utils_1.rootDir, "apiuploads")));

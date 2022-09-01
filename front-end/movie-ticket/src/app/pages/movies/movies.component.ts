@@ -28,7 +28,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     public movieService: MovieService
   ) { }
 
-    displayedColumns: string[] = ['id', 'code', 'name', 'year','rating','createdAt','updatedAt','time','actions'];
+    displayedColumns: string[] = ['code', 'name', 'year','rating', 'cinema-name', 'createdAt','updatedAt','time','actions'];
     dataSource = new MatTableDataSource<Movie>();
   
     ngOnInit(): void {
@@ -63,14 +63,14 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       })
     }
     openDeleteDialog(element:any) {
-      const dialogRef = this.dialog.open(MovieDeleteConfirmDialogComponent,{data:element});
+      const dialogRef = this.dialog.open(MovieDeleteConfirmDialogComponent, { data: element });
       dialogRef.afterClosed().subscribe(result => {
         if (result == 'delete') this.getMovie();
       })
     }
   
     openDialog() {
-      const dialogRef = this.dialog.open(MovieCreateComponent, { width: '700px' });
+      const dialogRef = this.dialog.open(MovieCreateComponent);
       dialogRef.afterClosed().subscribe(result => {
         if (result == 'create') this.getMovie();
       })

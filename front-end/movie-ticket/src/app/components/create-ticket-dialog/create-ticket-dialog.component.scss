@@ -1,8 +1,14 @@
-mat-form-field, .seat-btn {
-  margin-top: 16px;
-  margin-right: 16px;
-}
+::ng-deep {
+  mat-form-field, .seat-btn, .selected-seat-btn {
+    margin-top: 16px;
+    margin-right: 16px;
+  }
 
-.seat-div {
-  text-align: center;
+  .selected-seat-btn {
+    background-color: green !important;
+  }
+  
+  .seat-div {
+    text-align: center;
+  }
 }

@@ -4,7 +4,6 @@ import { UserService } from 'src/app/services/user.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MustMatch } from 'src/app/validators/must-match.validator';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { TitleStrategy } from '@angular/router';
 
 export const MY_DATE_FORMAT = {
   parse: {
@@ -41,7 +40,6 @@ export class UserCreateComponent implements OnInit {
   profileImage: any;
   imgFile: any;
   confirmView: Boolean = false;
-  pickDate: any;
   today = new Date();
 
   formData!: FormGroup;
@@ -130,10 +128,6 @@ export class UserCreateComponent implements OnInit {
 
   get myForm() {
     return this.formData.controls;
-  }
-
-  OnDateChange(event: any) {
-    this.pickDate = event;
   }
 
   public hasError = (controlName: string, errorName: string) => {

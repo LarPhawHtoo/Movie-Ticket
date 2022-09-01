@@ -3,13 +3,19 @@ import {
   getdashBoardService, getTicketService, createTicketService, updateTicketService, deleteTicketService,findTicketService,getTicketByCinemaIdService
 } from '../services/ticket.service';
 
-export const getTicket = async (
+export const getTickets = async (
   req: Request, res: Response, next: NextFunction) => {
     getTicketService(req, res, next);
 };
+<<<<<<< HEAD
 export const getdashBoardData = async (
   req: Request, res: Response, next: NextFunction) => {
     getdashBoardService(req, res, next);
+=======
+export const getdashBoard = async (
+  req: Request, res: Response, next: NextFunction) => {
+    getdashBoardata(req, res, next);
+>>>>>>> remotes/origin/main
 };
 export const findTicket = async (
   req: Request,

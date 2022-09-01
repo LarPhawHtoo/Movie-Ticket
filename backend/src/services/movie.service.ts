@@ -4,12 +4,13 @@ import Cinema from "../models/cinema.model";
 import Seat from "../models/seat.model";
 import { SeatCreate } from '../interfaces/seat';
 import { validationResult } from 'express-validator';
+import { Validator } from 'node-input-validator';
+import bcrypt from 'bcrypt';
+import moment from 'moment';
 import { deleteFile } from '../utils/utils';
 import { MovieCreate } from '../interfaces/movie';
 import movieModel from '../models/movie.model';
-import { ChainCondition } from 'express-validator/src/context-items';
-import multer, { FileFilterCallback } from "multer";
-const upload: any = multer({ dest: 'apiuploads/movies' });
+
 /**
  * get movie service.
  * @param _req 
@@ -49,7 +50,11 @@ export const getMovieService = async (
  * @param res 
  * @param next 
  */
+<<<<<<< HEAD
 export const createMovieService = async (req: any, res: Response, next: NextFunction) => {
+=======
+export const createMovieService = async ( req: Request, res: Response, next: NextFunction) => {
+>>>>>>> remotes/origin/main
   try {
     const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
@@ -58,9 +63,15 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
       error.statusCode = 401;
       throw error;
     }
+<<<<<<< HEAD
     let image: any = req.body.image;
     if (req.files) {
       image = req.files.image[0].path.replaceAll("\\", "/");
+=======
+    var image: string = req.body;
+    if (req.file) {
+      image= req.file.path.replace("\\", "/");
+>>>>>>> remotes/origin/main
     }
     const movieTdo: MovieCreate = {
      code: req.body.code,
@@ -69,11 +80,20 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
       rating: req.body.rating,
       cinema_id: req.body.cinema_id,
       time: req.body.time,
+<<<<<<< HEAD
       status: req.body.status,
       image: image,
       created_user_id: req.body.created_user_id,
     }
     const movie: any = new Movie(movieTdo);
+=======
+      date: req.body.date,
+      image: image,
+      created_user_id: req.body.created_user_id,
+    }
+    console.log(image)
+    const movie = new Movie(movieTdo);
+>>>>>>> remotes/origin/main
     const result = await movie.save();
 
     res

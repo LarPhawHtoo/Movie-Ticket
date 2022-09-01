@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
+import { Role } from './interfaces/role.model';
 
 
 @Component({
@@ -86,6 +87,10 @@ export class AppComponent {
         }
       }
     });
+  }
+
+  get isAdmin() {
+    return this.loggedInUser && this.loggedInUser.type === Role.Admin;
   }
 
   openDialog() {

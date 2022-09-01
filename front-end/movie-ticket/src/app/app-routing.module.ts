@@ -7,6 +7,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 import { CinemaResolverService } from './resolvers/cinema-resolver.service';
 import { UsersComponent } from './pages/users/users.component';
 import { UserResolverService } from './resolvers/user-resolver.service';
@@ -17,7 +18,10 @@ import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieResolverService } from './resolvers/movie-resolver.service';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { TicketsComponent } from './pages/tickets/tickets.component';
-import { TicketResolverService } from './resolvers/ticket-resolver.service';const routes: Routes = [
+import { TicketResolverService } from './resolvers/ticket-resolver.service';
+import { Role } from './interfaces/role.model';
+
+const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'logout', component: LogoutComponent },
@@ -30,13 +34,15 @@ import { TicketResolverService } from './resolvers/ticket-resolver.service';cons
   {
     path: 'users',
     component: UsersComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
+    data: { roles: [Role.Admin] },
     resolve: { users: UserResolverService }
   },
   {
     path: 'cinemas',
     component: CinemasComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
+    data: { roles: [Role.Admin] },
     resolve: { cinemas: CinemaResolverService }
   },
   {
@@ -52,10 +58,9 @@ import { TicketResolverService } from './resolvers/ticket-resolver.service';cons
   {
     path: 'movies',
     component: MoviesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
+    data: { roles: [Role.Admin] },
     resolve: { movies: MovieResolverService }
-
-
 },
   {
     path: 'passwordchange',

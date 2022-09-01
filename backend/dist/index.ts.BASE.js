@@ -16,15 +16,28 @@ const cors_1 = __importDefault(require("cors"));
 const multer_1 = __importDefault(require("multer"));
 const uuid_1 = require("uuid");
 const passport_1 = __importDefault(require("passport"));
+<<<<<<< HEAD
 require('./config/passport');
 require("dotenv/config");
 const path_1 = __importDefault(require("path"));
 const utils_1 = require("./utils/utils");
+=======
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
+require('./config/passport');
+require("dotenv/config");
+const body_parser_1 = __importDefault(require("body-parser"));
+>>>>>>> remotes/origin/main
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 dotenv_1.default.config();
 const fileStorage = multer_1.default.diskStorage({
     destination: (_req, _file, cb) => {
+<<<<<<< HEAD
         cb(null, "apiuploads");
+=======
+        cb(null, "apiuploads/profile");
+>>>>>>> remotes/origin/main
     },
     filename: (_req, file, cb) => {
         cb(null, `${(0, uuid_1.v4)()}_${file.originalname}`);
@@ -41,10 +54,17 @@ const fileFilter = (_req, file, cb) => {
     }
 };
 const app = (0, express_1.default)();
+<<<<<<< HEAD
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
 app.use("/apiuploads", express_1.default.static(path_1.default.join(utils_1.rootDir, "apiuploads")));
+=======
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: false }));
+app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
+app.use('/apiuploads/profile', express_1.default.static('apiuploads/profile'));
+>>>>>>> remotes/origin/main
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
@@ -61,6 +81,10 @@ mongoose_1.default.connect(`${process.env.MONGO_URL}`, {
         console.log('Error in connection ' + err);
     }
 });
+<<<<<<< HEAD
+=======
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+>>>>>>> remotes/origin/main
 app.use('/api/cinemas', passport_1.default.authenticate('jwt', { session: false }), cinema_route_1.default);
 app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
 app.use('/api/movies', passport_1.default.authenticate('jwt', { session: false }), movie_route_1.default);

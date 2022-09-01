@@ -21,8 +21,8 @@ const movieSchema = new Schema({
     required:true
   },
   image: {
-    type: String,
-    default:""
+    type: Object,
+    required: true
   },
   cinema_id: {
     type: Schema.Types.ObjectId,

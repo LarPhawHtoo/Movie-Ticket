@@ -16,8 +16,6 @@ exports.findByIdService = exports.deleteMovieService = exports.updateMovieServic
 const movie_model_1 = __importDefault(require("../models/movie.model"));
 const express_validator_1 = require("express-validator");
 const utils_1 = require("../utils/utils");
-const multer_1 = __importDefault(require("multer"));
-const upload = (0, multer_1.default)({ dest: 'apiuploads/movies' });
 /**
  * get movie service.
  * @param _req

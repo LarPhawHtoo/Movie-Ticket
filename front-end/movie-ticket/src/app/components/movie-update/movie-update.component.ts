@@ -2,6 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MovieService } from 'src/app/services/movie.service';
+import { Cinema } from 'src/app/interfaces/cinema.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { CinemaService } from 'src/app/services/cinema.service';
 
 @Component({
   selector: 'app-movie-update',
@@ -14,6 +17,7 @@ export class MovieUpdateComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<MovieUpdateComponent>,
     private movieService: MovieService,
+    private cinemaService: CinemaService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
   
@@ -21,6 +25,9 @@ export class MovieUpdateComponent implements OnInit {
   imgFile: any;
   confirmView: Boolean = false;
   formData!: FormGroup;
+  times: string[] = ['10:30 AM', '1:00 PM', '2:30 PM', '3:00 PM'];
+  cinemaDataSource = new MatTableDataSource<Cinema>;
+  cinemas: Cinema[] = [];
 
   code= new FormControl('', [Validators.required])
   name= new FormControl('', Validators.required)
@@ -35,9 +42,17 @@ export class MovieUpdateComponent implements OnInit {
       profile: new FormControl(''),
       year: new FormControl(this.data.year),
       rating: new FormControl(this.data.rating),
-      time: new FormControl(this.data.time),
+      cinema: new FormControl(''),
+      time: new FormControl(''),
     });
-    console.log(this.data);
+    
+    this.cinemaService.getCinemas().subscribe((response: any) => {
+      this.cinemaDataSource.data = response.data as Cinema[];
+
+      for (let i = 0; i < this.cinemaDataSource.data.length; i++) {
+        this.cinemas.push(this.cinemaDataSource.data[i]);
+      }
+    });
   }
   onClickUpdateMovie() {
     if (this.confirmView == true) {
@@ -48,6 +63,7 @@ export class MovieUpdateComponent implements OnInit {
       formData.append('profile', this.imgFile);
       formData.append('year', this.formData.controls['year'].value);
       formData.append('rating', this.formData.controls['rating'].value);
+      formData.append('cinema_id', this.formData.controls['cinema'].value);
       formData.append('time', this.formData.controls['time'].value);
       this.movieService.updateMovie(id, formData)
         .subscribe(res => {

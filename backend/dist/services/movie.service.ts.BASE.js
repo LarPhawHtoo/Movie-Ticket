@@ -24,6 +24,7 @@ const utils_1 = require("../utils/utils");
  */
 const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+<<<<<<< HEAD
         const userType = _req.headers['userType'];
         const userId = _req.headers['userId'];
         let condition = { deleted_at: null };
@@ -33,6 +34,21 @@ const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, f
         }
         const movies = yield movie_model_1.default.find(condition);
         res.json({ movies: movies, status: 1 });
+=======
+        const movies = yield movie_model_1.default.find();
+        if (!movies) {
+            res.json({
+                success: false,
+                message: "Not Found! ",
+            });
+        }
+        res.json({
+            success: true,
+            message: "Movies fetched",
+            movies: movies,
+            status: 1,
+        });
+>>>>>>> remotes/origin/main
     }
     catch (err) {
         next(err);

@@ -36,8 +36,9 @@
         <mat-error *ngIf="myForm['email'].hasError('required')">Please enter your email</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <input (dateInput)="OnDateChange($event.value)" matInput [matDatepicker]="picker" [max]="today"
+        <input matInput [matDatepicker]="picker" [max]="today"
           placeholder="Choose your Birthday" formControlName="dob">
+          <mat-hint>YYYY/MM/DD</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>

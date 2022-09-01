@@ -8,12 +8,27 @@ import { MovieService } from 'src/app/services/movie.service';
 import { Cinema } from 'src/app/interfaces/cinema.model';
 import { CinemaService } from 'src/app/services/cinema.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
+export const MY_DATE_FORMAT = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'MMMM YYYY',
+    dateAllyLabel: 'LL',
+    monthYearAllyLabel: 'MMMM YYYY'
+  },
+};
 
 @Component({
   selector: 'app-update-ticket-dialog',
   templateUrl: './update-ticket-dialog.component.html',
-  styleUrls: ['./update-ticket-dialog.component.scss']
+  styleUrls: ['./update-ticket-dialog.component.scss'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT }
+  ]
 })
 export class UpdateTicketDialogComponent implements OnInit {
 
@@ -25,17 +40,25 @@ export class UpdateTicketDialogComponent implements OnInit {
     private cinemaService: CinemaService,
     private seatService: SeatService,
     @Inject(MAT_DIALOG_DATA) public data: UpdateTicketDialogComponent,
-  ) { }
+  ) { 
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const currentDay = new Date().getDay();
+    this.maxDate = new Date(currentYear, currentMonth, currentDay + 6);
+  }
 
   _id: string = '';
   dates: string[] = ['22/08/2022', '11/08/2022', '14/08/2022', '25/08/2022', '17/08/2022'];
   times: string[] = ['10:30 AM', '1:00 PM', '2:30 PM', '3:00 PM'];
-  numOfPeople: number[] = [1, 2, 3, 4, 5];
+  numOfPeople: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   seats: any[] = [];
   selectedSeats: string[] = [];
   price: number = 5000;
   selectedCinema: string = '';
   selectedMovie: string = '';
+  minDate = new Date();
+  maxDate!: Date;
+  loading = false;
 
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
@@ -95,6 +118,7 @@ export class UpdateTicketDialogComponent implements OnInit {
   }
 
   getSeats() {
+    this.loading = true;
     const cinemaId = this.myForm['cinema'].value;
     const body = {
       "date": this.myForm['date'].value,
@@ -102,6 +126,7 @@ export class UpdateTicketDialogComponent implements OnInit {
     }
     this.seatService.getSeats(cinemaId, body)
       .subscribe((response: any) => {
+        this.loading = false;
         this.seats = response.tickets;
     })
   }
