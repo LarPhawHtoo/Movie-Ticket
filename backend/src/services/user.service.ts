@@ -63,8 +63,8 @@ export const createUserService = async (
       logger.error("Validation failed!");
     }
     let profile: string = req.body.profile;
-    if (req.file) {
-      profile = req.file.path.replace("\\", "/");
+    if (req.files) {
+      profile = req.files.profile[0].path.replaceAll("\\", "/");
     }
     const userTdo: UserCreate = {
       fullName: req.body.fullName,

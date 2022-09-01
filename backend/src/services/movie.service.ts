@@ -53,7 +53,11 @@ export const getMovieService = async (
  * @param res 
  * @param next 
  */
+<<<<<<< HEAD
+export const createMovieService = async (req: any, res: Response, next: NextFunction) => {
+=======
 export const createMovieService = async ( req: Request, res: Response, next: NextFunction) => {
+>>>>>>> remotes/origin/main
   try {
     const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
@@ -63,9 +67,15 @@ export const createMovieService = async ( req: Request, res: Response, next: Nex
       throw error;
       logger.error("Validation failed");
     }
+<<<<<<< HEAD
+    let image: any = req.body.image;
+    if (req.files) {
+      image = req.files.image[0].path.replaceAll("\\", "/");
+=======
     var image: string = req.body;
     if (req.file) {
       image= req.file.path.replace("\\", "/");
+>>>>>>> remotes/origin/main
     }
     const movieTdo: MovieCreate = {
      code: req.body.code,
@@ -74,13 +84,22 @@ export const createMovieService = async ( req: Request, res: Response, next: Nex
       rating: req.body.rating,
       cinema_id: req.body.cinema_id,
       time: req.body.time,
+<<<<<<< HEAD
+      status: req.body.status,
+      image: image,
+      created_user_id: req.body.created_user_id,
+    }
+    const movie: any = new Movie(movieTdo);
+=======
       date: req.body.date,
       image: image,
       created_user_id: req.body.created_user_id,
     }
     console.log(image)
     const movie = new Movie(movieTdo);
+>>>>>>> remotes/origin/main
     const result = await movie.save();
+
     res
       .status(201)
       .json({ message: "Created Movie Successfully!", movies: result, status: 1 });

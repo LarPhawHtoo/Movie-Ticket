@@ -63,8 +63,8 @@ const createUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             logger_1.logger.error("Validation failed!");
         }
         let profile = req.body.profile;
-        if (req.file) {
-            profile = req.file.path.replace("\\", "/");
+        if (req.files) {
+            profile = req.files.profile[0].path.replaceAll("\\", "/");
         }
         const userTdo = {
             fullName: req.body.fullName,

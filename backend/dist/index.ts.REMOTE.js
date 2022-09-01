@@ -42,6 +42,13 @@ const fileFilter = (_req, file, cb) => {
         cb(null, false);
     }
 };
+<<<<<<< HEAD
+const app = (0, express_1.default)();
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: false }));
+app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
+app.use('/apiuploads/profile', express_1.default.static('apiuploads/profile'));
+=======
 const fileStorageMovies = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "apiuploads/movies");
@@ -59,6 +66,7 @@ app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("prof
 app.use('/apiuploads/profiles', express_1.default.static('apiuploads/profiles'));
 app.use((0, multer_1.default)({ storage: fileStorageMovies, fileFilter }).single("image"));
 app.use('/apiuploads/movies', express_1.default.static('apiuploads/movies'));
+>>>>>>> remotes/origin/main
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());

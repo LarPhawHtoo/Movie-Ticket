@@ -24,6 +24,17 @@ const utils_1 = require("../utils/utils");
  */
 const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+<<<<<<< HEAD
+        const userType = _req.headers['userType'];
+        const userId = _req.headers['userId'];
+        let condition = { deleted_at: null };
+        if (userType === "User") {
+            condition.created_user_id = userId;
+            condition.updated_user_id = userId;
+        }
+        const movies = yield movie_model_1.default.find(condition);
+        res.json({ movies: movies, status: 1 });
+=======
         const movies = yield movie_model_1.default.find();
         if (!movies) {
             res.json({
@@ -37,6 +48,7 @@ const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, f
             movies: movies,
             status: 1,
         });
+>>>>>>> remotes/origin/main
     }
     catch (err) {
         next(err);

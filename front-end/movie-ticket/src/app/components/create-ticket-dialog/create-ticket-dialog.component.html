@@ -9,8 +9,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Cinema</mat-label>
         <mat-select formControlName="cinema">
-          <mat-option *ngFor="let cinema of cinemas" [value]="cinema._id">
-            {{ cinema.name }}
+          <mat-option *ngFor="let cinema of cinemas" [value]="cinema?._id">
+            {{ cinema?.name }}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="myForm['cinema'].hasError('required')">Please choose the cinema</mat-error>
@@ -18,8 +18,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Movie</mat-label>
         <mat-select formControlName="movie">
-          <mat-option *ngFor="let movie of movies" [value]="movie._id">
-            {{ movie.name }}
+          <mat-option *ngFor="let movie of movies" [value]="movie?._id">
+            {{ movie?.name }}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="myForm['movie'].hasError('required')">Please choose the movie</mat-error>
@@ -52,12 +52,13 @@
         <mat-error *ngIf="myForm['numOfPeople'].hasError('required')">Please choose the number of people</mat-error>
       </mat-form-field>
       <div>
-        <button mat-button matStepperNext (click)="getInfo()">Next</button>
+        <button mat-button matStepperNext (click)="getInfo()" style="float: right;">Next</button>
       </div>
     </form>
   </mat-step>
   <mat-step label="Choose your seat" [editable]="true">
     <form>
+      <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
       <div *ngFor="let seat of seats" class="seat-div">
         <button
           mat-raised-button 
@@ -69,7 +70,7 @@
             {{ seatNumber.seatNumber }}
         </button>
       </div>
-      <div>
+      <div style="float: right; width:fit-content;">
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext [disabled]="selectedSeats.length != myForm['numOfPeople'].value">Next</button>
       </div>
@@ -82,12 +83,12 @@
       <p>Customer name : {{ myForm['customerName'].value }} </p>
       <p>Cinema : {{ selectedCinema }} </p>
       <p>Movie : {{ selectedMovie }} </p>
-      <p>Date : {{ myForm['date'].value }} </p>
+      <p>Date : {{ myForm['date'].value | date:'dd/MM/YYYY' }} </p>
       <p>Time : {{ myForm['time'].value }} </p>
       <p>Seat : <span *ngFor="let selectedSeat of selectedSeats"> {{ selectedSeat }} </span> </p>
       <p>Price : MMK {{ price * myForm['numOfPeople'].value }} </p>
     </div>
-    <div>
+    <div style="float: right; width:fit-content;">
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="stepper.reset()" color="warn">Reset</button>
       <button mat-button color="primary" (click)="onClickBuy()">Buy</button>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserUpdateComponent } from 'src/app/components/user-update/user-update.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -9,7 +10,10 @@ import { UserUpdateComponent } from 'src/app/components/user-update/user-update.
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private router: Router
+  ) { }
 
   loggedInUser: any;
   profileImg: string = '';
@@ -22,7 +26,7 @@ export class ProfileComponent implements OnInit {
   openUpdateProfileDialog() {
     const dialogRef = this.dialog.open(UserUpdateComponent, { data: this.loggedInUser });
     dialogRef.afterClosed().subscribe(result => {
-      
+      if (result == 'update') this.router.navigate(['/logout']);
     })
   }
 

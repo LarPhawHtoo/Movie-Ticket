@@ -10,43 +10,43 @@
 <table mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="customer_name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Name</th>
-    <td mat-cell *matCellDef="let element"> {{ element.customer_name }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.customer_name }} </td>
   </ng-container>
   <ng-container matColumnDef="seatNumber">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Seat Number</th>
-    <td mat-cell *matCellDef="let element"> {{ element.seatNumber }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.seatNumber }} </td>
   </ng-container>
   <ng-container matColumnDef="movie">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Movie</th>
-    <td mat-cell *matCellDef="let element"> {{ element.movie_id.name }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.movie_id?.name }} </td>
   </ng-container>
   <ng-container matColumnDef="cinema">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Cinema</th>
-    <td mat-cell *matCellDef="let element"> {{ element.cinema_id.name }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.cinema_id?.name }} </td>
   </ng-container>
   <ng-container matColumnDef="price">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
-    <td mat-cell *matCellDef="let element"> {{ element.price }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.price }} </td>
   </ng-container>
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-    <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.date }} </td>
   </ng-container>
   <ng-container matColumnDef="time">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
-    <td mat-cell *matCellDef="let element"> {{ element.time }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.time }} </td>
   </ng-container>
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-    <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.status }} </td>
   </ng-container>
   <ng-container matColumnDef="createdAt">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
-    <td mat-cell *matCellDef="let element"> {{ element.createdAt | date:'dd/MM/YYYY' }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.createdAt | date:'dd/MM/YYYY' }} </td>
   </ng-container>
   <ng-container matColumnDef="updatedAt">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</th>
-    <td mat-cell *matCellDef="let element"> {{ element.updatedAt | date:'dd/MM/YYYY' }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element?.updatedAt | date:'dd/MM/YYYY' }} </td>
   </ng-container>
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>

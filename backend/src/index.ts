@@ -28,7 +28,16 @@ dotenv.config();
 
 const fileStorage = multer.diskStorage({
   destination: (_req, _file, cb) => {
+<<<<<<< HEAD
+    console.log(_file?.fieldname);
+    if (_file?.fieldname == "image") {
+      cb(null, "apiuploads/movies");
+    } else {
+      cb(null, "apiuploads/profile");
+    }
+=======
     cb(null, "apiuploads/profiles");
+>>>>>>> remotes/origin/main
   },
   filename: (_req, file, cb) => {
     cb(null, `${v4()}_${file.originalname}`);
@@ -46,14 +55,32 @@ const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
     cb(null, false);
   } 
 }
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> remotes/origin/main
 
 const app: Express = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+<<<<<<< HEAD
+//app.use(upload.single('image'));
+//app.use("/single", upload.single("image"));
+//app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
+//app.use('/apiuploads/profiles', express.static('apiuploads/profiles'));
+//app.use(multer({ storage: fileStorageMovies, fileFilter }).single("image"));
+//app.use('/apiuploads/movies', express.static('apiuploads/movies'));
+app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1},{ name: 'image', maxCount: 1}]));
+//app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'movie', maxCount: 1},{ name: 'image', maxCount: 1}]));
+app.use("/apiuploads", express.static(path.join(rootDir, "apiuploads")));
+//app.use("/postuploads", express.static(path.join(rootDir, "postuploads")));
+=======
 
 app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
 app.use('/apiuploads/profiles', express.static('apiuploads/profiles'));
 
+>>>>>>> remotes/origin/main
 app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());

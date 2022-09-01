@@ -42,7 +42,8 @@ export class CreateTicketDialogComponent implements OnInit {
   ) { 
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
-    this.maxDate = new Date(currentYear, currentMonth + 1, 10);
+    const currentDay = new Date().getDay();
+    this.maxDate = new Date(currentYear, currentMonth, currentDay + 6);
   }
 
   times: string[] = ['10:30 AM', '1:00 PM', '2:30 PM', '3:00 PM'];
@@ -54,6 +55,7 @@ export class CreateTicketDialogComponent implements OnInit {
   selectedMovie: string = '';
   minDate = new Date();
   maxDate!: Date;
+  loading = false;
 
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
@@ -107,6 +109,7 @@ export class CreateTicketDialogComponent implements OnInit {
   }
 
   getSeats() {
+    this.loading = true;
     const cinemaId = this.myForm['cinema'].value;
     const body = {
       "date": this.myForm['date'].value,
@@ -114,6 +117,7 @@ export class CreateTicketDialogComponent implements OnInit {
     }
     this.seatService.getSeats(cinemaId, body)
       .subscribe((response: any) => {
+        this.loading = false;
         this.seats = response.tickets;
     })
   }

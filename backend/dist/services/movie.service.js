@@ -63,9 +63,9 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             throw error;
             logger_1.logger.error("Validation failed");
         }
-        var image = req.body;
-        if (req.file) {
-            image = req.file.path.replace("\\", "/");
+        let image = req.body.image;
+        if (req.files) {
+            image = req.files.image[0].path.replaceAll("\\", "/");
         }
         const movieTdo = {
             code: req.body.code,
@@ -74,11 +74,10 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             rating: req.body.rating,
             cinema_id: req.body.cinema_id,
             time: req.body.time,
-            date: req.body.date,
+            status: req.body.status,
             image: image,
             created_user_id: req.body.created_user_id,
         };
-        console.log(image);
         const movie = new movie_model_1.default(movieTdo);
         const result = yield movie.save();
         res

@@ -9,6 +9,9 @@ const movieSchema = new Schema({
     type: String,
     required: true
   },
+  status: {
+    type: String,
+  },
   year: {
     type: Number,
     required: true
@@ -29,10 +32,6 @@ const movieSchema = new Schema({
   time: {
     type: [String],
     required:true
-  },
-  date: {
-    type: String,
-    required: true,
   },
   created_user_id: {
     type: Schema.Types.ObjectId,

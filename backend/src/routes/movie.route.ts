@@ -2,7 +2,7 @@ import express from 'express';
 import {  getMovies, createMovie, findMovie, updateMovie, deleteMovie} from '../controllers/movie.controller';
 import { body } from 'express-validator';
 import { findByIdService } from '../services/movie.service';
-import { getdashBoardata } from '../services/ticket.service';
+import { getdashBoardService } from '../services/ticket.service';
 
 const router = express.Router();
 

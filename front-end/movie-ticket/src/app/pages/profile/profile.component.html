@@ -6,27 +6,27 @@
     <img mat-card-image [src]="profileImg" alt="User Profile" class="profileimg">
     <mat-card-content class="content">
       <p>
-        <span>Name</span> {{ loggedInUser.fullName }}
+        <span>Name</span> {{ loggedInUser?.fullName }}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Type</span> {{ loggedInUser.type }}
+        <span>Type</span> {{ loggedInUser?.type }}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Phone</span> {{ loggedInUser.phone }}
+        <span>Phone</span> {{ loggedInUser?.phone }}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Email</span> {{ loggedInUser.email }}
+        <span>Email</span> {{ loggedInUser?.email }}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Birthday</span> {{ loggedInUser.dob | date:'dd/MM/YYYY'}}
+        <span>Birthday</span> {{ loggedInUser?.dob | date:'dd/MM/YYYY'}}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Adderss</span> {{ loggedInUser.address }}
+        <span>Adderss</span> {{ loggedInUser?.address }}
       </p>
     </mat-card-content>
 
