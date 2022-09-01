@@ -9,16 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTicketByCinemaId = exports.deleteTicket = exports.updateTicket = exports.createTicket = exports.findTicket = exports.getdashBoardData = exports.getTicket = void 0;
+exports.getTicketByCinemaId = exports.deleteTicket = exports.updateTicket = exports.createTicket = exports.findTicket = exports.getTicket = exports.getdashBoard = void 0;
 const ticket_service_1 = require("../services/ticket.service");
+const getdashBoard = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    (0, ticket_service_1.getdashBoardata)(req, res, next);
+});
+exports.getdashBoard = getdashBoard;
 const getTicket = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     (0, ticket_service_1.getTicketService)(req, res, next);
 });
 exports.getTicket = getTicket;
-const getdashBoardData = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, ticket_service_1.getdashBoardService)(req, res, next);
-});
-exports.getdashBoardData = getdashBoardData;
 const findTicket = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     (0, ticket_service_1.findTicketService)(req, res, next);
 });

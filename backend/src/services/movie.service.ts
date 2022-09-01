@@ -49,7 +49,7 @@ export const getMovieService = async (
  * @param res 
  * @param next 
  */
-export const createMovieService = async (req: Request, res: Response, next: NextFunction) => {
+export const createMovieService = async (req: any, res: Response, next: NextFunction) => {
   try {
     const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
@@ -58,9 +58,9 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       error.statusCode = 401;
       throw error;
     }
-    let profile: string = req.body.image;
-    if (req.file) {
-      profile = req.file.path.replace("\\", "/");
+    let image: any = req.body.image;
+    if (req.files) {
+      image = req.files.image[0].path.replaceAll("\\", "/");
     }
     const movieTdo: MovieCreate = {
      code: req.body.code,
@@ -69,13 +69,22 @@ export const createMovieService = async (req: Request, res: Response, next: Next
       rating: req.body.rating,
       cinema_id: req.body.cinema_id,
       time: req.body.time,
-      date: req.body.date,
-      //date: req.body.date,
-      image: profile,
+      status: req.body.status,
+      image: image,
       created_user_id: req.body.created_user_id,
     }
-    const movie = new Movie(movieTdo);
+    const movie: any = new Movie(movieTdo);
     const result = await movie.save();
+
+    for (let i = 0; i < movie.length; i++){
+      let data = {
+        movieName: movie[i].name,
+      };
+      result.push(data);
+      res
+        .status(201)
+        .json({ Message: "Now showing", movies: result, status: 1 });
+    }
     res
       .status(201)
       .json({ message: "Created Movie Successfully!", movies:result, status: 1 });

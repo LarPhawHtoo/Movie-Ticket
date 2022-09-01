@@ -4,8 +4,8 @@ export interface MovieCreate {
   year: Number;
   rating: Number;
   image: string;
-  date: string;
   cinema_id: string;
   time: [string];
+  status: string;
   created_user_id: any;
 }

@@ -16,8 +16,6 @@ exports.findByIdService = exports.deleteMovieService = exports.updateMovieServic
 const movie_model_1 = __importDefault(require("../models/movie.model"));
 const express_validator_1 = require("express-validator");
 const utils_1 = require("../utils/utils");
-const multer_1 = __importDefault(require("multer"));
-const upload = (0, multer_1.default)({ dest: 'apiuploads/movies' });
 /**
  * get movie service.
  * @param _req
@@ -26,19 +24,15 @@ const upload = (0, multer_1.default)({ dest: 'apiuploads/movies' });
  */
 const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const movies = yield movie_model_1.default.find();
-        if (!movies) {
-            res.json({
-                success: false,
-                message: "Not Found! ",
-            });
+        const userType = _req.headers['userType'];
+        const userId = _req.headers['userId'];
+        let condition = { deleted_at: null };
+        if (userType === "User") {
+            condition.created_user_id = userId;
+            condition.updated_user_id = userId;
         }
-        res.json({
-            success: true,
-            message: "Movies fetched",
-            movies: movies,
-            status: 1,
-        });
+        const movies = yield movie_model_1.default.find(condition);
+        res.json({ movies: movies, status: 1 });
     }
     catch (err) {
         next(err);
@@ -60,9 +54,9 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.statusCode = 401;
             throw error;
         }
-        let image = req.body.image;
-        if (req.files) {
-            image = req.files.image[0].path.replaceAll("\\", "/");
+        let profile = req.body.profile;
+        if (req.file) {
+            profile = req.file.path.replace("\\", "/");
         }
         const movieTdo = {
             code: req.body.code,
@@ -71,21 +65,11 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             rating: req.body.rating,
             cinema_id: req.body.cinema_id,
             time: req.body.time,
-            status: req.body.status,
-            image: image,
+            profile: profile,
             created_user_id: req.body.created_user_id,
         };
         const movie = new movie_model_1.default(movieTdo);
         const result = yield movie.save();
-        for (let i = 0; i < movie.length; i++) {
-            let data = {
-                movieName: movie[i].name,
-            };
-            result.push(data);
-            res
-                .status(201)
-                .json({ Message: "Now showing", movies: result, status: 1 });
-        }
         res
             .status(201)
             .json({ message: "Created Movie Successfully!", movies: result, status: 1 });
@@ -125,21 +109,20 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.statusCode = 401;
             throw error;
         }
-        let image = req.body.image;
+        let profile = req.body.profile;
         if (req.file) {
-            image = req.file.path.replace("\\", "/");
-            if (movie.image && movie.image != image) {
-                (0, utils_1.deleteFile)(movie.image);
+            profile = req.file.path.replace("\\", "/");
+            if (movie.profile && movie.profile != profile) {
+                (0, utils_1.deleteFile)(movie.profile);
             }
-            if (image) {
-                movie.image = image;
+            if (profile) {
+                movie.profile = profile;
             }
         }
         movie.code = req.body.code;
         movie.name = req.body.name;
         movie.year = req.body.year;
         movie.rating = req.body.rating;
-        movie.image = image;
         movie.created_user_id = req.body.created_user_id;
         movie.updated_user_id = req.body.updated_user_id;
         const result = yield movie.save();

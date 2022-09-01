@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTicketByCinemaIdService = exports.getdashBoardata = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
+exports.getTicketByCinemaIdService = exports.getdashBoardService = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
 const ticket_model_1 = __importDefault(require("../models/ticket.model"));
 const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const seat_model_1 = __importDefault(require("../models/seat.model"));
@@ -178,7 +178,7 @@ exports.deleteTicketService = deleteTicketService;
  * @param res
  * @param next
  */
-const getdashBoardata = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getdashBoardService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.find();
         console.log(cinema);
@@ -248,7 +248,7 @@ const getdashBoardata = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         next(err);
     }
 });
-exports.getdashBoardata = getdashBoardata;
+exports.getdashBoardService = getdashBoardService;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);

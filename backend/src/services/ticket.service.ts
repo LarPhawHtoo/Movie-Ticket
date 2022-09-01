@@ -193,7 +193,7 @@ export const deleteTicketService = async (
  * @param res
  * @param next
  */
-export const getdashBoardata = async (
+export const getdashBoardService = async (
   req: Request,
   res: Response,
   next: NextFunction

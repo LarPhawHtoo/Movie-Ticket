@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import {getdashBoard, getTicket, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId} from '../controllers/ticket.controller';
+import {getdashBoardData, getTicket, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId} from '../controllers/ticket.controller';
 import {body } from 'express-validator';
 
 const router = express.Router();
@@ -29,7 +29,7 @@ router
     [
       body("date").notEmpty().withMessage("Date must not be empty")
     ],
-    getdashBoard);
+    getdashBoardData);
 
 router
   .route("/:id")
