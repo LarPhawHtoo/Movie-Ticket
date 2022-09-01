@@ -126,8 +126,8 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             throw error;
         }
         let profile = req.body.profile;
-        if (req.file) {
-            profile = req.file.path.replace("\\", "/");
+        if (req.files) {
+            profile = req.files.profile[0].path.replace("\\", "/");
             if (user.profile && user.profile != profile) {
                 (0, utils_1.deleteFile)(user.profile);
             }

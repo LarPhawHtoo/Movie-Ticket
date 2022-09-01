@@ -1615,7 +1615,7 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
 
   /api/users/{userId}:
-    get:
+    post:
       tags:
         - Users
       summary: Find user by ID
@@ -1805,106 +1805,8 @@ paths:
         "400":
           description: Invalid post value
 
-  #/api/users/search:
-  #  post:
-  #    tags:
-  #      - Users
-  #    summary: Get search users
-  #    description: This can only be done by the logged in user.
-  #    security:
-  #      - bearerAuth: []
-  #    parameters:
-  #      - name: page
-  #        in: query
-  #        description: PageNumber 
-  #        schema:
-  #          type: number
-  #      - name: upp
-  #        in: query
-  #        description: Number of users that want to show per Page
-  #        schema:
-  #          type: number
-  #    requestBody:
-  #      description: Search with Username, Email, Fromdate & Todate
-  #      content:
-  #        application/json:
-  #          schema:
-  #            type: object
-  #            properties:
-  #              username:
-  #                type: string
-  #                example: "Example User"
-  #              email:
-  #                type: string
-  #                example: "example@gmail.com"
-  #              fromDate:
-  #                type: string
-  #                format: date
-  #              toDate:
-  #                type: string
-  #                format: date
-  #    responses:
-  #      "200":
-  #        description: Returns search Users
-  #      "400":
-  #        description: An error occured
-  #      "401":
-  #        $ref: "#/components/responses/UnauthorizedError"
 
 components:
-  # Schema Usage in component
-  # schemas:
-  #   Post:
-  #     type: object
-  #     properties:
-  #       title:
-  #         type: string
-  #         example: "Post01"
-  #       description:
-  #         type: string
-  #         example: "Description01"
-  #       status:
-  #         type: boolean
-  #         example: true
-  #       created_user_id:
-  #         type: string
-  #         example: "62fde243b554f4955fdf7914"
-  #     xml:
-  #       name: post
-  #   User:
-  #     type: object
-  #     properties:
-  #       name:
-  #         type: string
-  #         example: "Post01"
-  #       email:
-  #         type: string
-  #         example: "Description01"
-  #       password:
-  #         type: string
-  #         format: password
-  #         example: "password123"
-  #       type:
-  #         type: string
-  #         description: User Roles
-  #         enum:
-  #           - Admin
-  #           - User
-  #       phone:
-  #         type: string
-  #         example: "0912345678"
-  #       dob:
-  #         type: string
-  #         format: date
-  #         example: 2022-06-30
-  #       address:
-  #         type: string
-  #         example: "Address"
-  #       profile:
-  #         type: string
-  #         example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
-  #     xml:
-  #       name: user
   securitySchemes:
     bearerAuth: # arbitrary name for the security scheme
       type: http

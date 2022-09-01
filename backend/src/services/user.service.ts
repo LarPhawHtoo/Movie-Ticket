@@ -134,8 +134,8 @@ export const updateUserService = async (
       throw error;
     }
     let profile: string = req.body.profile;
-    if (req.file) {
-      profile = req.file.path.replace("\\", "/");
+    if (req.files) {
+      profile = req.files.profile[0].path.replace("\\", "/");
       if (user.profile && user.profile != profile) {
         deleteFile(user.profile);
       }

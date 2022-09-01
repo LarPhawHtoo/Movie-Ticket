@@ -22,7 +22,7 @@ const movieSchema = new mongoose_1.Schema({
         required: true
     },
     image: {
-        type: Object,
+        type: String,
         required: true
     },
     cinema_id: {

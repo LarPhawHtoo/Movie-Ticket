@@ -1,10 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-<<<<<<< HEAD
-import {getdashBoardData, getTicket, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId} from '../controllers/ticket.controller';
-=======
-import {getdashBoard, getTickets, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId} from '../controllers/ticket.controller';
->>>>>>> remotes/origin/main
+
+import {getdashBoardData, getTickets, createTicket, updateTicket, deleteTicket,findTicket,getTicketByCinemaId} from '../controllers/ticket.controller';
+
 import {body } from 'express-validator';
 
 const router = express.Router();
