@@ -19,6 +19,7 @@ import { MovieResolverService } from './resolvers/movie-resolver.service';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { TicketsComponent } from './pages/tickets/tickets.component';
 import { TicketResolverService } from './resolvers/ticket-resolver.service';
+import { Role } from './interfaces/role.model';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -33,13 +34,15 @@ const routes: Routes = [
   {
     path: 'users',
     component: UsersComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
+    data: { roles: [Role.Admin] },
     resolve: { users: UserResolverService }
   },
   {
     path: 'cinemas',
     component: CinemasComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
+    data: { roles: [Role.Admin] },
     resolve: { cinemas: CinemaResolverService }
   },
   {
@@ -55,7 +58,8 @@ const routes: Routes = [
   {
     path: 'movies',
     component: MoviesComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
+    data: { roles: [Role.Admin] },
     resolve: { movies: MovieResolverService }
 },
   {

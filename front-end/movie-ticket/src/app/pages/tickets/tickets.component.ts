@@ -35,6 +35,8 @@ export class TicketsComponent implements OnInit, AfterViewInit {
     this.activatedRoute.data.subscribe((response: any) => {
       this.dataSource.data = response.tickets.tickets as Ticket[];
     })
+
+    console.log(this.dataSource.data);
   }
 
   ngAfterViewInit(): void {

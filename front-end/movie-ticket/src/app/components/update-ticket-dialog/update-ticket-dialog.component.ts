@@ -43,7 +43,8 @@ export class UpdateTicketDialogComponent implements OnInit {
   ) { 
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
-    this.maxDate = new Date(currentYear, currentMonth + 1, 10);
+    const currentDay = new Date().getDay();
+    this.maxDate = new Date(currentYear, currentMonth, currentDay + 6);
   }
 
   _id: string = '';
@@ -57,6 +58,7 @@ export class UpdateTicketDialogComponent implements OnInit {
   selectedMovie: string = '';
   minDate = new Date();
   maxDate!: Date;
+  loading = false;
 
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
@@ -116,6 +118,7 @@ export class UpdateTicketDialogComponent implements OnInit {
   }
 
   getSeats() {
+    this.loading = true;
     const cinemaId = this.myForm['cinema'].value;
     const body = {
       "date": this.myForm['date'].value,
@@ -123,6 +126,7 @@ export class UpdateTicketDialogComponent implements OnInit {
     }
     this.seatService.getSeats(cinemaId, body)
       .subscribe((response: any) => {
+        this.loading = false;
         this.seats = response.tickets;
     })
   }

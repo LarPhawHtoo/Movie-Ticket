@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Role } from 'src/app/interfaces/role.model';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,11 @@ export class HomeComponent implements OnInit {
       this.loggedInUser = '';
     }
   }
+
+  get isAdmin() {
+    return this.loggedInUser && this.loggedInUser.type === Role.Admin;
+  }
+
 
   onClickCinemas() {
     localStorage.setItem('isUsers', 'false');
