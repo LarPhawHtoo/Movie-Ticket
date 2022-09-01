@@ -76,15 +76,6 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
     const movie: any = new Movie(movieTdo);
     const result = await movie.save();
 
-    for (let i = 0; i < movie.length; i++){
-      let data = {
-        movieName: movie[i].name,
-      };
-      result.push(data);
-      res
-        .status(201)
-        .json({ Message: "Now showing", movies: result, status: 1 });
-    }
     res
       .status(201)
       .json({ message: "Created Movie Successfully!", movies:result, status: 1 });

@@ -77,15 +77,6 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         };
         const movie = new movie_model_1.default(movieTdo);
         const result = yield movie.save();
-        for (let i = 0; i < movie.length; i++) {
-            let data = {
-                movieName: movie[i].name,
-            };
-            result.push(data);
-            res
-                .status(201)
-                .json({ Message: "Now showing", movies: result, status: 1 });
-        }
         res
             .status(201)
             .json({ message: "Created Movie Successfully!", movies: result, status: 1 });
