@@ -53,18 +53,8 @@ const fileFilter = (_req, file, cb) => {
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
-//app.use(upload.single('image'));
-//app.use("/single", upload.single("image"));
-//app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
-//app.use('/apiuploads/profiles', express.static('apiuploads/profiles'));
-//app.use(multer({ storage: fileStorageMovies, fileFilter }).single("image"));
-//app.use('/apiuploads/movies', express.static('apiuploads/movies'));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
-//app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'movie', maxCount: 1},{ name: 'image', maxCount: 1}]));
 app.use("/apiuploads", express_1.default.static(path_1.default.join(utils_1.rootDir, "apiuploads")));
-//app.use("/postuploads", express.static(path.join(rootDir, "postuploads")));
-app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
-app.use('/apiuploads/profiles', express_1.default.static('apiuploads/profiles'));
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
