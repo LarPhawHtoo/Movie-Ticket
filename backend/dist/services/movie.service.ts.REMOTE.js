@@ -16,7 +16,11 @@ exports.findByIdService = exports.deleteMovieService = exports.updateMovieServic
 const movie_model_1 = __importDefault(require("../models/movie.model"));
 const express_validator_1 = require("express-validator");
 const utils_1 = require("../utils/utils");
-const logger_1 = require("../logger/logger");
+<<<<<<< HEAD
+=======
+const multer_1 = __importDefault(require("multer"));
+const upload = (0, multer_1.default)({ dest: 'apiuploads/movies' });
+>>>>>>> remotes/origin/main
 /**
  * get movie service.
  * @param _req
@@ -31,7 +35,6 @@ const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, f
                 success: false,
                 message: "Not Found! ",
             });
-            logger_1.logger.error("Movie not found");
         }
         res.json({
             success: true,
@@ -39,11 +42,9 @@ const getMovieService = (_req, res, next) => __awaiter(void 0, void 0, void 0, f
             movies: movies,
             status: 1,
         });
-        logger_1.logger.info("Successfully fetched movies");
     }
     catch (err) {
         next(err);
-        logger_1.logger.error("Error fetching movies");
     }
 });
 exports.getMovieService = getMovieService;
@@ -61,11 +62,14 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.data = errors.array();
             error.statusCode = 401;
             throw error;
-            logger_1.logger.error("Validation failed");
         }
-        let image = req.body.image;
-        if (req.files) {
-            image = req.files.image[0].path.replaceAll("\\", "/");
+<<<<<<< HEAD
+        let profile = req.body.profile;
+=======
+        let profile = req.body.image;
+>>>>>>> remotes/origin/main
+        if (req.file) {
+            profile = req.file.path.replace("\\", "/");
         }
         const movieTdo = {
             code: req.body.code,
@@ -74,8 +78,13 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             rating: req.body.rating,
             cinema_id: req.body.cinema_id,
             time: req.body.time,
-            status: req.body.status,
-            image: image,
+<<<<<<< HEAD
+            profile: profile,
+=======
+            date: req.body.date,
+            //date: req.body.date,
+            image: profile,
+>>>>>>> remotes/origin/main
             created_user_id: req.body.created_user_id,
         };
         const movie = new movie_model_1.default(movieTdo);
@@ -83,11 +92,9 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         res
             .status(201)
             .json({ message: "Created Movie Successfully!", movies: result, status: 1 });
-        logger_1.logger.info("Movie created successfully");
     }
     catch (err) {
         next(err);
-        logger_1.logger.error("Error creating Movie");
     }
 });
 exports.createMovieService = createMovieService;
@@ -98,14 +105,11 @@ const findMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
-            logger_1.logger.error("Not Found!");
         }
         res.json({ movies: movie, status: 1 });
-        logger_1.logger.info("Successfully found movie!");
     }
     catch (err) {
         next(err);
-        logger_1.logger.error("Error finding movie!");
     }
 });
 exports.findMovieService = findMovieService;
@@ -117,40 +121,49 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             error.data = errors.array();
             error.statusCode = 401;
             throw error;
-            logger_1.logger.error("Validation failed");
         }
         const movie = yield movie_model_1.default.findById(req.params.id);
         if (!movie) {
             const error = new Error("Not Found!");
             error.statusCode = 401;
             throw error;
-            logger_1.logger.error("Not Found!");
         }
+<<<<<<< HEAD
+        let profile = req.body.profile;
+        if (req.file) {
+            profile = req.file.path.replace("\\", "/");
+            if (movie.profile && movie.profile != profile) {
+                (0, utils_1.deleteFile)(movie.profile);
+            }
+            if (profile) {
+                movie.profile = profile;
+=======
         let image = req.body.image;
-        if (req.files) {
-            image = req.files.image[0].path.replace("\\", "/");
+        if (req.file) {
+            image = req.file.path.replace("\\", "/");
             if (movie.image && movie.image != image) {
                 (0, utils_1.deleteFile)(movie.image);
             }
             if (image) {
                 movie.image = image;
+>>>>>>> remotes/origin/main
             }
         }
         movie.code = req.body.code;
         movie.name = req.body.name;
         movie.year = req.body.year;
         movie.rating = req.body.rating;
+<<<<<<< HEAD
+=======
         movie.image = image;
-        movie.status = req.body.status;
+>>>>>>> remotes/origin/main
         movie.created_user_id = req.body.created_user_id;
         movie.updated_user_id = req.body.updated_user_id;
         const result = yield movie.save();
         res.json({ message: "Updated Successfully!", movies: result, status: 1 });
-        logger_1.logger.info("Movie Updated Successfully");
     }
     catch (err) {
         next(err);
-        logger_1.logger.error("Error updating movie");
     }
 });
 exports.updateMovieService = updateMovieService;
@@ -161,18 +174,15 @@ const deleteMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             const error = new Error("Not Found!");
             error.statusCode = 401;
             throw error;
-            logger_1.logger.error("Not Found!");
         }
         res.json({
             message: "Delete Movie Successfully!",
             movies: movie,
             status: 1,
         });
-        logger_1.logger.info("Movie deleted successfully");
     }
     catch (err) {
         next(err);
-        logger_1.logger.error("Error deleting Movie");
     }
 });
 exports.deleteMovieService = deleteMovieService;
@@ -180,11 +190,9 @@ const findByIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     try {
         const movies = yield movie_model_1.default.findById(req.params.id);
         res.json({ movies: movies, status: 1 });
-        logger_1.logger.info("Movie found successfully");
     }
     catch (err) {
         next(err);
-        logger_1.logger.error("Error finding movie");
     }
 });
 exports.findByIdService = findByIdService;
