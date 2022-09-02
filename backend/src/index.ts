@@ -58,7 +58,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1},{ name: 'image', maxCount: 1}]));
 
-app.use("/apiuploads", express.static(path.join(rootDir, "apiuploads")));
+app.use("/apiuploads", express.static( "apiuploads"));
 
 
 

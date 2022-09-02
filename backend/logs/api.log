@@ -6,3 +6,6 @@
 {"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 11:18:13"}
 {"level":"info","message":"Movie created successfully","metadata":{},"timestamp":"2022-09-02 11:36:03"}
 {"level":"info","message":"Created User Successfully!","metadata":{},"timestamp":"2022-09-02 11:38:15"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 11:41:15"}
+{"level":"info","message":"Created Ticket successfully!","metadata":{},"timestamp":"2022-09-02 11:44:27"}
+{"level":"info","message":"Created User Successfully!","metadata":{},"timestamp":"2022-09-02 11:57:52"}

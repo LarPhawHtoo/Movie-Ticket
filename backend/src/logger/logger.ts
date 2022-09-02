@@ -5,6 +5,15 @@ import 'winston-daily-rotate-file';
 
 export const logger = createLogger({
   transports: [
+    new transports.DailyRotateFile({
+      dirname:"logs",
+      filename: "api-%DATE%.log",
+      maxSize: '20m',
+      maxFiles: '1d',
+      format: format.combine(
+
+        format.json()),
+    }),
     new transports.Console({
       format: format.combine(
         format.colorize(),
@@ -13,13 +22,6 @@ export const logger = createLogger({
           return `[${timestamp}] ${level}: ${message}`;
         })
       ),
-    }),
-    new transports.File({
-      dirname:"logs",
-      filename: "api.log",
-      format: format.combine(
-
-        format.json()),
     }),
   ],
   format: format.combine(
