@@ -50,7 +50,7 @@ export class CreateTicketDialogComponent implements OnInit {
   numOfPeople: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   seats: any[] = [];
   selectedSeats: string[] = [];
-  price: number = 5000;
+  price: number = 0;
   selectedCinema: string = '';
   selectedMovie: string = '';
   minDate = new Date();
@@ -132,7 +132,7 @@ export class CreateTicketDialogComponent implements OnInit {
     formData.append('time', this.firstFormGroup.controls['time'].value);
     formData.append('seatNumber', `${this.selectedSeats}`);
     formData.append('status', 'sold out');
-    formData.append('price', `${this.price * this.myForm['numOfPeople'].value}`);
+    formData.append('price', `${this.price}`);
     
 
     this.ticketService.addTicket(formData)
@@ -146,15 +146,18 @@ export class CreateTicketDialogComponent implements OnInit {
   }
 
   onClickSeat(element: any) {
-    const index = this.selectedSeats.indexOf(element);
+    const index = this.selectedSeats.indexOf(element.seatNumber);
 
     if (index > -1) {
       this.selectedSeats.splice(index, 1);
+      this.price -= element.price;
       return;
     }
 
     if (this.selectedSeats.length < this.firstFormGroup.controls['numOfPeople'].value) {
-      this.selectedSeats.push(element);
+      this.selectedSeats.push(element.seatNumber);
+      console.log(element);
+      this.price += element.price;
     }
   }
 

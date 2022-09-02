@@ -3,3 +3,52 @@
 {"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 15:10:15"}
 {"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 15:10:34"}
 {"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 15:18:23"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 16:06:49"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 16:06:52"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 16:06:52"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 16:07:04"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 16:07:06"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 16:07:06"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 16:07:22"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 19:32:11"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:32:52"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:33:01"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:33:24"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:33:40"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:34:50"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:34:55"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:34:59"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:35:29"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:35:52"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:36:37"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:36:48"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:36:53"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:36:55"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:37:14"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 19:37:16"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 19:37:16"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 19:37:29"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:38:25"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 19:38:29"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 19:38:29"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:38:31"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 19:38:33"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 19:38:33"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 19:38:45"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:40:38"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 19:40:52"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 19:40:52"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 19:41:05"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:41:44"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 19:41:54"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 19:41:54"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 19:42:19"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 19:42:30"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:43:37"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 19:43:41"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 19:43:41"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 19:43:56"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 20:14:05"}
+{"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-02 20:14:09"}
+{"level":"error","message":"Failed to create Ticket!","metadata":{},"timestamp":"2022-09-02 21:39:05"}
+{"level":"error","message":"Failed to create Ticket!","metadata":{},"timestamp":"2022-09-02 21:39:59"}
