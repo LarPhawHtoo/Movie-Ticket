@@ -313,14 +313,11 @@ export const getTicketByCinemaIdService = async (
         data = {
           seatNumber: seats[i].seatNumber,
           status: filterData.status,
-          price:seats[i].price,
         };
       } else {
         data = {
           seatNumber: seats[i].seatNumber,
           status: "available",
-          price:seats[i].price,
-
         };
       }
       seatingPlan.push(data);

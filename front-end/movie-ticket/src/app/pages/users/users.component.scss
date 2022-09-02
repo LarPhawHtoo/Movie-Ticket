@@ -1,8 +1,14 @@
 table {
-  width: 100%;
+  width: 90%;
   overflow-x: auto;
   overflow-y: hidden;
   min-width: 500px;
+  margin: 0 auto;
+}
+
+mat-paginator {
+  width: 90%;
+  margin: 0 auto;
 }
 
 th.mat-header-cell {
