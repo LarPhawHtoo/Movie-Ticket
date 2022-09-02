@@ -28,13 +28,15 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     public movieService: MovieService
   ) { }
 
-    displayedColumns: string[] = ['code', 'name', 'year','rating', 'cinema-name', 'createdAt','updatedAt','time','actions'];
+    displayedColumns: string[] = ['poster', 'code', 'name', 'year', 'rating', 'cinema-name', 'time', 'status', 'createdAt','updatedAt','actions'];
     dataSource = new MatTableDataSource<Movie>();
   
     ngOnInit(): void {
       this.activatedRoute.data.subscribe((response: any) => {
         this.dataSource.data = response.movies.movies as Movie[];
       })
+
+      console.log(this.dataSource.data);
     }
   
     ngAfterViewInit(): void {
