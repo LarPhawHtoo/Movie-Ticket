@@ -1,3 +1,14 @@
 {"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-01T16:15:11.259Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-01 22:47:41"}
 {"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-01 22:51:47"}
+{"level":"error","message":"Error finding Ticket!","metadata":{},"timestamp":"2022-09-02 19:16:54"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:18:18"}
+{"level":"error","message":"Error finding Ticket!","metadata":{},"timestamp":"2022-09-02 19:19:23"}
+{"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-02 19:48:11"}
+{"level":"error","message":"Failed to create Ticket!","metadata":{},"timestamp":"2022-09-02 19:58:46"}
+{"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 19:58:55"}
+{"level":"error","message":"Error finding Ticket!","metadata":{},"timestamp":"2022-09-02 19:59:16"}
+{"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-02 19:59:23"}
+{"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 20:01:21"}
+{"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-02 20:38:53"}
+{"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-02 21:09:41"}

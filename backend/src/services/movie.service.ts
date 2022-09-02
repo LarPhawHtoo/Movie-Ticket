@@ -45,8 +45,6 @@ export const getMovieService = async (
   }
 };
 
-
-
 /**
  * create post service
  * @param req 
@@ -90,7 +88,29 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
       next(err);
       logger.error("Error creating Movie");
     }
-  };
+};
+  
+export const nowShowingService = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const cinema: any = await Cinema.find();
+    const movies: any = await Movie.find({ deleted_at: null });
+    if (!movies) {
+      res.json({
+        success: false,
+        message: "Not found movie",
+      });
+    }
+    var data = "Now Showing";
+    var result = movies.status;
+    console.log(result);
+    
+    res.json ({
+      movies: movies,
+    })
+  } catch (err) {
+    next(err);
+  }
+};
 
   export const findMovieService = async (
     req: Request,
