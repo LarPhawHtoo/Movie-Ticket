@@ -28,6 +28,7 @@ export class MovieUpdateComponent implements OnInit {
   times: string[] = ['10:30 AM', '1:00 PM', '2:30 PM', '3:00 PM'];
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
+  statuses: string[] = ['Coming Soon', 'Now Showing'];
 
   code= new FormControl('', [Validators.required])
   name= new FormControl('', Validators.required)
@@ -39,11 +40,12 @@ export class MovieUpdateComponent implements OnInit {
     this.formData = new FormGroup({
       code: new FormControl(this.data.code, Validators.required),
       name: new FormControl(this.data.name, Validators.required),
-      profile: new FormControl(''),
+      poster: new FormControl(''),
       year: new FormControl(this.data.year),
       rating: new FormControl(this.data.rating),
-      cinema: new FormControl(''),
-      time: new FormControl(''),
+      cinema: new FormControl('', Validators.required),
+      time: new FormControl('', Validators.required),
+      status: new FormControl('', Validators.required)
     });
     
     this.cinemaService.getCinemas().subscribe((response: any) => {
@@ -60,11 +62,12 @@ export class MovieUpdateComponent implements OnInit {
       const formData = new FormData();
       formData.append('code', this.formData.controls['code'].value);
       formData.append('name', this.formData.controls['name'].value);
-      formData.append('profile', this.imgFile);
+      formData.append('image', this.imgFile);
       formData.append('year', this.formData.controls['year'].value);
       formData.append('rating', this.formData.controls['rating'].value);
       formData.append('cinema_id', this.formData.controls['cinema'].value);
       formData.append('time', this.formData.controls['time'].value);
+      formData.append('status', this.formData.controls['status'].value);
       this.movieService.updateMovie(id, formData)
         .subscribe(res => {
           this.dialogRef.close('update');
@@ -73,26 +76,32 @@ export class MovieUpdateComponent implements OnInit {
     if (this.formData.valid) {
       this.formData.controls['code'].disable();
       this.formData.controls['name'].disable();
-      this.formData.controls['profile'].disable();
+      this.formData.controls['poster'].disable();
       this.formData.controls['year'].disable();
       this.formData.controls['rating'].disable();
       this.formData.controls['time'].disable();
+      this.formData.controls['status'].disable();
       this.confirmView = true;
     }
   }
-  public Onclear() {
-    if (this.formData.valid) {
-      this.formData.controls['code'].disable();
-      this.formData.controls['name'].disable();
-      this.formData.controls['profile'].disable();
-      this.formData.controls['year'].disable();
-      this.formData.controls['rating'].disable();
-      this.formData.controls['time'].disable();
+  
+  public onClear() {
+    if (this.confirmView === true) {
+      this.formData.controls['profile'].enable();
+      this.formData.controls['fullName'].enable();
+      this.formData.controls['type'].enable();
+      this.formData.controls['phone'].enable();
+      this.formData.controls['email'].enable();
+      this.formData.controls['dob'].enable();
+      this.formData.controls['address'].enable();
+      this.formData.controls['password'].enable();
+      this.formData.controls['confirmPwd'].enable();
       this.confirmView = false;
     } else {
       this.formData.reset();
     }
   }
+
   imageUpload(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -103,6 +112,7 @@ export class MovieUpdateComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+
   get myForm() {
     return this.formData.controls;
   }
@@ -110,6 +120,7 @@ export class MovieUpdateComponent implements OnInit {
   public hasError = (controlName: string, errorName: string) => {
     return this.formData.controls[controlName].hasError(errorName);
   }
+
   onCancelClick(): void {
     this.dialogRef.close();
   }

@@ -4,6 +4,14 @@
   </mat-card-header>
   <mat-card-content>
     <form action="post" [formGroup]="formData" (ngSubmit)="onClickAddMovie()">
+      <label>Movie Poster</label>
+      <div *ngIf="confirmView==false" class="profileinput">
+        <input #file type="file" (change)="imageUpload($event)" formControlName="poster" accept="image/*"
+          maxFileSize=2000000>
+      </div>
+      <div *ngIf="profileImage">
+        <img [src]="profileImage" class="profileimg">
+      </div>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Movie Code</mat-label>
         <input type="text" matInput class="form-control" formControlName="code" required>
@@ -32,9 +40,6 @@
         <mat-error *ngIf="myForm['cinema'].hasError('required')">Please choose the cinema</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <ngx-mat-file-input matInput type="file" (change)="imageUpload($event)" accept="image/*" class="form-control" formControlName="profile"></ngx-mat-file-input>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
         <mat-label>Time</mat-label>
         <mat-select formControlName="time">
           <mat-option *ngFor="let time of times" [value]="time">
@@ -42,6 +47,15 @@
           </mat-option>
         </mat-select>
         <mat-error *ngIf="myForm['time'].hasError('required')">Please choose the time</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="myForm['status'].hasError('required')">Please choose the status</mat-error>
       </mat-form-field>
       <div class="btn-gp">
         <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid">Add</button>

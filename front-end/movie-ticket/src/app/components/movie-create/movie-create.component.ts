@@ -32,6 +32,7 @@ export class MovieCreateComponent implements OnInit {
   year = new FormControl('');
   rating = new FormControl('');
   time = new FormControl('', Validators.required);
+  statuses: string[] = ['Coming Soon', 'Now Showing'];
 
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
@@ -43,11 +44,12 @@ export class MovieCreateComponent implements OnInit {
     this.formData = new FormGroup({
       code: new FormControl('', [Validators.required]),   
       name: new FormControl('', Validators.required),
-      profile: new FormControl(''),
+      poster: new FormControl(''),
       year: new FormControl(''),
       rating: new FormControl(''),
       time: new FormControl('', Validators.required),
-      cinema: new FormControl('', Validators.required)
+      cinema: new FormControl('', Validators.required),
+      status: new FormControl('', Validators.required)
     });
 
     this.cinemaService.getCinemas().subscribe((response: any) => {
@@ -64,11 +66,12 @@ export class MovieCreateComponent implements OnInit {
 
     formData.append('code', this.formData.controls['code'].value);
     formData.append('name', this.formData.controls['name'].value);
-    formData.append('profile', this.imgFile);
+    formData.append('image', this.imgFile);
     formData.append('year', this.formData.controls['year'].value);
     formData.append('rating', this.formData.controls['rating'].value);
     formData.append('time', this.formData.controls['time'].value);
     formData.append('cinema_id', this.formData.controls['cinema'].value);
+    formData.append('status', this.formData.controls['status'].value);
 
     this.movieService.createMovie(formData)
       .subscribe(res => {
