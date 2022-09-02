@@ -286,12 +286,14 @@ const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0,
                 data = {
                     seatNumber: seats[i].seatNumber,
                     status: filterData.status,
+                    price: seats[i].price,
                 };
             }
             else {
                 data = {
                     seatNumber: seats[i].seatNumber,
                     status: "available",
+                    price: seats[i].price,
                 };
             }
             seatingPlan.push(data);

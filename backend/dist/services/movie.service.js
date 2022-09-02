@@ -127,8 +127,8 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             logger_1.logger.error("Not Found!");
         }
         let image = req.body.image;
-        if (req.file) {
-            image = req.file.path.replace("\\", "/");
+        if (req.files) {
+            image = req.files.image[0].path.replace("\\", "/");
             if (movie.image && movie.image != image) {
                 (0, utils_1.deleteFile)(movie.image);
             }
@@ -141,6 +141,7 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         movie.year = req.body.year;
         movie.rating = req.body.rating;
         movie.image = image;
+        movie.status = req.body.status;
         movie.created_user_id = req.body.created_user_id;
         movie.updated_user_id = req.body.updated_user_id;
         const result = yield movie.save();

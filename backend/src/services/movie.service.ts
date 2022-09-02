@@ -135,8 +135,8 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
         logger.error("Not Found!");
       }
       let image: string = req.body.image;
-      if (req.file) {
-        image = req.file.path.replace("\\", "/");
+      if (req.files) {
+        image = req.files.image[0].path.replace("\\", "/");
         if (movie.image && movie.image != image) {
           deleteFile(movie.image);
         }
@@ -149,6 +149,7 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
       movie.year = req.body.year;
       movie.rating = req.body.rating;
       movie.image = image;
+      movie.status = req.body.status;
       movie.created_user_id = req.body.created_user_id;
       movie.updated_user_id = req.body.updated_user_id;
       const result = await movie.save();
