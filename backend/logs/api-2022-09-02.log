@@ -2,3 +2,4 @@
 {"level":"error","message":"Failed to create Ticket!","metadata":{},"timestamp":"2022-09-02 15:10:00"}
 {"level":"info","message":"Tickets fetched successfully","metadata":{},"timestamp":"2022-09-02 15:10:15"}
 {"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 15:10:34"}
+{"level":"info","message":"Successfully got Tickets by Cinema ID!","metadata":{},"timestamp":"2022-09-02 15:18:23"}
