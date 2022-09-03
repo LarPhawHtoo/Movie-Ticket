@@ -59,7 +59,7 @@
         <mat-error *ngIf="myForm['status'].hasError('required')">Please choose the status</mat-error>
       </mat-form-field>
       <div class="btn-gp">
-        <button mat-raised-button color="warn" class="full-width" (onclick)="onClear()">{{ confirmView === true ? 'Cancel' : 'Clear' }}</button>
+        <button mat-raised-button color="warn" class="full-width" (click)="onClear()">{{ confirmView === true ? 'Cancel' : 'Clear' }}</button>
         <button mat-raised-button color="primary" class="full-width" [disabled]="formData.invalid"> {{ confirmView === true ? 'Confirm' : 'Register' }} </button>
       </div>
     </form>

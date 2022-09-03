@@ -7,15 +7,6 @@
         <mat-error *ngIf="myForm['customerName'].hasError('required')">Please enter customer name</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Cinema</mat-label>
-        <mat-select formControlName="cinema">
-          <mat-option *ngFor="let cinema of cinemas" [value]="cinema?._id">
-            {{ cinema?.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="myForm['cinema'].hasError('required')">Please choose the cinema</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
         <mat-label>Movie</mat-label>
         <mat-select formControlName="movie">
           <mat-option *ngFor="let movie of movies" [value]="movie?._id">
@@ -34,15 +25,6 @@
         <mat-error *ngIf="myForm['date'].hasError('required')">Please choose the date</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Time</mat-label>
-        <mat-select formControlName="time">
-          <mat-option *ngFor="let time of times" [value]="time">
-            {{ time }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="myForm['time'].hasError('required')">Please choose the time</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
         <mat-label>Number of People</mat-label>
         <mat-select formControlName="numOfPeople">
           <mat-option *ngFor="let people of numOfPeople" [value]="people">
@@ -53,6 +35,22 @@
       </mat-form-field>
       <div>
         <button mat-button matStepperNext (click)="getInfo()" style="float: right;">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Choose the time" [editable]="true">
+    <form [formGroup]="secondFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Time</mat-label>
+        <mat-select formControlName="time">
+          <mat-option *ngFor="let time of times" [value]="time">
+            {{ time }}
+          </mat-option>
+        </mat-select>
+        <!--<mat-error *ngIf="secondFormGroup.controls['time'].hasError('required')">Please choose the time</mat-error>-->
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext (click)="getTime()" style="float: right;">Next</button>
       </div>
     </form>
   </mat-step>
@@ -81,10 +79,10 @@
     <div style="text-align: center;">
       <p style="color: rgb(63,81,181);">Almost done! Please check your information!</p>
       <p>Customer name : {{ myForm['customerName'].value }} </p>
-      <p>Cinema : {{ selectedCinema }} </p>
+      <p>Cinema : {{ selectedCinema?.name }} </p>
       <p>Movie : {{ selectedMovie }} </p>
       <p>Date : {{ myForm['date'].value | date:'dd/MM/YYYY' }} </p>
-      <p>Time : {{ myForm['time'].value }} </p>
+      <p>Time : {{ selectedTime }} </p>
       <p>Seat : <span *ngFor="let selectedSeat of selectedSeats"> {{ selectedSeat }} </span> </p>
       <p>Price : MMK {{ price }} </p>
     </div>

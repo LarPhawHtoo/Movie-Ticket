@@ -63,7 +63,7 @@ export class UserCreateComponent implements OnInit {
   }
 
   public onClear() {
-    if (this.confirmView === true) {
+    if (this.confirmView == true) {
       this.formData.controls['profile'].enable();
       this.formData.controls['fullName'].enable();
       this.formData.controls['type'].enable();
@@ -109,10 +109,6 @@ export class UserCreateComponent implements OnInit {
       this.formData.controls['confirmPwd'].disable();
       this.confirmView = true;
     }
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 
   imageUpload(event: any) {
