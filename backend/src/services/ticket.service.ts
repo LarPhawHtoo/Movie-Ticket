@@ -12,7 +12,7 @@ import { StreamState } from "http2";
 import { stat } from "fs";
 import { AnyAaaaRecord } from "dns";
 import { getMovieService } from "./movie.service";
-import { logger } from "../logger/logger"
+import { logger } from "../logger/logger";
 /**
  * get tickets service
  * @param _req
@@ -291,7 +291,6 @@ export const getTicketByCinemaIdService = async (
 ) => {
   try {
     const cinema = await Cinema.findById(req.params.cinema_id);
-
     let date = req.body.date;
     let time= req.body.time;
     const tickets: any = await Ticket.find({ cinema_id: cinema?._id, date, time });

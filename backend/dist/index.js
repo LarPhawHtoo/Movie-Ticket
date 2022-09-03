@@ -53,6 +53,8 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
 app.use("/apiuploads", express_1.default.static("apiuploads"));
+app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
+app.use("/apiuploads", express_1.default.static("apiuploads"));
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
