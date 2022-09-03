@@ -77,7 +77,7 @@ app.use('/api/seats', passport_1.default.authenticate('jwt', { session: false })
 app.use('/api/tickets', passport_1.default.authenticate('jwt', { session: false }), ticket_route_1.default);
 app.use("/api", auth_route_1.default);
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.send("/Hello World");
 });
 app.listen(port, () => {
     console.log(`[server]:Server is running at https://localhost:${port}`);
