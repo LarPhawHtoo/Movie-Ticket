@@ -12,3 +12,7 @@
 {"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-02 20:01:21"}
 {"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-02 20:38:53"}
 {"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-02 21:09:41"}
+{"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-02 21:52:16"}
+{"level":"error","message":"Error creating Movie","metadata":{},"timestamp":"2022-09-03 22:48:53"}
+{"level":"info","message":"Movie created successfully","metadata":{},"timestamp":"2022-09-03 22:54:50"}
+{"level":"info","message":"Movie created successfully","metadata":{},"timestamp":"2022-09-03 23:15:33"}

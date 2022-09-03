@@ -1,8 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import  movieRoute  from "./routes/movie.route";
-import  userRoute  from "./routes/user.route";
+import movieRoute from "./routes/movie.route";
+import userRoute from "./routes/user.route";
 import authRoute from "./routes/auth.route";
 import cinemaRoute from "./routes/cinema_route";
 import seatRoute from "./routes/seat.route";
@@ -14,8 +14,8 @@ import path from "path";
 import passport from "passport";
 require('./config/passport');
 
-import "dotenv/config"; 
-import bodyParser, {json} from 'body-parser';
+import "dotenv/config";
+import bodyParser, { json } from 'body-parser';
 import { rootDir } from "./utils/utils";
 import cookieParser from "cookie-parser";
 
@@ -55,20 +55,8 @@ const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
 const app: Express = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-//app.use(upload.single('image'));
-//app.use("/single", upload.single("image"));
-//app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
-//app.use('/apiuploads/profiles', express.static('apiuploads/profiles'));
-//app.use(multer({ storage: fileStorageMovies, fileFilter }).single("image"));
-//app.use('/apiuploads/movies', express.static('apiuploads/movies'));
-app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1},{ name: 'image', maxCount: 1}]));
-//app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'movie', maxCount: 1},{ name: 'image', maxCount: 1}]));
-app.use("/apiuploads", express.static(path.join(rootDir, "apiuploads")));
-//app.use("/postuploads", express.static(path.join(rootDir, "postuploads")));
-
-app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
-app.use('/apiuploads/profiles', express.static('apiuploads/profiles'));
+app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
+app.use("/apiuploads", express.static("apiuploads"));
 
 app.use(cors());
 app.use(cookieParser());
@@ -82,11 +70,11 @@ mongoose.connect(`${process.env.MONGO_URL}`, {
   //useUnifiedTopology: true
 },
   err => {
-      if (!err) {
-          console.log('Database connection successed');
-      } else {
-          console.log('Error in connection ' + err);
-      }
+    if (!err) {
+      console.log('Database connection successed');
+    } else {
+      console.log('Error in connection ' + err);
+    }
   });
 
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));

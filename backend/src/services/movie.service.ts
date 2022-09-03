@@ -94,18 +94,34 @@ export const nowShowingService = async (req: any, res: Response, next: NextFunct
   try {
     const cinema: any = await Cinema.find();
     const movies: any = await Movie.find({ deleted_at: null });
+    //console.log(movies);
+
     if (!movies) {
       res.json({
         success: false,
         message: "Not found movie",
       });
     }
-    var data = "Now Showing";
-    var result = movies.status;
-    console.log(result);
+    var show = "Now Showing";
+    var resultStatus: any = [];
+    for (let i = 0; i < movies.length; i++) {
+      let data = {
+        movieStatus: movies[i].status,
+        cinema_name: movies[i].cinema_id,
+        time: movies[i].time,
+        movieName: movies[i].name,
+        image: movies[i].image,
+      }
+      if (data.movieStatus == show) {
+        resultStatus.push(data);
+      }
+     
+    }
+    console.log(resultStatus);
     
-    res.json ({
-      movies: movies,
+    res.json({
+      message: "Now Showing Movies",
+      movies: resultStatus,
     })
   } catch (err) {
     next(err);

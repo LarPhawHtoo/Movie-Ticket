@@ -96,17 +96,31 @@ const nowShowingService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     try {
         const cinema = yield cinema_model_1.default.find();
         const movies = yield movie_model_1.default.find({ deleted_at: null });
+        //console.log(movies);
         if (!movies) {
             res.json({
                 success: false,
                 message: "Not found movie",
             });
         }
-        var data = "Now Showing";
-        var result = movies.status;
-        console.log(result);
+        var show = "Now Showing";
+        var resultStatus = [];
+        for (let i = 0; i < movies.length; i++) {
+            let data = {
+                movieStatus: movies[i].status,
+                cinema_name: movies[i].cinema_id,
+                time: movies[i].time,
+                movieName: movies[i].name,
+                image: movies[i].image,
+            };
+            if (data.movieStatus == show) {
+                resultStatus.push(data);
+            }
+        }
+        console.log(resultStatus);
         res.json({
-            movies: movies,
+            message: "Now Showing Movies",
+            movies: resultStatus,
         });
     }
     catch (err) {
