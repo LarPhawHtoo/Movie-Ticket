@@ -61,9 +61,10 @@
         <button
           mat-raised-button 
           color="primary" 
-          [disabled]="seatNumber.status == 'booking' || seatNumber.status == 'sold out'" 
+          [disabled]="seatNumber.status == 'sold out'" 
           class="seat-btn" *ngFor="let seatNumber of seat" 
           [ngClass]="selectedSeats.indexOf(seatNumber.seatNumber) != -1 ? 'selected-seat-btn' : 'seat-btn'"
+          [ngClass]="seatNumber.status == 'sold out' ? 'sold-out-seat-btn' : 'seat-btn'"
           (click)="onClickSeat(seatNumber);">
             {{ seatNumber.seatNumber }}
         </button>
