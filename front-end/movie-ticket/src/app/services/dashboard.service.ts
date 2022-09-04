@@ -5,7 +5,7 @@ import { Observable, retry, delay, catchError, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardserviceService {
+export class DashboardService {
   constructor(private http: HttpClient) { }
 
   url = 'http://localhost:8081/api/tickets/dashboard';
@@ -13,8 +13,8 @@ export class DashboardserviceService {
   headerOptions = new HttpHeaders()
     .set('Authorization', `Bearer ${this.token}`);
   options = { headers: this.headerOptions };
-  getDashboard(): Observable<any> {
-    return this.http.get<any>(this.url, this.options)
+  getDashboard(payload:any){
+    return this.http.post(this.url,payload, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   }
   private httpErrorHandler(error: HttpErrorResponse) {

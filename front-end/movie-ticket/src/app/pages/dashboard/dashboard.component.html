@@ -1,9 +1,71 @@
-<h1>Available Movies</h1>
-<mat-card class="example-card">
-  <mat-card-header>
-    <mat-card-title>Shiba Inu</mat-card-title>
-  </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <mat-card-content>
-  </mat-card-content>
-</mat-card>
+
+    <div class="main">
+      <div class="inner clearfix">
+        <p class="ptext1">Science Fiction</p>
+        <h1>Gozilla Vs Kong</h1>
+        <p class="ptext2">In a time,when monsters walk earth,huminity's fight for its future sets Gozilla and Kong on a collison 
+        course that will see the two most powerful forces of nature on a planet collide in a spectacular battles for the ages.</p>
+      <button class="btn-watch">Watch Now</button>
+      </div>
+      </div>
+      <div class="l-inner">
+        <h3>New Release</h3>
+        <div class="clearfix">
+        <div class="box" *ngFor="let data of dashboarddata">
+          <img [src]="'http://localhost:8081/'+ data?.image" class="poster">
+          <p class="movie-title">Movie:{{data?.movieName}}</p>
+          <p class="cinema-name">Cinema:{{data?.cinema_name?.name}}</p>
+          <p class="cinema-name">Date:{{data?.date}}</p>
+          <p class="cinema-name">Time:{{data?.time}}</p>
+          <p class="cinema-name">Available Seats:{{data?.available_seats.length}}</p>
+          <p class="cinema-name">Soldout Seats:{{data?.sold_out_seats.length}}</p>
+        </div>
+        <!--<div class="box">
+          <img src="http://localhost:8081/apiuploads/movies/27559825-0c2c-49e2-951d-ff5896c35c50_MazeRunner.jpg" alt="Batman">
+          <p class="movie-title">Movie:Batman</p>
+          <p class="movie-genre">Movie-genre:Action</p>
+          <p class="cinema-name">Cinema:Thamada Cinema</p>
+        </div>
+        <div class="box">
+          <img src="http://localhost:8081/apiuploads/movies/27559825-0c2c-49e2-951d-ff5896c35c50_MazeRunner.jpg" alt="Archer">
+          <p class="movie-title">Movie:Archer</p>
+          <p class="movie-genre">Movie-genre:Action</p>
+          <p class="cinema-name">Cinema:Sanpya Cinema</p>
+        </div>
+        <div class="box">
+          <img src="http://localhost:8081/apiuploads/movies/27559825-0c2c-49e2-951d-ff5896c35c50_MazeRunner.jpg" alt="Perfume">
+          <p class="movie-title">Movie:Perfume</p>
+          <p class="movie-genre">Movie-genre:Thriller</p>
+          <p class="cinema-name">Cinema:TopRoyal Cinema</p>
+        </div>
+      </div>
+      <div class="clearfix">
+        <div class="box">
+          <img src="http://localhost:8081/apiuploads/movies/27559825-0c2c-49e2-951d-ff5896c35c50_MazeRunner.jpg" alt="blackwidow">
+        <p class="movie-title">Movie:Black Widow</p>
+          <p class="movie-genre">Movie-genre:Action</p>
+          <p class="cinema-name">Cinema:Migalar Cinema</p>
+        </div>
+        <div class="box">
+          <img src="http://localhost:8081/apiuploads/movies/27559825-0c2c-49e2-951d-ff5896c35c50_MazeRunner.jpg" alt="Aquaman">
+          <p class="movie-title">Movie:Aquaman</p>
+          <p class="movie-genre">Movie-genre:Action</p>
+          <p class="cinema-name">Cinema:Migalar Cinema</p>
+        </div>
+        <div class="box">
+          <img src="http://localhost:8081/apiuploads/movies/27559825-0c2c-49e2-951d-ff5896c35c50_MazeRunner.jpg" alt="Jurassic Park">
+          <p class="movie-title">Movie:Jurassic Park</p>
+          <p class="movie-genre">Movie-genre:Action</p>
+          <p class="cinema-name">Cinema:TopRoyal Cinema</p>
+        </div>-->
+        <!--<div class="box">
+          <img src="http://localhost:8081/apiuploads/movies/27559825-0c2c-49e2-951d-ff5896c35c50_MazeRunner.jpg" alt="Jaws">
+          <p class="movie-title">Movie:Jaws</p>
+          <p class="movie-genre">Movie-genre:Thriller</p>
+          <p class="cinema-name">Cinema:Sanpya Cinema</p>
+        </div>-->
+      </div>
+    </div>
+
+
+
