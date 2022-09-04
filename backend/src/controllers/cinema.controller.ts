@@ -5,8 +5,8 @@ import {
   createCinemaService,
   findCinemaService,
   updateCinemaService,
-  deleteCinemaService,
-  findByIdService
+  deleteCinemaService
+  //findByIdService
 } from '../services/cinema.service';//to add the service route file
 
 export const getCinema = async (
@@ -49,10 +49,10 @@ export const deleteCinema = async (
   deleteCinemaService(req, res, next);
 };
 
-export const findById = async(
-  req: any,
-  res: Response,
-  next: NextFunction
-) => {
-  findByIdService(req, res, next);
-}
+//export const findById = async(
+//  req: any,
+//  res: Response,
+//  next: NextFunction
+//) => {
+//  findByIdService(req, res, next);
+//}
