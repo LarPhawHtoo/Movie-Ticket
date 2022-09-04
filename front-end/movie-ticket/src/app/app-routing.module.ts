@@ -20,11 +20,16 @@ import { PasswordChangeComponent } from './pages/password-change/password-change
 import { TicketsComponent } from './pages/tickets/tickets.component';
 import { TicketResolverService } from './resolvers/ticket-resolver.service';
 import { Role } from './interfaces/role.model';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'logout', component: LogoutComponent },
+  {
+    path: 'dashboard', component: DashboardComponent,
+    canActivate:[AuthGuard]
+  },
   {
     path: 'home',
     component: HomeComponent,
