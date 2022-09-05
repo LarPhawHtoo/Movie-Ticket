@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { getSeats, createSeat, updateSeat, deleteSeat,findSeat } from '../controllers/seat.controller';
-import {body } from 'express-validator';
+import { body } from 'express-validator';
 
 const router = express.Router();
 

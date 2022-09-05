@@ -12,11 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTicketByCinemaIdService = exports.getdashBoardata = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
+exports.getTicketByCinemaIdService = exports.getdashBoardService = exports.deleteTicketService = exports.updateTicketService = exports.findTicketService = exports.createTicketService = exports.getTicketService = void 0;
 const ticket_model_1 = __importDefault(require("../models/ticket.model"));
 const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const seat_model_1 = __importDefault(require("../models/seat.model"));
+const movie_model_1 = __importDefault(require("../models/movie.model"));
 const express_validator_1 = require("express-validator");
+const logger_1 = require("../logger/logger");
 /**
  * get tickets service
  * @param _req
@@ -31,6 +33,7 @@ const getTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
                 success: false,
                 message: "Not Found! ",
             });
+            logger_1.logger.error("Tickets Not Found!");
         }
         var sortedTicket = tickets.sort((a, b) => a.seatNumber < b.seatNumber ? -1 : 1);
         res.json({
@@ -39,9 +42,11 @@ const getTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             tickets: sortedTicket,
             status: 1,
         });
+        logger_1.logger.info("Tickets fetched successfully");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error fetching tickets");
     }
 });
 exports.getTicketService = getTicketService;
@@ -59,6 +64,7 @@ const createTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             error.data = errors.array();
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Validation failed");
         }
         const ticketTdo = {
             customer_name: req.body.customer_name,
@@ -77,9 +83,11 @@ const createTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             tickets: result,
             status: 1,
         });
+        logger_1.logger.info("Created Ticket successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Failed to create Ticket!");
     }
 });
 exports.createTicketService = createTicketService;
@@ -97,11 +105,14 @@ const findTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found Ticket!");
         }
         res.json({ tickets: ticket, status: 1 });
+        logger_1.logger.info("Successfully found Ticket!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error finding Ticket!");
     }
 });
 exports.findTicketService = findTicketService;
@@ -119,12 +130,14 @@ const updateTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             error.data = errors.array();
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Validation failed");
         }
         const ticket = yield ticket_model_1.default.findByIdAndUpdate(req.params.id);
         if (!ticket) {
             const error = new Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found!");
         }
         ticket.customer_name = req.body.customer_name;
         ticket.cinema_id = req.body.cinema_id;
@@ -140,9 +153,11 @@ const updateTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             tickets: result,
             status: 1,
         });
+        logger_1.logger.info("Updated Ticket Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error updating Ticket");
     }
 });
 exports.updateTicketService = updateTicketService;
@@ -159,79 +174,100 @@ const deleteTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             const error = new Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found Ticket");
         }
         res.json({
             message: "Delete Ticket Successfully!",
             tickets: ticket,
             status: 1,
         });
+        logger_1.logger.info("Delete Ticket Successfully!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Error deleting Ticket");
     }
 });
 exports.deleteTicketService = deleteTicketService;
 /**
- * get Ticket by Cinema Id service
+ * get getdashBoar by Cinema Id service
  * @param req
  * @param res
  * @param next
  */
-const getdashBoardata = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getdashBoardService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
+        const cinema = yield cinema_model_1.default.find();
         console.log(cinema);
-        const ticket = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id });
-        const seats = yield seat_model_1.default.find();
-        let seatingList = [];
-        for (let i = 0; i < seats.length; i++) {
-            const filter = ticket.find((ticket) => { var _a; return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seats[i].seatNumber)) !== -1; });
-            let data = {};
-            if (filter && filter !== undefined) {
-                data = {
-                    seatNumber: seats[i].seatNumber,
-                    status: filter.status,
+        const ticket = yield ticket_model_1.default.find({ date: req.body.date });
+        const movie = yield movie_model_1.default.find({ deleted_at: null });
+        var resultMovie = [];
+        for (let i = 0; i < movie.length; i++) {
+            for (let j = 0; j < movie[i].time.length; j++) {
+                let data = {
+                    cinema_name: movie[i].cinema_id,
+                    movieName: movie[i].name,
+                    time: movie[i].time[j],
+                    date: req.body.date,
+                    image: movie[i].image,
                 };
+                resultMovie.push(data);
+                const seats = yield seat_model_1.default.find();
+                let seatingList = [];
+                for (let i = 0; i < seats.length; i++) {
+                    const filter = ticket.find((ticket) => { var _a; return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seats[i].seatNumber)) !== -1; });
+                    let data = {};
+                    if (filter && filter !== undefined) {
+                        data = {
+                            seatNumber: seats[i].seatNumber,
+                            status: filter.status,
+                        };
+                    }
+                    else {
+                        data = {
+                            seatNumber: seats[i].seatNumber,
+                            status: "Available",
+                        };
+                    }
+                    seatingList.push(data);
+                }
+                var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
+                // console.log(sortedStatus);
+                let firstName = "";
+                var result = [];
+                let firstArrIndex = 0;
+                for (let i = 0; i < sortedStatus.length; i++) {
+                    if (i === 0) {
+                        result[firstArrIndex] = [sortedStatus[i]];
+                        firstName = sortedStatus[i].status[0];
+                    }
+                    else if (sortedStatus[i].status.indexOf(firstName) === -1) {
+                        firstArrIndex += 1;
+                        firstName = sortedStatus[i].status[0];
+                        result[firstArrIndex] = [sortedStatus[i]];
+                    }
+                    else {
+                        result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
+                    }
+                }
+                resultMovie.push(sortedStatus);
             }
-            else {
-                data = {
-                    seatNumber: seats[i].seatNumber,
-                    status: "Available",
-                };
-            }
-            seatingList.push(data);
         }
-        var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
-        console.log(sortedStatus);
-        let firstName = "";
-        let result = [];
-        let firstArrIndex = 0;
-        for (let i = 0; i < sortedStatus.length; i++) {
-            if (i === 0) {
-                result[firstArrIndex] = [sortedStatus[i]];
-                firstName = sortedStatus[i].status[0];
-            }
-            else if (sortedStatus[i].status.indexOf(firstName) === -1) {
-                firstArrIndex += 1;
-                firstName = sortedStatus[i].status[0];
-                result[firstArrIndex] = [sortedStatus[i]];
-            }
-            else {
-                result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
-            }
-        }
-        if (!result) {
+        // resultMovie.push(result);
+        if (!resultMovie) {
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not Found Ticket!");
         }
-        res.json({ tickets: result, status: 1 });
+        res.json({ tickets: resultMovie, status: 1 });
+        logger_1.logger.info("Successfully got tickets");
     }
     catch (err) {
         next(err);
     }
 });
-exports.getdashBoardata = getdashBoardata;
+exports.getdashBoardService = getdashBoardService;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
@@ -250,12 +286,14 @@ const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0,
                 data = {
                     seatNumber: seats[i].seatNumber,
                     status: filterData.status,
+                    price: seats[i].price
                 };
             }
             else {
                 data = {
                     seatNumber: seats[i].seatNumber,
                     status: "available",
+                    price: seats[i].price
                 };
             }
             seatingPlan.push(data);
@@ -282,11 +320,14 @@ const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0,
             const error = Error("Not Found!");
             error.statusCode = 401;
             throw error;
+            logger_1.logger.error("Not found Ticket!");
         }
         res.json({ tickets: result, status: 1 });
+        logger_1.logger.info("Successfully got Tickets by Cinema ID!");
     }
     catch (err) {
         next(err);
+        logger_1.logger.error("Failed to get tickets!");
     }
 });
 exports.getTicketByCinemaIdService = getTicketByCinemaIdService;

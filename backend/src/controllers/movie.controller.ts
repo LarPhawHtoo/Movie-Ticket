@@ -5,7 +5,8 @@ import {
   findMovieService,
   updateMovieService,
   deleteMovieService,
-  findByIdService
+  findByIdService,
+  nowShowingService
 } from '../services/movie.service';
 
 export const getMovies = async (
@@ -14,6 +15,14 @@ export const getMovies = async (
   next: NextFunction
 ) => {
   getMovieService(req, res, next);
+};
+
+export const nowShowing = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  nowShowingService(req, res, next);
 };
 
 export const createMovie =  async (

@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findByIdService = exports.deleteMovieService = exports.updateMovieService = exports.findMovieService = exports.createMovieService = exports.getMovieService = void 0;
+exports.findByIdService = exports.deleteMovieService = exports.updateMovieService = exports.findMovieService = exports.nowShowingService = exports.createMovieService = exports.getMovieService = void 0;
 const movie_model_1 = __importDefault(require("../models/movie.model"));
+const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const express_validator_1 = require("express-validator");
 const utils_1 = require("../utils/utils");
 const logger_1 = require("../logger/logger");
@@ -91,6 +92,42 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.createMovieService = createMovieService;
+const nowShowingService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const cinema = yield cinema_model_1.default.find();
+        const movies = yield movie_model_1.default.find({ deleted_at: null });
+        //console.log(movies);
+        if (!movies) {
+            res.json({
+                success: false,
+                message: "Not found movie",
+            });
+        }
+        var show = "Now Showing";
+        var resultStatus = [];
+        for (let i = 0; i < movies.length; i++) {
+            let data = {
+                movieStatus: movies[i].status,
+                cinema_name: movies[i].cinema_id,
+                time: movies[i].time,
+                movieName: movies[i].name,
+                image: movies[i].image,
+            };
+            if (data.movieStatus == show) {
+                resultStatus.push(data);
+            }
+        }
+        console.log(resultStatus);
+        res.json({
+            message: "Now Showing Movies",
+            movies: resultStatus,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.nowShowingService = nowShowingService;
 const findMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const movie = yield movie_model_1.default.findById(req.params.id);

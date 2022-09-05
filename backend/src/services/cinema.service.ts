@@ -141,17 +141,17 @@ export const deleteCinemaService = async (
   }
 };
 
-export const findByIdService = async (
-  req: any,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const cinemas = await Cinema.findById(req.params.id);
-    res.json({ data: cinemas, status: 1 });
-    logger.info("Successfully found cinema")
-  } catch (err) {
-    next(err);
-    logger.error("Failed to find cinema");
-  }
-}
+//export const findByIdService = async (
+//  req: any,
+//  res: Response,
+//  next: NextFunction
+//) => {
+//  try {
+//    const cinemas = await Cinema.findById(req.params.id);
+//    res.json({ data: cinemas, status: 1 });
+//    logger.info("Successfully found cinema")
+//  } catch (err) {
+//    next(err);
+//    logger.error("Failed to find cinema");
+//  }
+//}
