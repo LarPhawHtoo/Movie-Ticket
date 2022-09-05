@@ -184,7 +184,9 @@ export const nowShowingService = async (req: any, res: Response, next: NextFunct
       movie.name = req.body.name;
       movie.year = req.body.year;
       movie.rating = req.body.rating;
+
       movie.status = req.body.status;
+     
       movie.time = JSON.parse(req.body.time);
       movie.created_user_id = req.body.created_user_id;
       movie.updated_user_id = req.body.updated_user_id;
