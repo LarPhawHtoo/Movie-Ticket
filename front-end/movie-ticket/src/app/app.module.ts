@@ -34,6 +34,8 @@ import { MovieCreateComponent } from './components/movie-create/movie-create.com
 import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieDeleteConfirmDialogComponent } from './components/movie-delete-confirm-dialog/movie-delete-confirm-dialog.component';
 import { MovieUpdateComponent } from './components/movie-update/movie-update.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { MovieUpdateComponent } from './components/movie-update/movie-update.com
     MovieCreateComponent,
     MovieDeleteConfirmDialogComponent,
     MovieUpdateComponent,
+    DashboardComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -73,7 +77,8 @@ import { MovieUpdateComponent } from './components/movie-update/movie-update.com
     ReactiveFormsModule,
     FormsModule,
     NgxMatFileInputModule,
-    MomentDateModule
+    MomentDateModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -58,7 +58,7 @@
         <mat-error *ngIf="myForm['confirmPwd'].hasError('mustMatch')">Password must be match</mat-error>
       </mat-form-field>
       <div class="btn-gp">
-        <button mat-raised-button color="warn" class="full-width" (click)="onClear()"> {{ confirmView === true ? 'Cancel' : 'Clear' }} </button>
+        <button mat-raised-button type="button" color="warn" class="full-width" (click)="onClear()"> {{ confirmView === true ? 'Cancel' : 'Clear' }} </button>
         <button mat-raised-button color="primary" class="add-user-btn" [disabled]="formData.invalid"> {{ confirmView === true ? 'Confirm' : 'Register' }} </button>
       </div>
     </form>

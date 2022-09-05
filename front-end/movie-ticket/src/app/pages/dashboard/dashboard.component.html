@@ -1,0 +1,27 @@
+
+    <div class="main">
+      <div class="inner clearfix">
+        <p class="ptext1">Science Fiction</p>
+        <h1>Gozilla Vs Kong</h1>
+        <p class="ptext2">In a time,when monsters walk earth,huminity's fight for its future sets Gozilla and Kong on a collison 
+        course that will see the two most powerful forces of nature on a planet collide in a spectacular battles for the ages.</p>
+      <button class="btn-watch">Watch Now</button>
+      </div>
+      </div>
+      <div class="l-inner">
+        <h3>New Release &nbsp;></h3>
+        <div class="clearfix">
+        <div class="box" *ngFor="let data of dashboarddata">
+          <img [src]="'http://localhost:8081/'+ data?.image" class="poster">
+          <p class="movie-title">Movie:{{data?.movieName}}</p>
+          <p class="cinema-name">Cinema:{{data?.cinema_name?.name}}</p>
+          <p class="cinema-date">Date:{{data?.date}}</p>
+          <p class="cinema-time">Time:{{data?.time}}</p>
+          <p class="seats">Available Seats:{{data?.available_seats.length}}</p>
+          <p class="sold-seats">Soldout Seats:{{data?.sold_out_seats.length}}</p>
+        </div>
+      </div>
+    </div>
+
+
+

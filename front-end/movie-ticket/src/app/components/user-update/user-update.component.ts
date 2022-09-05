@@ -107,8 +107,6 @@ export class UserUpdateComponent implements OnInit {
       this.formData.controls['email'].enable();
       this.formData.controls['dob'].enable();
       this.formData.controls['address'].enable();
-      this.formData.controls['password'].enable();
-      this.formData.controls['confirmPwd'].enable();
       this.confirmView = false;
     } else {
       this.formData.reset();

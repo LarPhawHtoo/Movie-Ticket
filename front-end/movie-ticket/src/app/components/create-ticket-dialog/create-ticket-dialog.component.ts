@@ -41,9 +41,8 @@ export class CreateTicketDialogComponent implements OnInit {
   ) { 
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
-    const currentDay = new Date().getDay();
-    this.maxDate = new Date(currentYear, currentMonth, currentDay + 6);
-    this.testDate = new Date();
+    const currentDay = new Date().getDate();
+    this.maxDate = new Date(currentYear, currentMonth, currentDay + 10);
   }
 
   times: string[] = [];
@@ -57,7 +56,6 @@ export class CreateTicketDialogComponent implements OnInit {
   minDate = new Date();
   maxDate!: Date;
   loading = false;
-  testDate!: Date;
 
   movieDataSource = new MatTableDataSource<Movie>;
   movies: Movie[] = [];
@@ -108,8 +106,10 @@ export class CreateTicketDialogComponent implements OnInit {
   getSeats() {
     this.loading = true;
     const cinemaId = this.selectedCinema?._id;
+    const datePipe = new DatePipe('en-US');
+    const date = datePipe.transform(this.firstFormGroup.controls['date'].value, 'dd/MM/yyyy');
     const body = {
-      "date": this.myForm['date'].value,
+      "date": date,
       "time": this.selectedTime
     }
     this.seatService.getSeats(cinemaId, body)
@@ -121,29 +121,24 @@ export class CreateTicketDialogComponent implements OnInit {
   }
 
   onClickBuy() {
-    const formData = new FormData();
     const datePipe = new DatePipe('en-US');
     const date = datePipe.transform(this.firstFormGroup.controls['date'].value, 'dd/MM/yyyy');
 
-    formData.append('customer_name', this.firstFormGroup.controls['customerName'].value);
-    formData.append('cinema_id', this.selectedCinema?._id);
-    formData.append('movie_id', this.firstFormGroup.controls['movie'].value);
-    formData.append('date', `${date}`);
-    formData.append('time', this.selectedTime);
-    //formData.append('seatNumber', this.selectedSeats);
-    formData.append('status', 'sold out');
-    formData.append('price', `${this.price}`);
-
-    for (let i = 0; i < this.selectedSeats.length; i++) {
-      formData.append('seatNumber', this.selectedSeats[i]);
+    let data = {
+      customer_name: this.firstFormGroup.controls['customerName'].value,
+      cinema_id: this.selectedCinema?._id,
+      movie_id: this.firstFormGroup.controls['movie'].value,
+      date,
+      time: this.selectedTime,
+      seatNumber: this.selectedSeats,
+      status: 'sold out',
+      price: this.price
     }
 
-    console.log(typeof(`${this.selectedSeats}`))
-
-    //this.ticketService.addTicket(formData)
-    //  .subscribe(res => {
-    //    this.dialogRef.close('create');
-    //  });
+    this.ticketService.addTicket(data)
+      .subscribe(res => {
+        this.dialogRef.close('create');
+      });
   }
 
   get myForm() {

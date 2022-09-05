@@ -1,0 +1,82 @@
+
+.main{
+  max-width: 1100px;
+  background-image: url(http://localhost:8081/apiuploads/movies/movie3.jpg);
+  background-repeat: no-repeat;
+  background-position: cover;
+  padding-bottom: 500px;
+  margin-left: 116px;
+}
+.clearfix::after {
+  display: table;
+  clear: both;
+  content: '';
+}
+.inner{
+position: absolute;
+margin-left: 200px;
+margin-top: 245px;
+}
+.inner h1{
+  color: #fff;
+  
+}
+.sidedraw{
+  padding: 35px;
+}
+.ptext1 {
+  width: 100px;
+  background-color: #000;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.ptext2{
+  color: #fff;
+  width: 60%;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+/*body{
+  background-color: #000;
+}*/
+.btn-watch{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: 1px solid #000;
+  border-radius: 10px;
+  color: #fff;
+  cursor:pointer;
+  padding: 10px;
+
+}
+.box{
+  float: left;
+  display: inline;
+  width: 27%;
+  text-align: center;
+  margin-right: 100px;
+  padding-bottom:25px;
+  img{
+    max-width:200px;
+    max-height: 200px;
+  }
+}
+.movie-title{
+  font-weight: bold;
+}
+.box:nth-child(3n){
+  margin-right:0px;
+}
+
+.l-inner{
+  max-width: 1100px;
+  margin-left: 116px;
+}
+h3{
+  margin-top: 20px;
+}
+.sidenav{
+  text-decoration: none;
+  padding-top: 30px;
+}

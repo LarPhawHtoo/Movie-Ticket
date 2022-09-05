@@ -36,7 +36,7 @@ export class MovieCreateComponent implements OnInit {
 
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
-  times: string[] = ['10:30 AM', '1:00 PM', '2:30 PM', '3:00 PM'];
+  times: string[] = ['10:30AM', '1:00PM', '2:30PM', '3:00PM'];
 
   formData!: FormGroup;
 
@@ -62,18 +62,18 @@ export class MovieCreateComponent implements OnInit {
   }
 
   onClickAddMovie() {
-    const formData = new FormData();
+    const data = {
+      code: this.formData.controls['code'].value,
+      name: this.formData.controls['name'].value,
+      image: this.imgFile,
+      year: this.formData.controls['year'].value,
+      rating: this.formData.controls['rating'].value,
+      time: this.formData.controls['time'].value,
+      cinema_id: this.formData.controls['cinema'].value,
+      status: this.formData.controls['status'].value
+    }
 
-    formData.append('code', this.formData.controls['code'].value);
-    formData.append('name', this.formData.controls['name'].value);
-    formData.append('image', this.imgFile);
-    formData.append('year', this.formData.controls['year'].value);
-    formData.append('rating', this.formData.controls['rating'].value);
-    formData.append('time', this.formData.controls['time'].value);
-    formData.append('cinema_id', this.formData.controls['cinema'].value);
-    formData.append('status', this.formData.controls['status'].value);
-
-    this.movieService.createMovie(formData)
+    this.movieService.createMovie(data)
       .subscribe(res => {
         this.dialogRef.close('create');
       });

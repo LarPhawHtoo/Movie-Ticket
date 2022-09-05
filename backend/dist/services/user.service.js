@@ -53,6 +53,7 @@ const getUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.getUserService = getUserService;
 const createUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
         const errors = (0, express_validator_1.validationResult)(req.body);
         if (!errors.isEmpty()) {
@@ -63,7 +64,7 @@ const createUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             logger_1.logger.error("Validation failed!");
         }
         let profile = req.body.profile;
-        if (req.files.profile.length > 0) {
+        if (((_b = (_a = req.files) === null || _a === void 0 ? void 0 : _a.profile) === null || _b === void 0 ? void 0 : _b.length) > 0) {
             profile = req.files.profile[0].path.replaceAll("\\", "/");
         }
         const userTdo = {
@@ -109,6 +110,7 @@ const findUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
 });
 exports.findUserService = findUserService;
 const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c, _d;
     try {
         const errors = (0, express_validator_1.validationResult)(req.body);
         if (!errors.isEmpty()) {
@@ -126,7 +128,7 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             throw error;
         }
         let profile = req.body.profile;
-        if (req.files.profile.length > 0) {
+        if (((_d = (_c = req.files) === null || _c === void 0 ? void 0 : _c.profile) === null || _d === void 0 ? void 0 : _d.length) > 0) {
             profile = req.files.profile[0].path.replace("\\", "/");
             if (user.profile && user.profile != profile) {
                 (0, utils_1.deleteFile)(user.profile);

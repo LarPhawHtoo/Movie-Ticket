@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
 
     if (localStorage.getItem('loginUser')) {
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');;
   }
 
@@ -47,6 +49,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
   }
   onClickMovies() {
@@ -55,6 +58,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('isMovies', 'true');
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
   }
 
@@ -64,6 +68,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('isTickets', 'true');
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
   }
 
@@ -73,6 +78,16 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isAboutUs', 'true');
+    localStorage.setItem('isDashboard', 'false');
+    localStorage.setItem('isProfile', 'false');
+  }
+  onClickDashboard() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isTickets', 'false');
+    localStorage.setItem('isMovies', 'false');
+    localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'true');
     localStorage.setItem('isProfile', 'false');
   }
 
@@ -82,6 +97,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'true');
   }
 
