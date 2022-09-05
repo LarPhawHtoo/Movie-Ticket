@@ -63,7 +63,7 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
         logger.error("Validation failed");
       }
       let image: any = req.body.image;
-      if (req.files) {
+      if (req.files?.image?.length > 0) {
         image = req.files.image[0].path.replaceAll("\\", "/");
       }
       const movieTdo: MovieCreate = {
@@ -171,7 +171,7 @@ export const nowShowingService = async (req: any, res: Response, next: NextFunct
         logger.error("Not Found!");
       }
       let image: any = req.body.image;
-      if (req.files) {
+      if (req.files?.image?.length > 0) {
         image = req.files.image[0].path.replace("\\", "/");
         if (movie.image && movie.image != image) {
           deleteFile(movie.image);
