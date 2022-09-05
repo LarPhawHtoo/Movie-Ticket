@@ -41,7 +41,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Time</mat-label>
-        <mat-select formControlName="time">
+        <mat-select formControlName="time" multiple>
           <mat-option *ngFor="let time of times" [value]="time">
             {{ time }}
           </mat-option>

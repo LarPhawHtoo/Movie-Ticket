@@ -224,6 +224,7 @@ const getdashBoardService = (req, res, next) => __awaiter(void 0, void 0, void 0
                         available_seats.push(seats[i].seatNumber);
                     }
                 }
+                console.log(sold_out_seats);
                 movieData['sold_out_seats'] = sold_out_seats;
                 movieData['available_seats'] = available_seats;
                 resultMovie.push(movieData);

@@ -181,6 +181,7 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         movie.rating = req.body.rating;
         movie.image = image;
         movie.status = req.body.status;
+        movie.time = req.body.time;
         movie.created_user_id = req.body.created_user_id;
         movie.updated_user_id = req.body.updated_user_id;
         const result = yield movie.save();

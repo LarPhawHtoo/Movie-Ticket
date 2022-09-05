@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { DashboardService } from 'src/app/services/dashboard.service';
@@ -16,9 +17,14 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardService,
   ) { }
 
+  datePipe = new DatePipe('en-US');
+  today = new Date();
+  date = this.datePipe.transform(this.today, 'dd/MM/yyyy');
+
   ngOnInit(): void {
     let payload = {
-      date:moment().format('YYYY-MM-DD')
+      //date: moment().format('dd/MM/yyyy')
+      date: this.date
     }
     this.dashboardService.getDashboard(payload).subscribe((response: any) => {
       this.dashboarddata = response.tickets;

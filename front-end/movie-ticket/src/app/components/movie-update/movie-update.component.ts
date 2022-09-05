@@ -22,25 +22,26 @@ export class MovieUpdateComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
   
-  profileImage: any = `${this.data.profile}` || '';
+  profileImage: any = `http://localhost:8081/${this.data.image}` || '';
   imgFile: any;
   confirmView: Boolean = false;
   formData!: FormGroup;
-  times: string[] = ['10:30 AM', '1:00 PM', '2:30 PM', '3:00 PM'];
+  times: string[] = ['10:30AM', '1:00PM', '2:30PM', '3:00PM'];
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
   statuses: string[] = ['Coming Soon', 'Now Showing'];
   
   ngOnInit(): void {
+    console.log(this.data)
     this.formData = this.fb.group({
       code: [this.data.code, Validators.required],
       name: [this.data.name, Validators.required],
-      poster: [''],
+      poster: [this.data.image],
       year: [this.data.year],
       rating: [this.data.rating],
-      cinema: ['', Validators.required],
-      time: ['', Validators.required],
-      status: ['', Validators.required]
+      cinema: [this.data.cinema_id._id, Validators.required],
+      time: [this.data.time, Validators.required],
+      status: [this.data.status, Validators.required]
     });
     
     this.cinemaService.getCinemas().subscribe((response: any) => {
@@ -54,16 +55,21 @@ export class MovieUpdateComponent implements OnInit {
   onClickUpdateMovie() {
     if (this.confirmView == true) {
       const id = this.data._id;
-      const formData = new FormData();
-      formData.append('code', this.formData.controls['code'].value);
-      formData.append('name', this.formData.controls['name'].value);
-      formData.append('image', this.imgFile);
-      formData.append('year', this.formData.controls['year'].value);
-      formData.append('rating', this.formData.controls['rating'].value);
-      formData.append('cinema_id', this.formData.controls['cinema'].value);
-      formData.append('time', this.formData.controls['time'].value);
-      formData.append('status', this.formData.controls['status'].value);
-      this.movieService.updateMovie(id, formData)
+
+      console.log(this.formData.controls['time'].value);
+
+      const data = {
+        code: this.formData.controls['code'].value,
+        name: this.formData.controls['name'].value,
+        image: this.imgFile || this.data.image,
+        year: this.formData.controls['year'].value,
+        rating: this.formData.controls['rating'].value,
+        time: this.formData.controls['time'].value,
+        cinema_id: this.formData.controls['cinema'].value,
+        status: this.formData.controls['status'].value
+      }
+
+      this.movieService.updateMovie(id, data)
         .subscribe(res => {
           this.dialogRef.close('update');
         });
