@@ -1,8 +1,9 @@
 import express from 'express';
-import {  getMovies, createMovie, findMovie, updateMovie, deleteMovie} from '../controllers/movie.controller';
+import {  getMovies, createMovie, findMovie, updateMovie, deleteMovie, nowShowing} from '../controllers/movie.controller';
 import { body } from 'express-validator';
 import { findByIdService } from '../services/movie.service';
 import { getdashBoardService } from '../services/ticket.service';
+import { nowShowingService} from '../services/movie.service';
 
 const router = express.Router();
 
@@ -17,6 +18,15 @@ router
       body("rating").notEmpty().withMessage("Rating must note be empty")
     ],
     createMovie);
+
+router 
+  .route("/now-showing")
+  .post(
+    [
+      body("time").notEmpty().withMessage("time must not be empty"),
+      body("date").notEmpty().withMessage("date must not be empty")
+    ],
+    nowShowing)
 
 router
   .route("/search")

@@ -20,6 +20,10 @@ export class SeatService {
       .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
+  //updateSeat(seatNumber: any) {
+  //  return this.http.post(this.url)
+  //}
+
   private httpErrorHandler(error: HttpErrorResponse) {
     if (error.error instanceof HttpErrorResponse) {
       console.error("A client side error occured. The error message is " + error.message);

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cinema_controller_1 = require("../controllers/cinema.controller");
 const express_validator_1 = require("express-validator");
-const cinema_service_1 = require("../services/cinema.service");
+//import { findByIdService } from '../services/cinema.service';
 const router = express_1.default.Router();
 router
     .route("/")
@@ -14,9 +14,9 @@ router
     .post([
     (0, express_validator_1.body)("name").notEmpty().withMessage("Cinema Name must not be empty"),
 ], cinema_controller_1.createCinema);
-router
-    .route("/search")
-    .post(cinema_service_1.findByIdService);
+//router
+//  .route("/search")
+//  .post(findByIdService)
 router
     .route("/:id")
     .get(cinema_controller_1.findCinema)

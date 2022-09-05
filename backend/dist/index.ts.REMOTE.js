@@ -16,17 +16,23 @@ const cors_1 = __importDefault(require("cors"));
 const multer_1 = __importDefault(require("multer"));
 const uuid_1 = require("uuid");
 const passport_1 = __importDefault(require("passport"));
-const swaggerUI = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerDocument = YAML.load('./api.yaml');
 require('./config/passport');
 require("dotenv/config");
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
 dotenv_1.default.config();
 const fileStorage = multer_1.default.diskStorage({
     destination: (_req, _file, cb) => {
-        cb(null, "apiuploads/profile");
+        console.log(_file === null || _file === void 0 ? void 0 : _file.fieldname);
+        if ((_file === null || _file === void 0 ? void 0 : _file.fieldname) == "image") {
+            cb(null, "apiuploads/movies");
+        }
+        else {
+            cb(null, "apiuploads/profiles");
+        }
     },
     filename: (_req, file, cb) => {
         cb(null, `${(0, uuid_1.v4)()}_${file.originalname}`);
@@ -42,31 +48,11 @@ const fileFilter = (_req, file, cb) => {
         cb(null, false);
     }
 };
-<<<<<<< HEAD
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
-app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
-app.use('/apiuploads/profile', express_1.default.static('apiuploads/profile'));
-=======
-const fileStorageMovies = multer_1.default.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "apiuploads/movies");
-    },
-    filename: (_req, file, cb) => {
-        cb(null, `${(0, uuid_1.v4)()}_${file.originalname}`);
-    }
-});
-const app = (0, express_1.default)();
-app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({ extended: false }));
-//app.use(upload.single('image'));
-//app.use("/single", upload.single("image"));
-app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
-app.use('/apiuploads/profiles', express_1.default.static('apiuploads/profiles'));
-app.use((0, multer_1.default)({ storage: fileStorageMovies, fileFilter }).single("image"));
-app.use('/apiuploads/movies', express_1.default.static('apiuploads/movies'));
->>>>>>> remotes/origin/main
+app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
+app.use("/apiuploads", express_1.default.static("apiuploads"));
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
@@ -83,7 +69,7 @@ mongoose_1.default.connect(`${process.env.MONGO_URL}`, {
         console.log('Error in connection ' + err);
     }
 });
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/cinemas', passport_1.default.authenticate('jwt', { session: false }), cinema_route_1.default);
 app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
 app.use('/api/movies', passport_1.default.authenticate('jwt', { session: false }), movie_route_1.default);

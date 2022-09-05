@@ -1,7 +1,7 @@
 import express from 'express';
 import { getCinema, createCinema, findCinema, updateCinema, deleteCinema} from '../controllers/cinema.controller';
 import {body} from 'express-validator';
-import { findByIdService } from '../services/cinema.service';
+//import { findByIdService } from '../services/cinema.service';
 
 const router = express.Router();
 
@@ -14,9 +14,9 @@ router
     ],
   createCinema);
 
-router
-  .route("/search")
-  .post(findByIdService)
+//router
+//  .route("/search")
+//  .post(findByIdService)
 
 router
   .route("/:id")

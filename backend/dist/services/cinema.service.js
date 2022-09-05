@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findByIdService = exports.deleteCinemaService = exports.updateCinemaService = exports.findCinemaService = exports.createCinemaService = exports.getCinemaService = void 0;
+exports.deleteCinemaService = exports.updateCinemaService = exports.findCinemaService = exports.createCinemaService = exports.getCinemaService = void 0;
 const cinema_model_1 = __importDefault(require("../models/cinema.model"));
 const express_validator_1 = require("express-validator");
 const logger_1 = require("../logger/logger");
@@ -141,15 +141,17 @@ const deleteCinemaService = (req, res, next) => __awaiter(void 0, void 0, void 0
     }
 });
 exports.deleteCinemaService = deleteCinemaService;
-const findByIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const cinemas = yield cinema_model_1.default.findById(req.params.id);
-        res.json({ data: cinemas, status: 1 });
-        logger_1.logger.info("Successfully found cinema");
-    }
-    catch (err) {
-        next(err);
-        logger_1.logger.error("Failed to find cinema");
-    }
-});
-exports.findByIdService = findByIdService;
+//export const findByIdService = async (
+//  req: any,
+//  res: Response,
+//  next: NextFunction
+//) => {
+//  try {
+//    const cinemas = await Cinema.findById(req.params.id);
+//    res.json({ data: cinemas, status: 1 });
+//    logger.info("Successfully found cinema")
+//  } catch (err) {
+//    next(err);
+//    logger.error("Failed to find cinema");
+//  }
+//}

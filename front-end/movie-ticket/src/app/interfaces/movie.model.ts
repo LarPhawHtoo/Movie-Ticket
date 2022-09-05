@@ -4,4 +4,6 @@ export interface Movie {
   name: string,
   year: number,
   rating: number,
+  time: any,
+  cinema_id: any
 }

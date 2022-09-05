@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findById = exports.deleteCinema = exports.updateCinema = exports.findCinema = exports.createCinema = exports.getCinema = void 0;
+exports.deleteCinema = exports.updateCinema = exports.findCinema = exports.createCinema = exports.getCinema = void 0;
 const cinema_service_1 = require("../services/cinema.service"); //to add the service route file
 const getCinema = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     (0, cinema_service_1.getCinemaService)(req, res, next);
@@ -31,7 +31,10 @@ const deleteCinema = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     (0, cinema_service_1.deleteCinemaService)(req, res, next);
 });
 exports.deleteCinema = deleteCinema;
-const findById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, cinema_service_1.findByIdService)(req, res, next);
-});
-exports.findById = findById;
+//export const findById = async(
+//  req: any,
+//  res: Response,
+//  next: NextFunction
+//) => {
+//  findByIdService(req, res, next);
+//}

@@ -87,3 +87,5 @@
 {"level":"info","message":"Successfully fetched movies","metadata":{},"timestamp":"2022-09-05 10:31:46"}
 {"level":"info","message":"Successfully retrieved Cinema Data","metadata":{},"timestamp":"2022-09-05 10:32:04"}
 {"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-05 10:51:53"}
+{"level":"info","message":"Successfully got tickets","metadata":{},"timestamp":"2022-09-05 11:01:15"}
+{"level":"info","message":"Successfully retrieved User data","metadata":{},"timestamp":"2022-09-05 11:01:25"}

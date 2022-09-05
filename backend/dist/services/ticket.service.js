@@ -244,11 +244,14 @@ const getdashBoardService = (req, res, next) => __awaiter(void 0, void 0, void 0
 });
 exports.getdashBoardService = getdashBoardService;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
-        let date = req.body.date;
-        let time = req.body.time;
-        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id, date, time });
+        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id, date: (_a = req.body) === null || _a === void 0 ? void 0 : _a.date, time: (_b = req.body) === null || _b === void 0 ? void 0 : _b.time });
+        console.log(req.params.cinema_id);
+        console.log(req.body.date);
+        console.log(req.body.time);
+        console.log(tickets);
         const seats = yield seat_model_1.default.find();
         let seatingPlan = [];
         for (let i = 0; i < seats.length; i++) {
@@ -261,12 +264,14 @@ const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0,
                 data = {
                     seatNumber: seats[i].seatNumber,
                     status: filterData.status,
+                    price: seats[i].price
                 };
             }
             else {
                 data = {
                     seatNumber: seats[i].seatNumber,
                     status: "available",
+                    price: seats[i].price
                 };
             }
             seatingPlan.push(data);

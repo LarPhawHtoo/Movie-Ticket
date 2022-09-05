@@ -12,7 +12,7 @@ import { StreamState } from "http2";
 import { stat } from "fs";
 import { AnyAaaaRecord } from "dns";
 import { getMovieService } from "./movie.service";
-import { logger } from "../logger/logger"
+import { logger } from "../logger/logger";
 /**
  * get tickets service
  * @param _req
@@ -266,10 +266,11 @@ export const getTicketByCinemaIdService = async (
 ) => {
   try {
     const cinema = await Cinema.findById(req.params.cinema_id);
-
-    let date = req.body.date;
-    let time= req.body.time;
-    const tickets: any = await Ticket.find({ cinema_id: cinema?._id, date, time });
+    const tickets: any = await Ticket.find({ cinema_id: cinema?._id, date:req.body?.date, time:req.body?.time });
+    console.log(req.params.cinema_id);
+    console.log(req.body.date);
+    console.log(req.body.time);
+    console.log(tickets);
     const seats: any = await Seat.find();
 
     let seatingPlan: any = [];
@@ -288,11 +289,13 @@ export const getTicketByCinemaIdService = async (
         data = {
           seatNumber: seats[i].seatNumber,
           status: filterData.status,
+          price: seats[i].price
         };
       } else {
         data = {
           seatNumber: seats[i].seatNumber,
           status: "available",
+          price: seats[i].price
         };
       }
       seatingPlan.push(data);

@@ -53,6 +53,8 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
 app.use("/apiuploads", express_1.default.static("apiuploads"));
+app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
+app.use("/apiuploads", express_1.default.static("apiuploads"));
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
@@ -77,7 +79,7 @@ app.use('/api/seats', passport_1.default.authenticate('jwt', { session: false })
 app.use('/api/tickets', passport_1.default.authenticate('jwt', { session: false }), ticket_route_1.default);
 app.use("/api", auth_route_1.default);
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.send("/Hello World");
 });
 app.listen(port, () => {
     console.log(`[server]:Server is running at https://localhost:${port}`);
