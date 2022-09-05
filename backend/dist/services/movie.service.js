@@ -75,7 +75,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             year: req.body.year,
             rating: req.body.rating,
             cinema_id: req.body.cinema_id,
-            time: req.body.time,
+            time: JSON.parse(req.body.time),
             status: req.body.status,
             image: image,
             created_user_id: req.body.created_user_id,
@@ -179,9 +179,8 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         movie.name = req.body.name;
         movie.year = req.body.year;
         movie.rating = req.body.rating;
-        movie.image = image;
         movie.status = req.body.status;
-        movie.time = req.body.time;
+        movie.time = JSON.parse(req.body.time);
         movie.created_user_id = req.body.created_user_id;
         movie.updated_user_id = req.body.updated_user_id;
         const result = yield movie.save();

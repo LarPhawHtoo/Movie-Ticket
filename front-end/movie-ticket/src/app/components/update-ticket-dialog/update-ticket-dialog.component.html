@@ -7,19 +7,10 @@
         <mat-error *ngIf="myForm['customerName'].hasError('required')">Please choose customer name</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Cinema</mat-label>
-        <mat-select formControlName="cinema">
-          <mat-option *ngFor="let cinema of cinemas" [value]="cinema._id">
-            {{ cinema.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="myForm['cinema'].hasError('required')">Please choose the cinema</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
         <mat-label>Movie</mat-label>
         <mat-select formControlName="movie">
           <mat-option *ngFor="let movie of movies" [value]="movie._id">
-            {{ movie.name }}
+            {{ movie?.name }}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="myForm['movie'].hasError('required')">Please choose the movie</mat-error>
@@ -32,15 +23,6 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="myForm['date'].hasError('required')">Please choose the date</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Time</mat-label>
-        <mat-select formControlName="time">
-          <mat-option *ngFor="let time of times" [value]="time">
-            {{ time }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="myForm['time'].hasError('required')">Please choose the time</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Number of People</mat-label>
@@ -56,6 +38,22 @@
       </div>
     </form>
   </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Choose the time" [editable]="true">
+    <form [formGroup]="secondFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Time</mat-label>
+        <mat-select formControlName="time">
+          <mat-option *ngFor="let time of times" [value]="time">
+            {{ time }}
+          </mat-option>
+        </mat-select>
+        <!--<mat-error *ngIf="secondFormGroup.controls['time'].hasError('required')">Please choose the time</mat-error>-->
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext (click)="getTime()" style="float: right;">Next</button>
+      </div>
+    </form>
+  </mat-step>
   <mat-step label="Choose your seat" [editable]="true">
     <form>
       <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
@@ -63,10 +61,11 @@
         <button
           mat-raised-button 
           color="primary" 
-          [disabled]="seatNumber.status == 'booking' || seatNumber.status == 'sold out'" 
+          [disabled]="seatNumber.status == 'sold out'" 
           class="seat-btn" *ngFor="let seatNumber of seat" 
           [ngClass]="selectedSeats.indexOf(seatNumber.seatNumber) != -1 ? 'selected-seat-btn' : 'seat-btn'"
-          (click)="onClickSeat(seatNumber.seatNumber);">
+          [ngClass]="seatNumber.status == 'sold out' ? 'sold-out-seat-btn' : 'seat-btn'"
+          (click)="onClickSeat(seatNumber);">
             {{ seatNumber.seatNumber }}
         </button>
       </div>
@@ -81,12 +80,12 @@
     <div style="text-align: center;">
       <p style="color: rgb(63,81,181);">Almost done! Please check your information!</p>
       <p>Customer name : {{ myForm['customerName'].value }} </p>
-      <p>Cinema : {{ selectedCinema }} </p>
+      <p>Cinema : {{ selectedCinema?.name }} </p>
       <p>Movie : {{ selectedMovie }} </p>
-      <p>Date : {{ myForm['date'].value }} </p>
-      <p>Time : {{ myForm['time'].value }} </p>
+      <p>Date : {{ myForm['date'].value | date:'dd/MM/YYYY' }} </p>
+      <p>Time : {{ selectedTime }} </p>
       <p>Seat : <span *ngFor="let selectedSeat of selectedSeats"> {{ selectedSeat }} </span> </p>
-      <p>Price : MMK {{ price * myForm['numOfPeople'].value }} </p>
+      <p>Price : MMK {{ price }} </p>
     </div>
     <div style="float: right; width:fit-content;">
       <button mat-button matStepperPrevious>Back</button>

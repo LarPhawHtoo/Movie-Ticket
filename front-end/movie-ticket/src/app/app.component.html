@@ -30,7 +30,7 @@
          <mat-icon class="mat-18">local_activity</mat-icon>
          Tickets
       </button>
-      <button mat-button color="primary" *ngIf=" (isUsers || isCinemas || isMovies || isAboutUs || isProfile) && isUserLoggedIn" routerLink="/dashboard" (click)="onClickDashboard()">
+      <button mat-button color="primary" *ngIf=" (isUsers || isCinemas || isMovies || isTickets || isAboutUs || isProfile) && isUserLoggedIn" routerLink="/dashboard" (click)="onClickDashboard()">
          <mat-icon class="mat-18">dashboard</mat-icon>
          Dashboard
       </button>

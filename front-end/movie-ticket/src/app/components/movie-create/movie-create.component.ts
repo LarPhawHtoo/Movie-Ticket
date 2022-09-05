@@ -62,18 +62,17 @@ export class MovieCreateComponent implements OnInit {
   }
 
   onClickAddMovie() {
-    const data = {
-      code: this.formData.controls['code'].value,
-      name: this.formData.controls['name'].value,
-      image: this.imgFile,
-      year: this.formData.controls['year'].value,
-      rating: this.formData.controls['rating'].value,
-      time: this.formData.controls['time'].value,
-      cinema_id: this.formData.controls['cinema'].value,
-      status: this.formData.controls['status'].value
-    }
+    const formData = new FormData();
+    formData.append('code', this.formData.controls['code'].value);
+    formData.append('name', this.formData.controls['name'].value);
+    formData.append('image', this.imgFile);
+    formData.append('year', this.formData.controls['year'].value);
+    formData.append('rating', this.formData.controls['rating'].value);
+    formData.append('cinema_id', this.formData.controls['cinema'].value);
+    formData.append('time', JSON.stringify(this.formData.controls['time'].value));
+    formData.append('status', this.formData.controls['status'].value);
 
-    this.movieService.createMovie(data)
+    this.movieService.createMovie(formData)
       .subscribe(res => {
         this.dialogRef.close('create');
       });

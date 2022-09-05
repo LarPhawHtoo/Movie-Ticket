@@ -50,6 +50,7 @@ export class UserUpdateComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   dob = new FormControl('');
   address = new FormControl('');
+  isProfile = localStorage.getItem("isProfile");
 
   formData!: FormGroup;
 

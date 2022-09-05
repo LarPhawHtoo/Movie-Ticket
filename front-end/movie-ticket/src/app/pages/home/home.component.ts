@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
     return this.loggedInUser && this.loggedInUser.type === Role.Admin;
   }
 
-
   onClickCinemas() {
     localStorage.setItem('isUsers', 'false');
     localStorage.setItem('isCinemas', 'true');
