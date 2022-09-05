@@ -20,6 +20,7 @@ export class AppComponent {
   isTickets = false;
   isAboutUs = false;
   isProfile = false;
+  isDashboard = false;
 
   constructor(
     private router: Router,
@@ -79,6 +80,12 @@ export class AppComponent {
         } else {
           this.isAboutUs = false;
         }
+        let isDashboard = localStorage.getItem('isDashboard');
+        if (isDashboard == 'true') {
+          this.isDashboard = true;
+        } else {
+          this.isDashboard = false;
+        }
         let isProfile = localStorage.getItem('isProfile');
         if (isProfile == 'true') {
           this.isProfile = true;
@@ -107,6 +114,7 @@ export class AppComponent {
     localStorage.setItem('isMovies', 'true');
     localStorage.setItem('isTickets', 'true');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
   }
 
@@ -116,6 +124,7 @@ export class AppComponent {
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
   }
 
@@ -125,6 +134,7 @@ export class AppComponent {
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
   }
   onClickMovies() {
@@ -133,6 +143,7 @@ export class AppComponent {
     localStorage.setItem('isMovies', 'true');
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
   }
 
@@ -142,6 +153,7 @@ export class AppComponent {
     localStorage.setItem('isTickets', 'true');
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'false');
   }
 
@@ -151,6 +163,16 @@ export class AppComponent {
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isAboutUs', 'true');
+    localStorage.setItem('isDashboard', 'false');
+    localStorage.setItem('isProfile', 'false');
+  }
+  onClickDashboard() {
+    localStorage.setItem('isUsers', 'false');
+    localStorage.setItem('isCinemas', 'false');
+    localStorage.setItem('isTickets', 'false');
+    localStorage.setItem('isMovies', 'false');
+    localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'true');
     localStorage.setItem('isProfile', 'false');
   }
 
@@ -160,6 +182,7 @@ export class AppComponent {
     localStorage.setItem('isTickets', 'false');
     localStorage.setItem('isMovies', 'false');
     localStorage.setItem('isAboutUs', 'false');
+    localStorage.setItem('isDashboard', 'false');
     localStorage.setItem('isProfile', 'true');
   }
 }
