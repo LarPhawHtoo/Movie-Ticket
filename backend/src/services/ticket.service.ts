@@ -202,7 +202,7 @@ export const deleteTicketService = async (
 };
 
 /**
- * get getdashBoar by Cinema Id service
+ * get getdashBoard by Movie Id service
  * @param req
  * @param res
  * @param next

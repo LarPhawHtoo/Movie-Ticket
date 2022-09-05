@@ -190,7 +190,7 @@ const deleteTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
 });
 exports.deleteTicketService = deleteTicketService;
 /**
- * get getdashBoar by Cinema Id service
+ * get getdashBoard by Movie Id service
  * @param req
  * @param res
  * @param next

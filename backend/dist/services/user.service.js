@@ -63,7 +63,7 @@ const createUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             logger_1.logger.error("Validation failed!");
         }
         let profile = req.body.profile;
-        if (req.files) {
+        if (req.files.profile.length > 0) {
             profile = req.files.profile[0].path.replaceAll("\\", "/");
         }
         const userTdo = {
@@ -126,7 +126,7 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             throw error;
         }
         let profile = req.body.profile;
-        if (req.files) {
+        if (req.files.profile.length > 0) {
             profile = req.files.profile[0].path.replace("\\", "/");
             if (user.profile && user.profile != profile) {
                 (0, utils_1.deleteFile)(user.profile);

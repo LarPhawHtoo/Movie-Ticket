@@ -65,7 +65,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             logger_1.logger.error("Validation failed");
         }
         let image = req.body.image;
-        if (req.files) {
+        if (req.files.image.length > 0) {
             image = req.files.image[0].path.replaceAll("\\", "/");
         }
         const movieTdo = {
@@ -164,7 +164,7 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             logger_1.logger.error("Not Found!");
         }
         let image = req.body.image;
-        if (req.files) {
+        if (req.files.image.length > 0) {
             image = req.files.image[0].path.replace("\\", "/");
             if (movie.image && movie.image != image) {
                 (0, utils_1.deleteFile)(movie.image);
@@ -178,6 +178,7 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         movie.year = req.body.year;
         movie.rating = req.body.rating;
         movie.image = image;
+        movie.time = req.body.time;
         movie.status = req.body.status;
         movie.created_user_id = req.body.created_user_id;
         movie.updated_user_id = req.body.updated_user_id;
