@@ -55,6 +55,7 @@ exports.getMovieService = getMovieService;
  * @param next
  */
 const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
         const errors = (0, express_validator_1.validationResult)(req.body);
         if (!errors.isEmpty()) {
@@ -65,7 +66,7 @@ const createMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             logger_1.logger.error("Validation failed");
         }
         let image = req.body.image;
-        if (req.files) {
+        if (((_b = (_a = req.files) === null || _a === void 0 ? void 0 : _a.image) === null || _b === void 0 ? void 0 : _b.length) > 0) {
             image = req.files.image[0].path.replaceAll("\\", "/");
         }
         const movieTdo = {
@@ -147,6 +148,7 @@ const findMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, f
 });
 exports.findMovieService = findMovieService;
 const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c, _d;
     try {
         const errors = (0, express_validator_1.validationResult)(req.body);
         if (!errors.isEmpty()) {
@@ -164,7 +166,7 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
             logger_1.logger.error("Not Found!");
         }
         let image = req.body.image;
-        if (req.files) {
+        if (((_d = (_c = req.files) === null || _c === void 0 ? void 0 : _c.image) === null || _d === void 0 ? void 0 : _d.length) > 0) {
             image = req.files.image[0].path.replace("\\", "/");
             if (movie.image && movie.image != image) {
                 (0, utils_1.deleteFile)(movie.image);

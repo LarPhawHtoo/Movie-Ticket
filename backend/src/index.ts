@@ -58,10 +58,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1 }, { name: 'image', maxCount: 1 }]));
 app.use("/apiuploads", express.static("apiuploads"));
 
-app.use(multer({ storage: fileStorage, fileFilter }).fields([{ name: 'profile', maxCount: 1},{ name: 'image', maxCount: 1}]));
-
-app.use("/apiuploads", express.static("apiuploads"));
-
 app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());
