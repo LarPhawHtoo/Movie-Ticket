@@ -20,21 +20,21 @@ import { logger } from "../logger/logger";
  * @param next
  */
 
- export const getTicketService = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const tickets: any = await Ticket.find();
-      if (!tickets) {
-        res.json({
-          success: false,
-          message: "Not Found! ",
-        });
-        logger.error("Tickets Not Found!");
-      }
-      var sortedTicket = tickets.sort((a, b) =>
+export const getTicketService = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const tickets: any = await Ticket.find();
+    if (!tickets) {
+      res.json({
+        success: false,
+        message: "Not Found! ",
+      });
+      logger.error("Tickets Not Found!");
+    }
+    var sortedTicket = tickets.sort((a, b) =>
       a.seatNumber < b.seatNumber ? -1 : 1
     );
     res.json({
@@ -43,11 +43,11 @@ import { logger } from "../logger/logger";
       tickets: sortedTicket,
       status: 1,
     });
-      logger.info("Tickets fetched successfully");
-    } catch (err) {
-      next(err);
-      logger.error("Error fetching tickets");
-    }
+    logger.info("Tickets fetched successfully");
+  } catch (err) {
+    next(err);
+    logger.error("Error fetching tickets");
+  }
 };
 
 /**
@@ -106,7 +106,7 @@ export const findTicketService = async (
   next: NextFunction
 ) => {
   try {
-    const ticket:any= await Ticket.findById(req.params.id);
+    const ticket: any = await Ticket.findById(req.params.id);
     console.log(ticket);
 
     if (!ticket) {
@@ -158,8 +158,6 @@ export const updateTicketService = async (
     ticket.status = req.body.status;
     ticket.date = req.body.date;
     ticket.time = req.body.time;
-    ticket.created_user_id = req.body.created_user_id;
-    ticket.updated_user_id = req.body.updated_user_id;
     const result = await ticket.save();
     res.json({
       message: "Updated Ticket Successfully!",
@@ -205,7 +203,7 @@ export const deleteTicketService = async (
 };
 
 /**
- * get getdashBoard by Movie Id service
+ * get getdashBoard service
  * @param req
  * @param res
  * @param next
@@ -217,10 +215,8 @@ export const getdashBoardService = async (
 ) => {
   try {
     const cinema: any = await Cinema.find();
-    //console.log(cinema);
-    const ticket = await Ticket.find({ date: req.body.date});
-
     const movie = await Movie.find({ deleted_at: null });
+    const tickets=await Ticket.find({ deleted_at: null });
     var resultMovie: any = [];
     for (let i = 0; i < movie.length; i++) {
       for (let j = 0; j < movie[i].time.length; j++) {
@@ -231,23 +227,29 @@ export const getdashBoardService = async (
           date: req.body.date,
           image: movie[i].image,
         };
-        // resultMovie.push(data);
-
 
         const seats = await Seat.find();
         let sold_out_seats: any = [];
         let available_seats: any = [];
-        for (let i = 0; i < seats.length; i++) {
-          const filter = ticket.find((ticket) => ticket.seatNumber?.findIndex((number) => number === seats[i].seatNumber) !== -1);
-          if (filter && filter !== undefined) {
-            sold_out_seats.push(seats[i].seatNumber);
+        for (let k = 0; k < seats.length; k++) {
+          const filterData = tickets.find(
+            (ticket: any) =>
+              ticket?.movie_id?._id.toString() === movie[i]?._id.toString() &&
+              ticket?.cinema_id?._id.toString() ===
+                movie[i]?.cinema_id?._id.toString() &&
+              ticket.time === movie[i].time[j] &&
+              ticket.seatNumber?.findIndex(
+                (number) => number === seats[k].seatNumber
+              ) !== -1
+          );
+          if (filterData) {
+            sold_out_seats.push(seats[k].seatNumber);
           } else {
-            available_seats.push(seats[i].seatNumber);
+            available_seats.push(seats[k].seatNumber);
           }
         }
-       
-        movieData['sold_out_seats'] = sold_out_seats;
-        movieData['available_seats'] = available_seats;
+        movieData["sold_out_seats"] = sold_out_seats;
+        movieData["available_seats"] = available_seats;
         resultMovie.push(movieData);
       }
     }
@@ -271,7 +273,11 @@ export const getTicketByCinemaIdService = async (
 ) => {
   try {
     const cinema = await Cinema.findById(req.params.cinema_id);
-    const tickets: any = await Ticket.find({ cinema_id: cinema?._id, date:req.body?.date, time:req.body?.time });
+    const tickets: any = await Ticket.find({
+      cinema_id: cinema?._id,
+      date: req.body?.date,
+      time: req.body?.time,
+    });
     console.log(req.params.cinema_id);
     console.log(req.body.date);
     console.log(req.body.time);
@@ -294,13 +300,13 @@ export const getTicketByCinemaIdService = async (
         data = {
           seatNumber: seats[i].seatNumber,
           status: filterData.status,
-          price: seats[i].price
+          price: seats[i].price,
         };
       } else {
         data = {
           seatNumber: seats[i].seatNumber,
           status: "available",
-          price: seats[i].price
+          price: seats[i].price,
         };
       }
       seatingPlan.push(data);

@@ -190,7 +190,7 @@ const deleteTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
 });
 exports.deleteTicketService = deleteTicketService;
 /**
- * get getdashBoar by Cinema Id service
+ * get getdashBoard by Movie Id service
  * @param req
  * @param res
  * @param next
@@ -204,56 +204,32 @@ const getdashBoardService = (req, res, next) => __awaiter(void 0, void 0, void 0
         var resultMovie = [];
         for (let i = 0; i < movie.length; i++) {
             for (let j = 0; j < movie[i].time.length; j++) {
-                let data = {
+                let movieData = {
                     cinema_name: movie[i].cinema_id,
                     movieName: movie[i].name,
                     time: movie[i].time[j],
                     date: req.body.date,
                     image: movie[i].image,
                 };
-                resultMovie.push(data);
+                // resultMovie.push(data);
                 const seats = yield seat_model_1.default.find();
-                let seatingList = [];
+                let sold_out_seats = [];
+                let available_seats = [];
                 for (let i = 0; i < seats.length; i++) {
                     const filter = ticket.find((ticket) => { var _a; return ((_a = ticket.seatNumber) === null || _a === void 0 ? void 0 : _a.findIndex((number) => number === seats[i].seatNumber)) !== -1; });
-                    let data = {};
                     if (filter && filter !== undefined) {
-                        data = {
-                            seatNumber: seats[i].seatNumber,
-                            status: filter.status,
-                        };
+                        sold_out_seats.push(seats[i].seatNumber);
                     }
                     else {
-                        data = {
-                            seatNumber: seats[i].seatNumber,
-                            status: "Available",
-                        };
-                    }
-                    seatingList.push(data);
-                }
-                var sortedStatus = seatingList.sort((a, b) => a.status < b.status ? -1 : 1);
-                // console.log(sortedStatus);
-                let firstName = "";
-                var result = [];
-                let firstArrIndex = 0;
-                for (let i = 0; i < sortedStatus.length; i++) {
-                    if (i === 0) {
-                        result[firstArrIndex] = [sortedStatus[i]];
-                        firstName = sortedStatus[i].status[0];
-                    }
-                    else if (sortedStatus[i].status.indexOf(firstName) === -1) {
-                        firstArrIndex += 1;
-                        firstName = sortedStatus[i].status[0];
-                        result[firstArrIndex] = [sortedStatus[i]];
-                    }
-                    else {
-                        result[firstArrIndex] = [...result[firstArrIndex], sortedStatus[i]];
+                        available_seats.push(seats[i].seatNumber);
                     }
                 }
-                resultMovie.push(sortedStatus);
+                console.log(sold_out_seats);
+                movieData['sold_out_seats'] = sold_out_seats;
+                movieData['available_seats'] = available_seats;
+                resultMovie.push(movieData);
             }
         }
-        // resultMovie.push(result);
         if (!resultMovie) {
             const error = Error("Not Found!");
             error.statusCode = 401;
@@ -269,11 +245,14 @@ const getdashBoardService = (req, res, next) => __awaiter(void 0, void 0, void 0
 });
 exports.getdashBoardService = getdashBoardService;
 const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
         const cinema = yield cinema_model_1.default.findById(req.params.cinema_id);
-        let date = req.body.date;
-        let time = req.body.time;
-        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id, date, time });
+        const tickets = yield ticket_model_1.default.find({ cinema_id: cinema === null || cinema === void 0 ? void 0 : cinema._id, date: (_a = req.body) === null || _a === void 0 ? void 0 : _a.date, time: (_b = req.body) === null || _b === void 0 ? void 0 : _b.time });
+        console.log(req.params.cinema_id);
+        console.log(req.body.date);
+        console.log(req.body.time);
+        console.log(tickets);
         const seats = yield seat_model_1.default.find();
         let seatingPlan = [];
         for (let i = 0; i < seats.length; i++) {
@@ -286,12 +265,14 @@ const getTicketByCinemaIdService = (req, res, next) => __awaiter(void 0, void 0,
                 data = {
                     seatNumber: seats[i].seatNumber,
                     status: filterData.status,
+                    price: seats[i].price
                 };
             }
             else {
                 data = {
                     seatNumber: seats[i].seatNumber,
                     status: "available",
+                    price: seats[i].price
                 };
             }
             seatingPlan.push(data);

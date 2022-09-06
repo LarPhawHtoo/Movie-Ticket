@@ -30,7 +30,7 @@ export class MovieUpdateComponent implements OnInit {
   times: string[] = ['10:30AM', '1:00PM', '2:30PM', '3:00PM'];
   cinemaDataSource = new MatTableDataSource<Cinema>;
   cinemas: Cinema[] = [];
-  statuses: string[] = ['Coming Soon', 'Now Showing'];
+  statuses: string[] = ['Coming Soon', 'Now Showing', 'Showed'];
   
   ngOnInit(): void {
     console.log(this.data)
