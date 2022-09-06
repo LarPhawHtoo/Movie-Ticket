@@ -9,6 +9,7 @@ import { Cinema } from 'src/app/interfaces/cinema.model';
 import { CinemaService } from 'src/app/services/cinema.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 export const MY_DATE_FORMAT = {
   parse: {
@@ -43,46 +44,37 @@ export class UpdateTicketDialogComponent implements OnInit {
   ) { 
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
-    const currentDay = new Date().getDay();
-    this.maxDate = new Date(currentYear, currentMonth, currentDay + 6);
+    const currentDay = new Date().getDate();
+    this.maxDate = new Date(currentYear, currentMonth, currentDay + 10);
   }
 
   _id: string = '';
-  dates: string[] = ['22/08/2022', '11/08/2022', '14/08/2022', '25/08/2022', '17/08/2022'];
-  times: string[] = ['10:30 AM', '1:00 PM', '2:30 PM', '3:00 PM'];
+  times: string[] = [];
   numOfPeople: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   seats: any[] = [];
   selectedSeats: string[] = [];
-  price: number = 5000;
-  selectedCinema: string = '';
+  price: number = 0;
+  selectedCinema: any;
   selectedMovie: string = '';
+  selectedTime: string = '';
   minDate = new Date();
   maxDate!: Date;
   loading = false;
-
-  cinemaDataSource = new MatTableDataSource<Cinema>;
-  cinemas: Cinema[] = [];
 
   movieDataSource = new MatTableDataSource<Movie>;
   movies: Movie[] = [];
 
   firstFormGroup!: FormGroup;
+  secondFormGroup!: FormGroup;
 
   cinema_id: any;
   customer_name: any;
   movie_id: any;
+  seatNumber: any;
   date: any;
   time: any;
 
   ngOnInit(): void {
-    this.cinemaService.getCinemas().subscribe((response: any) => {
-      this.cinemaDataSource.data = response.data as Cinema[];
-
-      for (let i = 0; i < this.cinemaDataSource.data.length; i++) {
-        this.cinemas.push(this.cinemaDataSource.data[i]);
-      }
-    });
-
     this.movieService.getMovies().subscribe((response: any) => {
       this.movieDataSource.data = response.movies as Movie[];
 
@@ -93,36 +85,43 @@ export class UpdateTicketDialogComponent implements OnInit {
 
     this.firstFormGroup = this.fb.group({
       customerName: new FormControl(this.data.customer_name, Validators.required),
-      cinema: new FormControl('', Validators.required),
-      movie: new FormControl('', Validators.required),
-      date: new FormControl('', Validators.required),
-      time: new FormControl('', Validators.required),
-      numOfPeople: new FormControl('', Validators.required)
+      movie: new FormControl(this.data.movie_id?._id, Validators.required),
+      date: new FormControl(this.data.date, Validators.required),
+      numOfPeople: new FormControl(this.data.seatNumber.length, Validators.required)
+    });
+
+    this.secondFormGroup = this.fb.group({
+      time: new FormControl(this.data.time, Validators.required),
     });
   }
 
   getInfo() {
-    for (let cinema of this.cinemas) {
-      if (cinema._id == this.firstFormGroup.controls['cinema'].value) {
-        this.selectedCinema = cinema.name;
-      }
-    }
-
     for (let movie of this.movies) {
       if (movie._id == this.firstFormGroup.controls['movie'].value) {
         this.selectedMovie = movie.name;
+        this.selectedCinema = movie.cinema_id;
+
+        for (let i = 0; i < movie.time.length; i++) {
+          this.times.push(movie.time[i]);
+        }
       }
     }
+  }
+
+  getTime() {
+    this.selectedTime = this.secondFormGroup.controls['time'].value;
 
     this.getSeats();
   }
 
   getSeats() {
     this.loading = true;
-    const cinemaId = this.myForm['cinema'].value;
+    const cinemaId = this.selectedCinema?._id;
+    const datePipe = new DatePipe('en-US');
+    const date = datePipe.transform(this.firstFormGroup.controls['date'].value, 'dd/MM/yyyy');
     const body = {
-      "date": this.myForm['date'].value,
-      "time": this.myForm['time'].value
+      "date": date,
+      "time": this.selectedTime
     }
     this.seatService.getSeats(cinemaId, body)
       .subscribe((response: any) => {
@@ -133,18 +132,21 @@ export class UpdateTicketDialogComponent implements OnInit {
 
   onClickBuy() {
     const id = this.data._id;
-    const formData = new FormData();
-    formData.append('customer_name', this.firstFormGroup.controls['customerName'].value);
-    formData.append('cinema_id', this.firstFormGroup.controls['cinema'].value);
-    formData.append('movie_id', this.firstFormGroup.controls['movie'].value);
-    formData.append('date', this.firstFormGroup.controls['date'].value);
-    formData.append('time', this.firstFormGroup.controls['time'].value);
-    formData.append('seatNumber', `${this.selectedSeats}`);
-    formData.append('status', 'sold out');
-    formData.append('price', `${this.price * this.myForm['numOfPeople'].value}`);
-    
+    const datePipe = new DatePipe('en-US');
+    const date = datePipe.transform(this.firstFormGroup.controls['date'].value, 'dd/MM/yyyy');
 
-    this.ticketService.updateTicket(id, formData)
+    let data = {
+      customer_name: this.firstFormGroup.controls['customerName'].value,
+      cinema_id: this.selectedCinema?._id,
+      movie_id: this.firstFormGroup.controls['movie'].value,
+      date,
+      time: this.selectedTime,
+      seatNumber: this.selectedSeats,
+      status: 'sold out',
+      price: this.price
+    }
+
+    this.ticketService.updateTicket(id, data)
       .subscribe(res => {
         this.dialogRef.close('update');
       });
@@ -155,15 +157,17 @@ export class UpdateTicketDialogComponent implements OnInit {
   }
 
   onClickSeat(element: any) {
-    const index = this.selectedSeats.indexOf(element);
+    const index = this.selectedSeats.indexOf(element.seatNumber);
 
     if (index > -1) {
       this.selectedSeats.splice(index, 1);
+      this.price -= element.price;
       return;
     }
 
     if (this.selectedSeats.length < this.firstFormGroup.controls['numOfPeople'].value) {
-      this.selectedSeats.push(element);
+      this.selectedSeats.push(element.seatNumber);
+      this.price += element.price;
     }
   }
 

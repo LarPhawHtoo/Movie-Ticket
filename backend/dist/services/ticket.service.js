@@ -74,7 +74,8 @@ const createTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
             price: req.body.price,
             status: req.body.status,
             date: req.body.date,
-            time: req.body.time
+            time: req.body.time,
+            created_user_id: req.body.created_user_id,
         };
         const ticket = new ticket_model_1.default(ticketTdo);
         const result = yield ticket.save();
@@ -147,6 +148,8 @@ const updateTicketService = (req, res, next) => __awaiter(void 0, void 0, void 0
         ticket.status = req.body.status;
         ticket.date = req.body.date;
         ticket.time = req.body.time;
+        ticket.created_user_id = req.body.created_user_id;
+        ticket.updated_user_id = req.body.updated_user_id;
         const result = yield ticket.save();
         res.json({
             message: "Updated Ticket Successfully!",

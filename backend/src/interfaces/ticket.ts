@@ -7,6 +7,7 @@ export interface TicketCreate{
   status: String;
   date: String;
   time: String;
+  created_user_id: any;
 }
 
 

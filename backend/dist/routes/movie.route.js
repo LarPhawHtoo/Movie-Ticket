@@ -19,10 +19,7 @@ router
 ], movie_controller_1.createMovie);
 router
     .route("/now-showing")
-    .post([
-    (0, express_validator_1.body)("time").notEmpty().withMessage("time must not be empty"),
-    (0, express_validator_1.body)("date").notEmpty().withMessage("date must not be empty")
-], movie_controller_1.nowShowing);
+    .get(movie_controller_1.nowShowing);
 router
     .route("/search")
     .post(movie_service_1.findByIdService);

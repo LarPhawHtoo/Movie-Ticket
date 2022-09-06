@@ -72,7 +72,7 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
         year: req.body.year,
         rating: req.body.rating,
         cinema_id: req.body.cinema_id,
-        time: req.body.time,
+        time: JSON.parse(req.body.time),
         status: req.body.status,
         image: image,
         created_user_id: req.body.created_user_id,
@@ -92,36 +92,17 @@ export const createMovieService = async (req: any, res: Response, next: NextFunc
   
 export const nowShowingService = async (req: any, res: Response, next: NextFunction) => {
   try {
-    const cinema: any = await Cinema.find();
-    const movies: any = await Movie.find({ deleted_at: null });
-    //console.log(movies);
-
+    const movies: any = await Movie.find({ deleted_at: null, status: 'Now Showing' });
+    
     if (!movies) {
       res.json({
         success: false,
         message: "Not found movie",
       });
     }
-    var show = "Now Showing";
-    var resultStatus: any = [];
-    for (let i = 0; i < movies.length; i++) {
-      let data = {
-        movieStatus: movies[i].status,
-        cinema_name: movies[i].cinema_id,
-        time: movies[i].time,
-        movieName: movies[i].name,
-        image: movies[i].image,
-      }
-      if (data.movieStatus == show) {
-        resultStatus.push(data);
-      }
-     
-    }
-    console.log(resultStatus);
-    
     res.json({
       message: "Now Showing Movies",
-      movies: resultStatus,
+      movies: movies,
     })
   } catch (err) {
     next(err);
@@ -184,10 +165,10 @@ export const nowShowingService = async (req: any, res: Response, next: NextFunct
       movie.name = req.body.name;
       movie.year = req.body.year;
       movie.rating = req.body.rating;
-      movie.image = image;
-      movie.time = req.body.time;
+
       movie.status = req.body.status;
-      movie.time = req.body.time;
+     
+      movie.time = JSON.parse(req.body.time);
       movie.created_user_id = req.body.created_user_id;
       movie.updated_user_id = req.body.updated_user_id;
       const result = await movie.save();

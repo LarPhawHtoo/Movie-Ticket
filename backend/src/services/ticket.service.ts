@@ -78,7 +78,8 @@ export const createTicketService = async (
       price: req.body.price,
       status: req.body.status,
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      created_user_id: req.body.created_user_id,
     };
     const ticket = new Ticket(ticketTdo);
     const result = await ticket.save();
@@ -156,7 +157,9 @@ export const updateTicketService = async (
     ticket.price = req.body.price;
     ticket.status = req.body.status;
     ticket.date = req.body.date;
-    ticket.time= req.body.time;
+    ticket.time = req.body.time;
+    ticket.created_user_id = req.body.created_user_id;
+    ticket.updated_user_id = req.body.updated_user_id;
     const result = await ticket.save();
     res.json({
       message: "Updated Ticket Successfully!",

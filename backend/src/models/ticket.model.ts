@@ -35,6 +35,20 @@ const ticketSchema = new Schema({
     type: String,
     required:true
   }, 
+  created_user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    autopopulate: true
+  },
+  updated_user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    autopopulate: true
+  },
+  deleted_user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 },
 {
   timestamps: true

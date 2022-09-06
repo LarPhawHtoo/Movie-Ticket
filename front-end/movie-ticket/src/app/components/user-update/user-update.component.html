@@ -19,7 +19,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>User Type</mat-label>
-        <mat-select formControlName="type">
+        <mat-select formControlName="type" [disabled]="isProfile == 'true'">
           <mat-option *ngFor="let selectOption of typeOption" [value]="selectOption.enum">
             {{ selectOption.enum }}
           </mat-option>

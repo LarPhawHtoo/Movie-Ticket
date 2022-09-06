@@ -21,12 +21,7 @@ router
 
 router 
   .route("/now-showing")
-  .post(
-    [
-      body("time").notEmpty().withMessage("time must not be empty"),
-      body("date").notEmpty().withMessage("date must not be empty")
-    ],
-    nowShowing)
+  .get(nowShowing)
 
 router
   .route("/search")

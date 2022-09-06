@@ -36,6 +36,20 @@ const ticketSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    created_user_id: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
+        autopopulate: true
+    },
+    updated_user_id: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
+        autopopulate: true
+    },
+    deleted_user_id: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
+    },
 }, {
     timestamps: true
 });

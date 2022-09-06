@@ -81,7 +81,7 @@ export class CreateTicketDialogComponent implements OnInit {
 
     this.secondFormGroup = this.fb.group({
       time: new FormControl('', Validators.required)
-    })
+    });
   }
 
   getInfo() {
@@ -116,7 +116,6 @@ export class CreateTicketDialogComponent implements OnInit {
       .subscribe((response: any) => {
         this.loading = false;
         this.seats = response.tickets;
-        console.log(this.seats);
     })
   }
 
