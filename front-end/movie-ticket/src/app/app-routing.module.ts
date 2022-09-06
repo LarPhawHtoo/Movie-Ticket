@@ -24,11 +24,10 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'logout', component: LogoutComponent },
   {
     path: 'dashboard', component: DashboardComponent,
-    canActivate:[AuthGuard]
   },
   {
     path: 'home',

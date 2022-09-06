@@ -75,7 +75,7 @@ export class UpdateTicketDialogComponent implements OnInit {
   time: any;
 
   ngOnInit(): void {
-    this.movieService.getMovies().subscribe((response: any) => {
+    this.movieService.getNowShowingMovies().subscribe((response: any) => {
       this.movieDataSource.data = response.movies as Movie[];
 
       for (let i = 0; i < this.movieDataSource.data.length; i++) {
