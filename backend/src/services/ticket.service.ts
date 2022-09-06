@@ -207,15 +207,13 @@ export const deleteTicketService = async (
  * @param res
  * @param next
  */
-export const getdashBoardService = async (
+ export const getdashBoardService = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const cinema: any = await Cinema.find();
-    console.log(cinema);
-    const ticket = await Ticket.find({ date: req.body.date });
+    const tickets = await Ticket.find({ date: req.body.date });
     const movie = await Movie.find({ deleted_at: null });
     var resultMovie: any = [];
     for (let i = 0; i < movie.length; i++) {
@@ -227,21 +225,22 @@ export const getdashBoardService = async (
           date: req.body.date,
           image: movie[i].image,
         };
-        // resultMovie.push(data);
-
 
         const seats = await Seat.find();
         let sold_out_seats: any = [];
         let available_seats: any = [];
-        for (let i = 0; i < seats.length; i++) {
-          const filter = ticket.find((ticket) => ticket.seatNumber?.findIndex((number) => number === seats[i].seatNumber) !== -1);
-          if (filter && filter !== undefined) {
-            sold_out_seats.push(seats[i].seatNumber);
+        for (let k = 0; k < seats.length; k++) {
+          const filterData = tickets.find((ticket: any) =>
+          ticket?.movie_id?._id.toString() === movie[i]?._id.toString() &&
+            ticket?.cinema_id?._id.toString() === movie[i]?.cinema_id?._id.toString() &&
+            ticket.time === movie[i].time[j] &&
+            ticket.seatNumber?.findIndex((number) => number === seats[k].seatNumber) !== -1);
+          if (filterData) {
+            sold_out_seats.push(seats[k].seatNumber);
           } else {
-            available_seats.push(seats[i].seatNumber);
+            available_seats.push(seats[k].seatNumber);
           }
         }
-        console.log(sold_out_seats);
         movieData['sold_out_seats'] = sold_out_seats;
         movieData['available_seats'] = available_seats;
         resultMovie.push(movieData);

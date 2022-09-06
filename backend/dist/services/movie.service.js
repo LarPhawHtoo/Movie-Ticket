@@ -179,8 +179,6 @@ const updateMovieService = (req, res, next) => __awaiter(void 0, void 0, void 0,
         movie.name = req.body.name;
         movie.year = req.body.year;
         movie.rating = req.body.rating;
-        
-
         movie.status = req.body.status;
         movie.time = JSON.parse(req.body.time);
         movie.created_user_id = req.body.created_user_id;
