@@ -11,7 +11,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   url = 'http://localhost:8081/api/users';
-  changePwdUrl = 'http://localhost:8081/api/users/changePassword'
+  changePwdUrl = 'http://localhost:8081/api/users/password-change'
   token = localStorage.getItem("token") || "";
   headerOptions = new HttpHeaders()
     .set('Authorization', `Bearer ${this.token}`);
