@@ -21,7 +21,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
     this.profileImg = `http://localhost:8081/${this.loggedInUser.profile}` || "";
-    console.log(this.loggedInUser);
   }
 
   openUpdateProfileDialog() {

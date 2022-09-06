@@ -31,12 +31,15 @@ export class TicketsComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['customer_name', 'seatNumber', 'movie', 'cinema', 'price', 'date', 'time', 'status', 'createdAt', 'updatedAt', 'actions'];
   dataSource = new MatTableDataSource<Ticket>();
 
+  loggedInUser: any;
+
   ngOnInit(): void {
+    this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
+
     this.activatedRoute.data.subscribe((response: any) => {
+      console.log(response.tickets.tickets);
       this.dataSource.data = response.tickets.tickets as Ticket[];
     })
-
-    console.log(this.dataSource.data);
   }
 
   ngAfterViewInit(): void {

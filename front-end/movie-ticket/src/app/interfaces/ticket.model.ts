@@ -11,4 +11,5 @@ export interface Ticket {
   date: string,
   time: string,
   status: string,
+  createdUserId: string
 }

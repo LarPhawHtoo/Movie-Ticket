@@ -63,14 +63,20 @@ export class CreateTicketDialogComponent implements OnInit {
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
 
+  loggedInUser: any;
+
   ngOnInit(): void {
-    this.movieService.getMovies().subscribe((response: any) => {
+    this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
+
+    this.movieService.getNowShowingMovies().subscribe((response: any) => {
       this.movieDataSource.data = response.movies as Movie[];
 
       for (let i = 0; i < this.movieDataSource.data.length; i++) {
         this.movies.push(this.movieDataSource.data[i]);
       }
     });
+
+    console.log(this.movies)
 
     this.firstFormGroup = this.fb.group({
       customerName: new FormControl('', Validators.required),
@@ -131,7 +137,8 @@ export class CreateTicketDialogComponent implements OnInit {
       time: this.selectedTime,
       seatNumber: this.selectedSeats,
       status: 'sold out',
-      price: this.price
+      price: this.price,
+      created_user_id: this.loggedInUser._id
     }
 
     this.ticketService.addTicket(data)

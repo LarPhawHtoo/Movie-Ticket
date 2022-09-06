@@ -11,6 +11,7 @@ export class MovieService {
   constructor(private http: HttpClient) { }
 
   url = 'http://localhost:8081/api/movies';
+  nowShowingUrl = 'http://localhost:8081/api/movies/now-showing';
   token = localStorage.getItem("token") || '';
   headerOptions = new HttpHeaders()
     .set('Authorization', `Bearer ${this.token}`);
@@ -20,6 +21,11 @@ export class MovieService {
     return this.http.post(this.url, data, this.options)
       .pipe(retry(3), delay(1000), catchError(this.httpErrorHandler));
   };
+
+  getNowShowingMovies(): Observable<any> {
+    return this.http.get<any>(this.nowShowingUrl, this.options)
+      .pipe(retry(3), catchError(this.httpErrorHandler));
+  }
 
   getMovies(): Observable<any> {
     return this.http.get<any>(this.url, this.options)
