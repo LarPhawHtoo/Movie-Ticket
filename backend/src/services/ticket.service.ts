@@ -214,8 +214,9 @@ export const getdashBoardService = async (
 ) => {
   try {
     const cinema: any = await Cinema.find();
-    console.log(cinema);
-    const ticket = await Ticket.find({ date: req.body.date });
+    //console.log(cinema);
+    const ticket = await Ticket.find({ date: req.body.date});
+
     const movie = await Movie.find({ deleted_at: null });
     var resultMovie: any = [];
     for (let i = 0; i < movie.length; i++) {
@@ -241,7 +242,7 @@ export const getdashBoardService = async (
             available_seats.push(seats[i].seatNumber);
           }
         }
-        console.log(sold_out_seats);
+       
         movieData['sold_out_seats'] = sold_out_seats;
         movieData['available_seats'] = available_seats;
         resultMovie.push(movieData);

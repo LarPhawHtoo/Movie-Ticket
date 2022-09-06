@@ -198,7 +198,7 @@ exports.deleteTicketService = deleteTicketService;
 const getdashBoardService = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cinema = yield cinema_model_1.default.find();
-        console.log(cinema);
+        //console.log(cinema);
         const ticket = yield ticket_model_1.default.find({ date: req.body.date });
         const movie = yield movie_model_1.default.find({ deleted_at: null });
         var resultMovie = [];
@@ -224,7 +224,6 @@ const getdashBoardService = (req, res, next) => __awaiter(void 0, void 0, void 0
                         available_seats.push(seats[i].seatNumber);
                     }
                 }
-                console.log(sold_out_seats);
                 movieData['sold_out_seats'] = sold_out_seats;
                 movieData['available_seats'] = available_seats;
                 resultMovie.push(movieData);
