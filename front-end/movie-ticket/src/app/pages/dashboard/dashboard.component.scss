@@ -1,12 +1,9 @@
 
 .main{
   max-width: 1100px;
-  background-image: url(http://localhost:8081/apiuploads/movies/movie3.jpg);
-  background-repeat: no-repeat;
-  background-position: cover;
+  background: url('./image_2022_09_06T10_06_14_310Z.png') no-repeat center/cover;
   padding-bottom: 500px;
   margin: 50px auto;
-
 }
 .clearfix::after {
   display: table;
