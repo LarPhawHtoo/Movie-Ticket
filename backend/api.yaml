@@ -786,94 +786,18 @@ paths:
 
 #Get Now Showing Movies 
   /api/movies/now-showing:
-    post:
+    get:
       tags:
         - Now Showing Movies
-      summary: Get Now Showing Movies
+      summary: Get Now Showing movies
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
-      requestBody:
-        description: Get Now Showing Movies
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                date:
-                  type: string
-                  example: "12/11/2015"
-                time: 
-                  type: string
-                  example: "2:30 PM"
-          application/xml:
-            schema:
-              type: object
-              properties:
-                date:
-                  type: string
-                  example: "12/11/2015"
-                time: 
-                  type: string
-                  example: "2:30 PM"
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                date:
-                  type: string
-                  example: "12/11/2015"
-                time: 
-                  type: string
-                  example: "2:30 PM"
       responses:
         "200":
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    example: "Movie Name"
-                  image:
-                    type: string
-                    example: "image.jpg"
-                  cinema_id:
-                    type: string
-                    example: "62fde243b554f4955fdf7914"
-                  time: 
-                    type: string
-                    example: "2:30 PM"
-                  status:
-                    type: string
-                    example: "Now Showing"
-            application/xml:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    example: "Movie Name"
-                  image:
-                    type: string
-                    example: "image.jpg"
-                  cinema_id:
-                    type: string
-                    example: "62fde243b554f4955fdf7914"
-                  time: 
-                    type: string
-                    example: "2:30 PM"
-                  status:
-                    type: string
-                    example: "Now Showing"
-        "405":
-          description: Invalid input
+          description: Returns all  now showing movies
         "401":
           $ref: "#/components/responses/UnauthorizedError"
-
       
 
  # Seat Routes
